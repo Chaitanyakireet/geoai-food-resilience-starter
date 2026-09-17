@@ -1,0 +1,48 @@
+# Food-category dimension: keeps the risk engine food-agnostic. "all_food" is
+# a food-agnostic composite view used until category-specific sensitivity
+# (perishability, crop calendars, cold-chain dependence) is implemented.
+food_categories:
+  - all_food
+  - grains_cereals
+  - pulses
+  - oilseeds
+  - vegetables
+  - fruits
+  - dairy
+  - eggs
+  - meat
+  - fish
+
+# NOTE (documented limitation): v0 of the risk baseline applies the same
+# climate-stress proxy to every food category below -- there is no
+# category-specific data (yield sensitivity, spoilage rate, cold-chain
+# dependence) ingested yet. The dimension exists in the schema/API so later
+# work can differentiate categories without changing the contract.
+
+climate_source:
+  provider: NASA POWER
+  community: AG
+  parameters: [T2M, T2M_MAX, PRECTOTCORR]
+  recent_window_days: 30
+  climatology_period: "2001-2020"
+
+# Baseline risk formula (backend/risk/baseline_model.py). These weights and
+# thresholds are ASSUMED/documented calibration choices, not fit to any
+# labeled outcome data -- no historical food-system-disruption ground truth
+# was available in this sprint to fit or validate them against.
+risk_model:
+  model_version: baseline-climate-stress-v0
+  weights:
+    rainfall_deficit: 0.6
+    heat_stress: 0.4
+  thresholds:
+    # Fractional deviation from the climatological monthly mean that maps to
+    # a full (1.0) stress contribution for that component. Linear, clipped to [0, 1].
+    rainfall_deficit_full_stress_pct: 0.30
+    heat_stress_full_stress_pct: 0.15
+  risk_class_bins:
+    low: 0.25
+    moderate: 0.50
+    high: 0.75
+    # anything above "high" bin -> severe
+  min_coverage_ratio: 0.5 # below this, risk_class becomes "insufficient_data"

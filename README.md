@@ -64,12 +64,31 @@ from. Endpoints, served under `/gis`:
 
 See `data/README.md` for the data pipeline and known source limitations.
 
+## Risk API (Hours 5-8)
+`backend/risk/` is a transparent, deterministic baseline -- not a fitted ML
+model (no labeled food-system-disruption outcome data exists to train or
+validate one against; see `backend/risk/baseline_model.py` docstring).
+Endpoints, served under `/risk`:
+- `GET /risk?geo_id=...&food_category=...` — RiskResult for a district or
+  mandal (mandals inherit their parent district's result, clearly flagged)
+- `GET /risk/state?food_category=...` — unweighted state-level mean + all
+  33 district results
+- `GET /risk/config` — current model weights/thresholds (transparency)
+- `GET /risk/provenance` — NASA POWER dataset source/license/limitations
+- `GET /risk/validation-report` — spatial/temporal/leakage diagnostics
+
+RiskResult matches the field names in `docs/MASTER_HANDOFF.md` section 11
+(`region_id`, `food_scope`, `risk_score`, `risk_class`, `confidence`,
+`uncertainty_interval`, `major_drivers`, `data_coverage`, `model_version`,
+`run_id`, `truth_status`), plus `provenance_refs` and `limitations`. See
+`data/README.md` for what the proxy does and does not measure.
+
 ## Current state
-Hours 0-5 done: both services boot, the frontend proves live reachability to
-the backend, healthcheck + GIS smoke tests exist (24 tests passing), and the
-Telangana district/mandal spatial layer is live behind a documented API. No
-further analytical modules (risk, food graph, optimization, twin, RAG,
-copilot) are implemented yet — they follow the build order in
-`docs/MASTER_HANDOFF.md` section 19. Nothing here is fabricated; every
-geometry and derived value carries a truth_status and traces to
-`data/processed/provenance.json`.
+Hours 0-8 done: both services boot, the frontend proves live reachability to
+the backend, and 47 tests pass (health + GIS + risk). The Telangana
+district/mandal spatial layer and a climate-driven risk baseline are live
+behind documented APIs. No further analytical modules (food graph,
+optimization, twin, RAG, copilot) are implemented yet — they follow the
+build order in `docs/MASTER_HANDOFF.md` section 19. Nothing here is
+fabricated; every value carries a truth_status and traces to a provenance
+file.

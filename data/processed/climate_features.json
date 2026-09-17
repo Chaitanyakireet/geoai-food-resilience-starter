@@ -1,0 +1,863 @@
+{
+  "features": [
+    {
+      "geo_id": "khammam",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 27.652333333333335,
+        "t2m_max_mean_c": 31.60166666666667,
+        "precip_mean_mm_day": 5.858666666666666,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 27.065333333333335,
+        "t2m_max_mean_c": 36.57600000000001,
+        "precip_mean_mm_day": 6.138000000000001,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "adilabad",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.502666666666666,
+        "t2m_max_mean_c": 28.53166666666667,
+        "precip_mean_mm_day": 6.051333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.95333333333333,
+        "t2m_max_mean_c": 33.27,
+        "precip_mean_mm_day": 6.567333333333334,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "karimnagar",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.40266666666667,
+        "t2m_max_mean_c": 30.05,
+        "precip_mean_mm_day": 4.766333333333334,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.541333333333334,
+        "t2m_max_mean_c": 35.564,
+        "precip_mean_mm_day": 6.553333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "hanumakonda",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.401333333333334,
+        "t2m_max_mean_c": 30.324333333333335,
+        "precip_mean_mm_day": 4.649666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.34,
+        "t2m_max_mean_c": 36.468666666666664,
+        "precip_mean_mm_day": 6.062666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "medak",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 24.924666666666667,
+        "t2m_max_mean_c": 28.703333333333333,
+        "precip_mean_mm_day": 5.147333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.244666666666664,
+        "t2m_max_mean_c": 35.10133333333333,
+        "precip_mean_mm_day": 5.959333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "nizamabad",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.273333333333333,
+        "t2m_max_mean_c": 28.796,
+        "precip_mean_mm_day": 5.131,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.642,
+        "t2m_max_mean_c": 34.70466666666666,
+        "precip_mean_mm_day": 6.034666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "ranga_reddy",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 24.942999999999998,
+        "t2m_max_mean_c": 29.08566666666667,
+        "precip_mean_mm_day": 5.6306666666666665,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 24.984666666666666,
+        "t2m_max_mean_c": 35.54866666666667,
+        "precip_mean_mm_day": 5.2620000000000005,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "nalgonda",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 27.029333333333334,
+        "t2m_max_mean_c": 31.234666666666666,
+        "precip_mean_mm_day": 5.668666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 27.275333333333332,
+        "t2m_max_mean_c": 38.24333333333334,
+        "precip_mean_mm_day": 5.062,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "mahabubnagar",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 24.942999999999998,
+        "t2m_max_mean_c": 29.08566666666667,
+        "precip_mean_mm_day": 5.6306666666666665,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 24.984666666666666,
+        "t2m_max_mean_c": 35.54866666666667,
+        "precip_mean_mm_day": 5.2620000000000005,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "hyderabad",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.42866666666667,
+        "t2m_max_mean_c": 29.476,
+        "precip_mean_mm_day": 4.890333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.366666666666667,
+        "t2m_max_mean_c": 35.98133333333333,
+        "precip_mean_mm_day": 5.617333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "sangareddy",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 24.924666666666667,
+        "t2m_max_mean_c": 28.703333333333333,
+        "precip_mean_mm_day": 5.147333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.244666666666664,
+        "t2m_max_mean_c": 35.10133333333333,
+        "precip_mean_mm_day": 5.959333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "medchalmalkajgiri",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.42866666666667,
+        "t2m_max_mean_c": 29.476,
+        "precip_mean_mm_day": 4.890333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.366666666666667,
+        "t2m_max_mean_c": 35.98133333333333,
+        "precip_mean_mm_day": 5.617333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "siddipet",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.42866666666667,
+        "t2m_max_mean_c": 29.285666666666668,
+        "precip_mean_mm_day": 4.438999999999999,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.314666666666668,
+        "t2m_max_mean_c": 35.43266666666667,
+        "precip_mean_mm_day": 6.000666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "jogulamba_gadwal",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.58966666666667,
+        "t2m_max_mean_c": 31.778666666666666,
+        "precip_mean_mm_day": 3.4516666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.539333333333335,
+        "t2m_max_mean_c": 37.292,
+        "precip_mean_mm_day": 4.400666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "warangal",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.709999999999997,
+        "t2m_max_mean_c": 30.317666666666664,
+        "precip_mean_mm_day": 5.779666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.557333333333336,
+        "t2m_max_mean_c": 35.552,
+        "precip_mean_mm_day": 6.889333333333334,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "jangaon",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.401333333333334,
+        "t2m_max_mean_c": 30.324333333333335,
+        "precip_mean_mm_day": 4.649666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.34,
+        "t2m_max_mean_c": 36.468666666666664,
+        "precip_mean_mm_day": 6.062666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "vikarabad",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 24.887999999999998,
+        "t2m_max_mean_c": 29.247,
+        "precip_mean_mm_day": 5.327,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.041333333333334,
+        "t2m_max_mean_c": 35.666666666666664,
+        "precip_mean_mm_day": 5.848666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "mancherial",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.276999999999997,
+        "t2m_max_mean_c": 29.636000000000003,
+        "precip_mean_mm_day": 5.136666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.508,
+        "t2m_max_mean_c": 34.596666666666664,
+        "precip_mean_mm_day": 7.088666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "kumuram_bheem_asifabad",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.975666666666665,
+        "t2m_max_mean_c": 28.945333333333334,
+        "precip_mean_mm_day": 6.069,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.316,
+        "t2m_max_mean_c": 33.122,
+        "precip_mean_mm_day": 7.617333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "nirmal",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.378333333333334,
+        "t2m_max_mean_c": 28.690333333333335,
+        "precip_mean_mm_day": 5.754666666666666,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.805333333333333,
+        "t2m_max_mean_c": 34.08866666666667,
+        "precip_mean_mm_day": 6.110666666666666,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "peddapalli",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.40266666666667,
+        "t2m_max_mean_c": 30.05,
+        "precip_mean_mm_day": 4.766333333333334,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.541333333333334,
+        "t2m_max_mean_c": 35.564,
+        "precip_mean_mm_day": 6.553333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "jagtial",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.557000000000002,
+        "t2m_max_mean_c": 28.746666666666666,
+        "precip_mean_mm_day": 5.321666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.934,
+        "t2m_max_mean_c": 34.18533333333333,
+        "precip_mean_mm_day": 6.279333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "rajanna_sircilla",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.569666666666667,
+        "t2m_max_mean_c": 29.078,
+        "precip_mean_mm_day": 4.575666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.741333333333333,
+        "t2m_max_mean_c": 35.083333333333336,
+        "precip_mean_mm_day": 6.142666666666666,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "bhadradri_kothagudem",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 27.073333333333334,
+        "t2m_max_mean_c": 30.735,
+        "precip_mean_mm_day": 6.107666666666666,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.706666666666667,
+        "t2m_max_mean_c": 35.032666666666664,
+        "precip_mean_mm_day": 6.894,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "jayashankar_bhupalapally",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.610333333333333,
+        "t2m_max_mean_c": 29.988999999999997,
+        "precip_mean_mm_day": 6.487,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.653333333333332,
+        "t2m_max_mean_c": 34.297333333333334,
+        "precip_mean_mm_day": 7.804666666666666,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "mahabubabad",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 27.00766666666667,
+        "t2m_max_mean_c": 30.912333333333333,
+        "precip_mean_mm_day": 5.761333333333334,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.82,
+        "t2m_max_mean_c": 36.10733333333334,
+        "precip_mean_mm_day": 6.1113333333333335,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "suryapet",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 27.529999999999998,
+        "t2m_max_mean_c": 31.681333333333335,
+        "precip_mean_mm_day": 6.3293333333333335,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 27.444,
+        "t2m_max_mean_c": 37.78999999999999,
+        "precip_mean_mm_day": 5.530666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "nagarkurnool",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.054,
+        "t2m_max_mean_c": 30.160666666666668,
+        "precip_mean_mm_day": 5.050666666666667,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.034,
+        "t2m_max_mean_c": 36.38066666666667,
+        "precip_mean_mm_day": 4.848666666666666,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "yadadri_bhuvanagiri",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.42866666666667,
+        "t2m_max_mean_c": 29.476,
+        "precip_mean_mm_day": 4.890333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.366666666666667,
+        "t2m_max_mean_c": 35.98133333333333,
+        "precip_mean_mm_day": 5.617333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "wanaparthy",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.569666666666667,
+        "t2m_max_mean_c": 29.894333333333336,
+        "precip_mean_mm_day": 5.0280000000000005,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.792666666666666,
+        "t2m_max_mean_c": 36.333999999999996,
+        "precip_mean_mm_day": 4.9159999999999995,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "kamareddy",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.273333333333333,
+        "t2m_max_mean_c": 28.796,
+        "precip_mean_mm_day": 5.131,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 25.642,
+        "t2m_max_mean_c": 34.70466666666666,
+        "precip_mean_mm_day": 6.034666666666667,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "mulugu",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 26.28533333333333,
+        "t2m_max_mean_c": 29.267999999999997,
+        "precip_mean_mm_day": 8.227666666666666,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.25133333333333,
+        "t2m_max_mean_c": 33.052,
+        "precip_mean_mm_day": 9.108666666666666,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    },
+    {
+      "geo_id": "narayanpet",
+      "geo_level": "district",
+      "date": "20260914",
+      "window_start": "20260816",
+      "window_end": "20260914",
+      "observed": {
+        "t2m_mean_c": 25.923333333333336,
+        "t2m_max_mean_c": 30.750333333333334,
+        "precip_mean_mm_day": 4.032333333333333,
+        "truth_status": "OBSERVED"
+      },
+      "climatology_baseline": {
+        "t2m_mean_c": 26.138666666666666,
+        "t2m_max_mean_c": 36.80133333333333,
+        "precip_mean_mm_day": 4.817333333333333,
+        "period": "2001-2020",
+        "truth_status": "OBSERVED"
+      },
+      "data_coverage": {
+        "requested_days": 30,
+        "available_days": 30,
+        "coverage_ratio": 1.0
+      },
+      "fetched_at": "2026-09-17T20:58:22.819411+00:00"
+    }
+  ],
+  "built_at": "2026-09-17T20:58:22.819411+00:00"
+}

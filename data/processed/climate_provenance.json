@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-09-17T20:58:22.819411+00:00",
+  "datasets": [
+    {
+      "dataset_name": "NASA POWER daily meteorology (recent window)",
+      "publisher": "NASA Langley Research Center POWER Project",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "access_date": "2026-09-17T20:58:22.819411+00:00",
+      "license": "NASA POWER data are public domain; cite NASA POWER per https://power.larc.nasa.gov/docs/methodology/",
+      "geographic_level": "point (district centroid), NASA POWER native grid ~0.5 deg (~50km)",
+      "crs": "EPSG:4326 (query points from the processed district centroid layer)",
+      "processing": "Queried T2M, T2M_MAX, PRECTOTCORR for each of 33 district centroids for the 30-day window 20260816-20260914; averaged over non-fill-value days only.",
+      "truth_status": "OBSERVED",
+      "limitations": "Point estimate at the district centroid, not an area-weighted average over the district polygon. Grid resolution (~50km) is coarser than many districts and coarser still than mandals -- mandal-level values are not independently computed and inherit their parent district's value (see backend/risk API). Recent-window latency means the window ends a few days before 'today', not literally real-time."
+    },
+    {
+      "dataset_name": "NASA POWER 20-year climatology (2001-2020 monthly normals)",
+      "publisher": "NASA Langley Research Center POWER Project",
+      "source_url": "https://power.larc.nasa.gov/api/temporal/climatology/point",
+      "access_date": "2026-09-17T20:58:22.819411+00:00",
+      "license": "NASA POWER data are public domain; cite NASA POWER per https://power.larc.nasa.gov/docs/methodology/",
+      "geographic_level": "point (district centroid)",
+      "crs": "EPSG:4326",
+      "processing": "Used as the historical baseline for anomaly calculation; blended across months proportionally to the number of recent-window days falling in each calendar month.",
+      "truth_status": "OBSERVED",
+      "limitations": "20-year normal (2001-2020) does not capture more recent climate trends or exceptional multi-year droughts/wet periods outside that window."
+    }
+  ],
+  "fetch_failures": []
+}

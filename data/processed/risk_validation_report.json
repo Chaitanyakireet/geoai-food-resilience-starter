@@ -1,0 +1,288 @@
+{
+  "generated_at": "2026-09-17T21:06:08.830957+00:00",
+  "spatial_smoothness": {
+    "method": "For each district, compare its risk_score to the mean risk_score of its directly bordering districts (shared-boundary adjacency from the processed district polygon layer). This is a sanity/smoothness diagnostic, not an accuracy metric -- there is no ground-truth label to measure accuracy against.",
+    "district_count_scored": 33,
+    "mean_abs_neighbor_diff": 0.1088,
+    "max_abs_neighbor_diff": 0.2734,
+    "per_district": {
+      "khammam": {
+        "risk_score": 0.1489,
+        "neighbor_mean_risk_score": 0.1354,
+        "abs_diff_from_neighbor_mean": 0.0135,
+        "neighbor_count": 3
+      },
+      "adilabad": {
+        "risk_score": 0.1571,
+        "neighbor_mean_risk_score": 0.2615,
+        "abs_diff_from_neighbor_mean": 0.1044,
+        "neighbor_count": 2
+      },
+      "karimnagar": {
+        "risk_score": 0.5454,
+        "neighbor_mean_risk_score": 0.4505,
+        "abs_diff_from_neighbor_mean": 0.0949,
+        "neighbor_count": 6
+      },
+      "hanumakonda": {
+        "risk_score": 0.4723,
+        "neighbor_mean_risk_score": 0.4037,
+        "abs_diff_from_neighbor_mean": 0.0686,
+        "neighbor_count": 6
+      },
+      "medak": {
+        "risk_score": 0.2725,
+        "neighbor_mean_risk_score": 0.3425,
+        "abs_diff_from_neighbor_mean": 0.07,
+        "neighbor_count": 4
+      },
+      "nizamabad": {
+        "risk_score": 0.2995,
+        "neighbor_mean_risk_score": 0.3078,
+        "abs_diff_from_neighbor_mean": 0.0083,
+        "neighbor_count": 4
+      },
+      "ranga_reddy": {
+        "risk_score": 0.0,
+        "neighbor_mean_risk_score": 0.1561,
+        "abs_diff_from_neighbor_mean": 0.1561,
+        "neighbor_count": 8
+      },
+      "nalgonda": {
+        "risk_score": 0.0,
+        "neighbor_mean_risk_score": 0.069,
+        "abs_diff_from_neighbor_mean": 0.069,
+        "neighbor_count": 4
+      },
+      "mahabubnagar": {
+        "risk_score": 0.0,
+        "neighbor_mean_risk_score": 0.1013,
+        "abs_diff_from_neighbor_mean": 0.1013,
+        "neighbor_count": 5
+      },
+      "hyderabad": {
+        "risk_score": 0.2654,
+        "neighbor_mean_risk_score": 0.1327,
+        "abs_diff_from_neighbor_mean": 0.1327,
+        "neighbor_count": 2
+      },
+      "sangareddy": {
+        "risk_score": 0.2725,
+        "neighbor_mean_risk_score": 0.2032,
+        "abs_diff_from_neighbor_mean": 0.0693,
+        "neighbor_count": 5
+      },
+      "medchalmalkajgiri": {
+        "risk_score": 0.2654,
+        "neighbor_mean_risk_score": 0.2681,
+        "abs_diff_from_neighbor_mean": 0.0026,
+        "neighbor_count": 6
+      },
+      "siddipet": {
+        "risk_score": 0.5325,
+        "neighbor_mean_risk_score": 0.3879,
+        "abs_diff_from_neighbor_mean": 0.1446,
+        "neighbor_count": 8
+      },
+      "jogulamba_gadwal": {
+        "risk_score": 0.4364,
+        "neighbor_mean_risk_score": 0.163,
+        "abs_diff_from_neighbor_mean": 0.2734,
+        "neighbor_count": 2
+      },
+      "warangal": {
+        "risk_score": 0.3375,
+        "neighbor_mean_risk_score": 0.3187,
+        "abs_diff_from_neighbor_mean": 0.0188,
+        "neighbor_count": 4
+      },
+      "jangaon": {
+        "risk_score": 0.4723,
+        "neighbor_mean_risk_score": 0.2916,
+        "abs_diff_from_neighbor_mean": 0.1807,
+        "neighbor_count": 6
+      },
+      "vikarabad": {
+        "risk_score": 0.1784,
+        "neighbor_mean_risk_score": 0.1496,
+        "abs_diff_from_neighbor_mean": 0.0288,
+        "neighbor_count": 4
+      },
+      "mancherial": {
+        "risk_score": 0.5507,
+        "neighbor_mean_risk_score": 0.3422,
+        "abs_diff_from_neighbor_mean": 0.2085,
+        "neighbor_count": 5
+      },
+      "kumuram_bheem_asifabad": {
+        "risk_score": 0.4065,
+        "neighbor_mean_risk_score": 0.2748,
+        "abs_diff_from_neighbor_mean": 0.1317,
+        "neighbor_count": 3
+      },
+      "nirmal": {
+        "risk_score": 0.1165,
+        "neighbor_mean_risk_score": 0.3438,
+        "abs_diff_from_neighbor_mean": 0.2273,
+        "neighbor_count": 5
+      },
+      "peddapalli": {
+        "risk_score": 0.5454,
+        "neighbor_mean_risk_score": 0.4347,
+        "abs_diff_from_neighbor_mean": 0.1107,
+        "neighbor_count": 4
+      },
+      "jagtial": {
+        "risk_score": 0.305,
+        "neighbor_mean_risk_score": 0.4279,
+        "abs_diff_from_neighbor_mean": 0.123,
+        "neighbor_count": 6
+      },
+      "rajanna_sircilla": {
+        "risk_score": 0.5102,
+        "neighbor_mean_risk_score": 0.3964,
+        "abs_diff_from_neighbor_mean": 0.1138,
+        "neighbor_count": 5
+      },
+      "bhadradri_kothagudem": {
+        "risk_score": 0.2647,
+        "neighbor_mean_risk_score": 0.1597,
+        "abs_diff_from_neighbor_mean": 0.105,
+        "neighbor_count": 3
+      },
+      "jayashankar_bhupalapally": {
+        "risk_score": 0.3377,
+        "neighbor_mean_risk_score": 0.4621,
+        "abs_diff_from_neighbor_mean": 0.1244,
+        "neighbor_count": 5
+      },
+      "mahabubabad": {
+        "risk_score": 0.1332,
+        "neighbor_mean_risk_score": 0.2381,
+        "abs_diff_from_neighbor_mean": 0.1049,
+        "neighbor_count": 6
+      },
+      "suryapet": {
+        "risk_score": 0.0084,
+        "neighbor_mean_risk_score": 0.204,
+        "abs_diff_from_neighbor_mean": 0.1956,
+        "neighbor_count": 5
+      },
+      "nagarkurnool": {
+        "risk_score": 0.002,
+        "neighbor_mean_risk_score": 0.0,
+        "abs_diff_from_neighbor_mean": 0.002,
+        "neighbor_count": 4
+      },
+      "yadadri_bhuvanagiri": {
+        "risk_score": 0.2654,
+        "neighbor_mean_risk_score": 0.2131,
+        "abs_diff_from_neighbor_mean": 0.0523,
+        "neighbor_count": 6
+      },
+      "wanaparthy": {
+        "risk_score": 0.0,
+        "neighbor_mean_risk_score": 0.1911,
+        "abs_diff_from_neighbor_mean": 0.1911,
+        "neighbor_count": 4
+      },
+      "kamareddy": {
+        "risk_score": 0.2995,
+        "neighbor_mean_risk_score": 0.3774,
+        "abs_diff_from_neighbor_mean": 0.0779,
+        "neighbor_count": 5
+      },
+      "mulugu": {
+        "risk_score": 0.1969,
+        "neighbor_mean_risk_score": 0.3091,
+        "abs_diff_from_neighbor_mean": 0.1122,
+        "neighbor_count": 5
+      },
+      "narayanpet": {
+        "risk_score": 0.3259,
+        "neighbor_mean_risk_score": 0.1537,
+        "abs_diff_from_neighbor_mean": 0.1722,
+        "neighbor_count": 4
+      }
+    }
+  },
+  "temporal_spot_check": {
+    "method": "Recompute a small sample of districts against an earlier, non-overlapping 30-day window (ending before the current window starts) to confirm risk_score actually responds to different underlying data rather than being constant. Not an accuracy check -- there is no labeled outcome for either window to validate against.",
+    "sample_district_ids": [
+      "hyderabad",
+      "adilabad",
+      "khammam",
+      "nizamabad",
+      "mahabubnagar"
+    ],
+    "results": [
+      {
+        "district_id": "hyderabad",
+        "current_window": {
+          "date": "20260914",
+          "risk_score": 0.2654
+        },
+        "prior_window": {
+          "date": "20260815",
+          "risk_score": 0.0137
+        },
+        "moved": true
+      },
+      {
+        "district_id": "adilabad",
+        "current_window": {
+          "date": "20260914",
+          "risk_score": 0.1571
+        },
+        "prior_window": {
+          "date": "20260815",
+          "risk_score": 0.0
+        },
+        "moved": true
+      },
+      {
+        "district_id": "khammam",
+        "current_window": {
+          "date": "20260914",
+          "risk_score": 0.1489
+        },
+        "prior_window": {
+          "date": "20260815",
+          "risk_score": 0.0589
+        },
+        "moved": true
+      },
+      {
+        "district_id": "nizamabad",
+        "current_window": {
+          "date": "20260914",
+          "risk_score": 0.2995
+        },
+        "prior_window": {
+          "date": "20260815",
+          "risk_score": 0.0
+        },
+        "moved": true
+      },
+      {
+        "district_id": "mahabubnagar",
+        "current_window": {
+          "date": "20260914",
+          "risk_score": 0.0
+        },
+        "prior_window": {
+          "date": "20260815",
+          "risk_score": 0.0
+        },
+        "moved": false
+      }
+    ]
+  },
+  "leakage_check": {
+    "method": "This is a deterministic formula, not a model trained on historical examples, so classic train/test leakage does not apply in the usual sense. The analogous safeguard checked here: the recent-window end date must never be in the future relative to build time, and the climatology baseline (a fixed 2001-2020 normal) is structurally independent of the recent window's specific dates.",
+    "districts_checked": 33,
+    "future_dated_windows": [],
+    "passed": true
+  },
+  "scope_note": "No classical ML validation (temporal/spatial holdout accuracy, cross-validation) is reported because no labeled food-system-disruption outcome dataset exists to validate against. These are sanity diagnostics over a deterministic formula, not accuracy metrics."
+}
