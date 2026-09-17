@@ -1,0 +1,56 @@
+{
+  "generated_at": "2026-09-17T20:49:50.462094+00:00",
+  "datasets": [
+    {
+      "dataset_name": "Telangana district administrative boundaries",
+      "publisher": "OpenStreetMap contributors",
+      "source_url": "https://overpass-api.de/api/interpreter (Overpass query: boundary=administrative, admin_level=5, within OSM relation 3250963 'Telangana'); geometries via https://nominatim.openstreetmap.org/lookup",
+      "access_date": "2026-09-17T20:49:50.462094+00:00",
+      "license": "Open Database License (ODbL) v1.0 -- https://opendatacommons.org/licenses/odbl/1-0/ -- requires attribution 'Data (c) OpenStreetMap contributors'",
+      "geographic_level": "district (admin_level=5)",
+      "crs": "source EPSG:4326; area computed via reprojection to EPSG:32644 (UTM 44N)",
+      "processing": "Queried Overpass for admin_level=5 boundary=administrative relations within Telangana; fetched full polygon geometry via Nominatim batch lookup (format=geojson, polygon_geojson=1); validated geometry with shapely; assigned stable slug district_id; computed area_sq_km and centroid by reprojecting to EPSG:32644.",
+      "truth_status": "OBSERVED",
+      "feature_count": 33,
+      "limitations": "The master handoff's designated P0 source (TGRAC ArcGIS REST service, tgrac.telangana.gov.in) was unreachable from this environment during the sprint (connection timeout). GADM v4.1 was evaluated as a fallback but only encodes the pre-2016 10-district structure and was rejected as out of date. OpenStreetMap was used instead: it currently reflects the post-2016 33-district structure, but boundary line precision reflects community mapping, not an official cadastral survey, and has not been independently validated against a government source in this sprint."
+    },
+    {
+      "dataset_name": "Telangana mandal (sub-district) administrative boundaries",
+      "publisher": "OpenStreetMap contributors",
+      "source_url": "https://overpass-api.de/api/interpreter (Overpass query: boundary=administrative, admin_level=6, within OSM relation 3250963 'Telangana'); geometries via https://nominatim.openstreetmap.org/lookup",
+      "access_date": "2026-09-17T20:49:50.462094+00:00",
+      "license": "Open Database License (ODbL) v1.0 -- https://opendatacommons.org/licenses/odbl/1-0/ -- requires attribution 'Data (c) OpenStreetMap contributors'",
+      "geographic_level": "mandal (admin_level=6)",
+      "crs": "source EPSG:4326; area computed via reprojection to EPSG:32644 (UTM 44N)",
+      "processing": "Same Overpass/Nominatim pipeline as districts, at admin_level=6; mandal-to-district assignment computed deterministically via centroid-in-polygon spatial join against the processed district layer (no fabricated linkage).",
+      "truth_status": "OBSERVED",
+      "feature_count": 593,
+      "limitations": "593 mandal boundaries were resolved in OpenStreetMap at the time of access. This is not confirmed to be the complete current set of officially gazetted Telangana mandals (the official count has changed via multiple reorganizations since 2016 and was not independently re-verified against a government source in this sprint) -- treat mandal-level coverage as partial/best-effort, not authoritative."
+    },
+    {
+      "dataset_name": "Telangana state boundary",
+      "publisher": "Derived from the district dataset above",
+      "source_url": "n/a -- computed",
+      "access_date": "2026-09-17T20:49:50.462094+00:00",
+      "license": "Inherits ODbL from source district geometries",
+      "geographic_level": "state",
+      "crs": "EPSG:4326",
+      "processing": "Geometric union (dissolve) of the 33 processed district polygons.",
+      "truth_status": "DERIVED",
+      "feature_count": 1,
+      "limitations": "Only as accurate as the underlying district geometries above."
+    }
+  ],
+  "evaluated_but_rejected_sources": [
+    {
+      "dataset_name": "TGRAC district boundary ArcGIS REST service",
+      "source_url": "https://tgrac.telangana.gov.in/arcgis/rest/services/DistrictFormation_Folder/DistrictFormation_Queries/MapServer/1",
+      "reason_rejected": "Named as the P0 source in docs/MASTER_HANDOFF.md but unreachable (connection timeout) from this build environment."
+    },
+    {
+      "dataset_name": "GADM v4.1 India ADM2 (district) boundaries",
+      "source_url": "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_IND_2.json.zip",
+      "reason_rejected": "Reachable and valid, but encodes only the pre-2016 10-district structure for Telangana, not the current 33 districts."
+    }
+  ]
+}

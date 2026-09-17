@@ -51,10 +51,25 @@ shows a "Backend reachable" panel with the live locked config, or a red
 .venv\Scripts\python -m pytest tests\
 ```
 
+## GIS API (Hours 2-5)
+`backend/geoai/spatial_layer.py` is the reusable spatial layer every later
+module (risk, food graph, optimization, digital twin) will load boundaries
+from. Endpoints, served under `/gis`:
+- `GET /gis/telangana` — state boundary
+- `GET /gis/districts`, `GET /gis/districts/{district_id}` — 33 districts, with mandal counts
+- `GET /gis/mandals?district_id=...` — 593 mandals, optionally filtered
+- `GET /gis/location?lon=..&lat=..` — point-in-polygon district/mandal lookup
+- `GET /gis/provenance` — full dataset source/license/limitation registry
+- `GET /gis/validate` — geometry validity + CRS report for all layers
+
+See `data/README.md` for the data pipeline and known source limitations.
+
 ## Current state
-Hours 0-2 foundation only: both services boot, the frontend proves live
-reachability to the backend, and a healthcheck smoke test exists. No
-analytical modules (GeoAI, risk, graph, optimization, twin, RAG, copilot) are
-implemented yet — they follow the build order in `docs/MASTER_HANDOFF.md`
-section 19. Nothing here is fabricated; `/health` only reflects the committed
-`config/project.yaml`.
+Hours 0-5 done: both services boot, the frontend proves live reachability to
+the backend, healthcheck + GIS smoke tests exist (24 tests passing), and the
+Telangana district/mandal spatial layer is live behind a documented API. No
+further analytical modules (risk, food graph, optimization, twin, RAG,
+copilot) are implemented yet — they follow the build order in
+`docs/MASTER_HANDOFF.md` section 19. Nothing here is fabricated; every
+geometry and derived value carries a truth_status and traces to
+`data/processed/provenance.json`.

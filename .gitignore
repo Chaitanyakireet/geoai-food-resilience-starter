@@ -9,3 +9,9 @@ __pycache__/
 dist/
 build/
 coverage/
+
+# Large intermediate/raw geodata pulls -- regenerate via scripts/build_spatial_layer.py.
+# data/processed/ (the reusable, documented layer) IS committed.
+data/raw/
+data/cached/
+.pytest_cache/

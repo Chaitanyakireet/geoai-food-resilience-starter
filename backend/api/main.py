@@ -1,9 +1,10 @@
 """GeoAI Food-Resilience Digital Twin -- backend API entrypoint.
 
-Hours 0-2 foundation scope only: expose a healthcheck that proves the
-service boots and reflects the locked project configuration. Analytical
-modules (GeoAI, risk, graph, optimization, digital twin, etc.) are added
-in later tasks per the 48-hour build order in docs/MASTER_HANDOFF.md.
+Hours 0-2: healthcheck reflecting the locked project configuration.
+Hours 2-5: GIS endpoints (backend/api/gis.py) serving processed Telangana
+administrative boundaries. Remaining analytical modules (risk, food graph,
+optimization, digital twin, etc.) are added in later tasks per the 48-hour
+build order in docs/MASTER_HANDOFF.md.
 """
 from __future__ import annotations
 
@@ -13,9 +14,11 @@ from datetime import datetime, timezone
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.api.gis import router as gis_router
 from backend.core.config import load_project_config
 
 app = FastAPI(title="GeoAI Food-Resilience Digital Twin API")
+app.include_router(gis_router)
 
 app.add_middleware(
     CORSMiddleware,
