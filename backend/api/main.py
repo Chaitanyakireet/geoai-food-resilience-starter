@@ -15,12 +15,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.gis import router as gis_router
+from backend.api.graph import router as graph_router
 from backend.api.risk import router as risk_router
 from backend.core.config import load_project_config
 
 app = FastAPI(title="GeoAI Food-Resilience Digital Twin API")
 app.include_router(gis_router)
 app.include_router(risk_router)
+app.include_router(graph_router)
 
 app.add_middleware(
     CORSMiddleware,

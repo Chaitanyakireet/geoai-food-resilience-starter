@@ -83,12 +83,34 @@ RiskResult matches the field names in `docs/MASTER_HANDOFF.md` section 11
 `run_id`, `truth_status`), plus `provenance_refs` and `limitations`. See
 `data/README.md` for what the proxy does and does not measure.
 
+## Food Network API (Hours 8-11)
+`backend/graph/` models production -> aggregation -> storage -> market ->
+demand as a NetworkX `DiGraph`, per district, plus a real cross-district
+transport backbone. Endpoints, served under `/graph`:
+- `GET /graph/overview?food_category=...&geo_id=...` — GraphResult (nodes,
+  edges, bottlenecks, connectivity summary)
+- `GET /graph/nodes`, `GET /graph/edges` — filtered node/edge lists
+- `GET /graph/bottlenecks` — graph-theoretic candidates (articulation
+  points, high betweenness, high in-degree/"dependency concentration"),
+  explicitly labeled as structural properties, not confirmed real-world
+  importance
+- `POST /graph/propagate` — deterministic SIMULATED shock cascade
+  (`{target_node_id, shock_type, severity, max_hops}`)
+- `GET /graph/provenance` — what's real (OSM markets, district adjacency)
+  vs. simulated, and what sources were sought but not obtained
+
+Only market nodes carry real external data (OpenStreetMap POIs, 29/33
+districts); production/aggregation/storage/demand nodes are DERIVED from
+administrative geography or clearly labeled SIMULATED scenario placeholders
+-- no facility, capacity, or trade-volume number is invented anywhere in
+the graph. See `data/README.md` for the full breakdown.
+
 ## Current state
-Hours 0-8 done: both services boot, the frontend proves live reachability to
-the backend, and 47 tests pass (health + GIS + risk). The Telangana
-district/mandal spatial layer and a climate-driven risk baseline are live
-behind documented APIs. No further analytical modules (food graph,
-optimization, twin, RAG, copilot) are implemented yet — they follow the
-build order in `docs/MASTER_HANDOFF.md` section 19. Nothing here is
-fabricated; every value carries a truth_status and traces to a provenance
-file.
+Hours 0-11 done: both services boot, the frontend proves live reachability
+to the backend, and 78 tests pass (health + GIS + risk + graph). The
+Telangana spatial layer, a climate-driven risk baseline, and a food-system
+network with bottleneck/propagation diagnostics are live behind documented
+APIs. No further analytical modules (optimization, digital twin, RAG,
+copilot) are implemented yet — they follow the build order in
+`docs/MASTER_HANDOFF.md` section 19. Nothing here is fabricated; every
+value carries a truth_status and traces to a provenance file.

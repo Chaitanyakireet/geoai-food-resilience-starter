@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-09-17T21:19:18.609827+00:00",
+  "datasets": [
+    {
+      "dataset_name": "OpenStreetMap marketplace points of interest (Telangana)",
+      "publisher": "OpenStreetMap contributors",
+      "source_url": "https://overpass-api.de/api/interpreter (amenity=marketplace OR shop=marketplace within OSM relation 3250963 'Telangana')",
+      "access_date": "2026-09-17T21:19:18.609827+00:00",
+      "license": "Open Database License (ODbL) v1.0 -- requires attribution 'Data (c) OpenStreetMap contributors'",
+      "geographic_level": "point",
+      "crs": "EPSG:4326",
+      "processing": "Queried all amenity=marketplace/shop=marketplace nodes in Telangana (104 found); assigned to a district via point-in-polygon against the processed district layer, keeping the POI nearest the district centroid where multiple existed.",
+      "truth_status": "OBSERVED",
+      "limitations": "Real OSM marketplace POIs were found for 29/33 districts; the remaining districts use a clearly labeled SIMULATED placeholder market node. Community-mapped, not an authoritative government market registry (AGMARKNET/e-NAM were attempted but not programmatically accessible without a registered API key or complex ASP.NET session scraping in this sprint)."
+    },
+    {
+      "dataset_name": "District adjacency (transport backbone)",
+      "publisher": "Derived from the processed Telangana district layer",
+      "source_url": "n/a -- computed",
+      "access_date": "2026-09-17T21:19:18.609827+00:00",
+      "license": "Inherits ODbL from the underlying OSM district geometries",
+      "geographic_level": "district",
+      "crs": "EPSG:4326",
+      "processing": "Two districts are considered transport-adjacent if their polygons share a border (geometry.touches). Reuses the same adjacency computation as backend/risk/validation.py's spatial smoothness check.",
+      "truth_status": "DERIVED",
+      "limitations": "Represents modeled connectivity (neighboring districts are road-reachable), not a specific real route, road class, distance, or capacity."
+    }
+  ],
+  "food_category_note": "Every node/edge is tagged with every configured food_category (config/features.yaml) because no data this sprint differentiates which categories move through which node -- this is a known gap, not a claim that all nodes actually handle all food types equally.",
+  "unobtained_sources": [
+    {
+      "dataset_name": "AGMARKNET / e-NAM market list and arrivals",
+      "source_url": "https://www.enam.gov.in/web/dashboard/agmarknet ; https://agmarknet.gov.in/",
+      "reason_not_used": "AGMARKNET is an ASP.NET WebForms site requiring session/viewstate-based form submission to retrieve data; agmarknet.gov.in itself is reachable but no data API was accessible without that scripted session flow in this time budget. data.gov.in's API requires a registered api-key which was not available."
+    },
+    {
+      "dataset_name": "Telangana State Warehousing Corporation / FCI storage facility list",
+      "source_url": "n/a -- no public structured dataset located",
+      "reason_not_used": "No open, structured (API/CSV/GeoJSON) facility-level dataset was located in this sprint."
+    },
+    {
+      "dataset_name": "Telangana DES district-level production statistics",
+      "source_url": "https://ecostat.telangana.gov.in/agricultural_statistics.html",
+      "reason_not_used": "Published as HTML/PDF reports, not a structured API/CSV this sprint's time budget allowed parsing; production nodes therefore carry no volume figures."
+    }
+  ],
+  "graph_summary": {
+    "node_count": 165,
+    "edge_count": 318,
+    "real_market_nodes": 29,
+    "simulated_market_placeholder_nodes": 4
+  }
+}

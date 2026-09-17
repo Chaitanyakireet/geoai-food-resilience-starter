@@ -1,0 +1,12 @@
+# Shock propagation parameters (backend/graph/propagation.py). ASSUMED,
+# documented modeling choices -- not fit to any observed shock/outcome data
+# (none was available this sprint). Every propagation result is labeled
+# SIMULATED; do not read it as a measured or forecast effect.
+propagation:
+  decay_factor: 0.6 # fraction of impact carried to each directly downstream hop
+  min_impact_threshold: 0.02 # stop propagating below this residual impact
+  max_hops_default: 5
+
+bottleneck_analysis:
+  betweenness_candidate_percentile: 0.75
+  in_degree_candidate_percentile: 0.75 # dependency-concentration signal, independent of betweenness

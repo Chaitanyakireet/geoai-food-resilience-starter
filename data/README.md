@@ -34,3 +34,22 @@ Keep raw, cached, derived, and simulated data provenance explicit.
   value. `T2M_MAX` climatology and observed values are not confirmed to be
   on the same statistical basis and are excluded from the risk score (see
   `backend/risk/baseline_model.py`).
+
+## Food network graph
+- `raw/food_graph/osm_markets_raw.json` — untracked. Raw OSM marketplace POI
+  query result.
+- `processed/food_graph.json` — tracked. 165 nodes (33 districts x
+  production/aggregation/storage/market/demand) + 318 edges. Regenerate with:
+  `.venv\Scripts\python scripts\build_food_graph.py`
+- `processed/food_graph_provenance.json` — source/license/limitation
+  registry, served at `GET /graph/provenance`, including an
+  `unobtained_sources` section documenting AGMARKNET/e-NAM, Telangana State
+  Warehousing Corporation/FCI, and Telangana DES production statistics as
+  sources that were sought but not programmatically obtainable this sprint.
+- Known limitation: only market nodes carry real data (OpenStreetMap POIs,
+  29/33 districts matched; the rest are labeled SIMULATED placeholders).
+  Production nodes are DERIVED (real districts, no real volume);
+  aggregation/storage/most-demand nodes are SIMULATED scenario placeholders
+  -- no real facility-level dataset was obtained. No edge carries a real
+  flow volume or transport capacity. See `backend/graph/service.py`'s
+  `GRAPH_LIMITATIONS` for the full list served via the API.
