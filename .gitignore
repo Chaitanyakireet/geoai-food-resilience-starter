@@ -1,0 +1,11 @@
+.env
+.env.*
+node_modules/
+__pycache__/
+.venv/
+.DS_Store
+*.pyc
+.next/
+dist/
+build/
+coverage/

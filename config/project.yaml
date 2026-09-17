@@ -1,0 +1,27 @@
+project:
+  name: GeoAI Food-Resilience Digital Twin
+  region: Hyderabad–Telangana
+  product_type: web_platform
+  food_scope: multi_food_food_agnostic
+  primary_sdg: SDG 2
+  secondary_sdgs: [6, 7, 8, 9, 11, 12, 13, 15, 17]
+  deadline: 48_hours
+  source_of_truth: docs/MASTER_HANDOFF.md
+architecture:
+  loop: [sense, predict, diagnose_trace, reason, optimize, simulate, recover, verify_impact, explain, human_review]
+  modules:
+    - data_ingestion_provenance
+    - gis_geoai
+    - remote_sensing
+    - climate_environment
+    - risk_prediction
+    - food_network_graph
+    - causal_counterfactual
+    - intervention_portfolio
+    - optimization
+    - digital_twin
+    - recovery_impact
+    - rag_evidence
+    - ai_copilot
+    - responsible_ai
+truth_status: [OBSERVED, DERIVED, ESTIMATED, COUNTERFACTUAL, SIMULATED]
