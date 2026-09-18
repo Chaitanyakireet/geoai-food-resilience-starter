@@ -28,21 +28,19 @@
   white-space: nowrap;
 }
 
-.svg {
-  width: 100%;
-  height: auto;
-  max-height: 360px;
-  display: block;
-  background: var(--page-plane);
+.mapBox {
   border-radius: 8px;
+  overflow: hidden;
+  background: var(--page-plane);
 }
 
-.district {
-  transition: fill-opacity 0.12s ease;
-}
-
-.district:hover {
-  fill-opacity: 0.85;
+.mapLoading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 12.5px;
 }
 
 .legend {

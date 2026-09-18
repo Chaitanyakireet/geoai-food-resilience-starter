@@ -511,6 +511,81 @@ export type CompareWorldsResult = {
   limitations: string[];
 };
 
+// --- AI Decision Brief / Copilot ---
+
+export type EvidenceItem = {
+  provenance_id: string;
+  source_name: string;
+  source_url: string | null;
+  access_date: string | null;
+  truth_status: TruthStatus;
+  excerpt: string;
+  relevance_score: number;
+  matched_terms: string[];
+};
+
+export type AiScenarioContext = {
+  geo_id?: string;
+  food_category?: string;
+  shock_field?: string;
+  severity?: number;
+  max_hops?: number;
+  heat_change_c?: number;
+  rainfall_change_pct?: number;
+  intervention_types?: string[];
+  constraints?: Constraints;
+  optimization_selected_types?: string[];
+};
+
+export type AiToolCallRecord = {
+  tool_name: string;
+  purpose: string;
+  arguments: Record<string, unknown>;
+  result_summary: Record<string, unknown>;
+  status: "ok" | "error";
+  error?: string | null;
+  source_refs: string[];
+};
+
+export type AiMode = "llm" | "deterministic_fallback";
+
+export type AiQueryOutput = {
+  answer: string;
+  mode: AiMode;
+  tool_trace: AiToolCallRecord[];
+  citations: EvidenceItem[];
+  truth_statuses_referenced: TruthStatus[];
+  limitations: string[];
+  provider_status: string;
+};
+
+export type DecisionBriefSection = {
+  title: string;
+  content: string;
+  truth_status?: TruthStatus | null;
+  source_refs: string[];
+};
+
+export type DecisionBriefOutput = {
+  mode: AiMode;
+  sections: DecisionBriefSection[];
+  tool_trace: AiToolCallRecord[];
+  citations: EvidenceItem[];
+  limitations: string[];
+  provider_status: string;
+};
+
+export const postAiQuery = (question: string, scenario_context?: AiScenarioContext) =>
+  postJson<AiQueryOutput>("/ai/query", { question, scenario_context });
+
+export const postAiDecisionBrief = (scenario_context: AiScenarioContext) =>
+  postJson<DecisionBriefOutput>("/ai/decision-brief", { scenario_context });
+
+export const getAiProvenance = () =>
+  getJson<{ provider: { name: string; configured: boolean }; approved_tools: string[]; evidence_corpus: { document_count: number }; truth_status_discipline: string[]; limitations: string[] }>(
+    "/ai/provenance",
+  );
+
 export const postTwinRun = (input: TwinScenarioRequest) => postJson<TwinResult>("/twin/run", input);
 
 export const postTwinCompare = (input: TwinScenarioRequest) => postJson<CompareWorldsResult>("/twin/compare", input);

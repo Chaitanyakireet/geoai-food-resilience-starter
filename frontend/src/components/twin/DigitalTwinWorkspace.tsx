@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { ChoroplethPreview } from "@/components/ChoroplethPreview";
+import { MiniRiskMap } from "@/components/MiniRiskMap";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   getTwinConfig,
@@ -26,6 +26,7 @@ import { CompareWorldsPanel } from "./CompareWorldsPanel";
 import { AssumptionsDrawer } from "./AssumptionsDrawer";
 import { TwinActionBar } from "./TwinActionBar";
 import { buildBaselineScenario, buildTwinScenarioFromHandoff, metricsForWorld, recoveryForWorld, stateForWorld, type WorldKey } from "./types";
+import { persistAiScenarioContext, scenarioHandoffToAiContext } from "@/lib/aiScenarioContext";
 import styles from "./DigitalTwinWorkspace.module.css";
 
 export function DigitalTwinWorkspace({ districts, riskState }: { districts: DistrictsFeatureCollection; riskState: RiskStateResponse | null }) {
@@ -96,15 +97,10 @@ export function DigitalTwinWorkspace({ districts, riskState }: { districts: Dist
   };
 
   const sendToBrief = () => {
-    if (scenario) {
-      try {
-        sessionStorage.setItem(
-          "aiDecisionBrief.scenarioContext",
-          JSON.stringify({ source: "digital-twin", scenario, twin_result_summary: twinResult ? summarizeTwinResult(twinResult) : null, created_at: new Date().toISOString() }),
-        );
-      } catch {
-        /* ignore */
-      }
+    if (handoff) {
+      persistAiScenarioContext(scenarioHandoffToAiContext(handoff));
+    } else if (scenario) {
+      persistAiScenarioContext({ geo_id: scenario.geo_id, food_category: scenario.food_category });
     }
     router.push("/ai-brief");
   };
@@ -172,7 +168,7 @@ export function DigitalTwinWorkspace({ districts, riskState }: { districts: Dist
             <WorldControls result={twinResult} active={activeWorld} onChange={setActiveWorld} />
             <TwinKpiPanel world={activeWorld} state={stateForWorld(twinResult, activeWorld)} />
             {currentGeoId && districts ? (
-              <ChoroplethPreview
+              <MiniRiskMap
                 districts={districts}
                 riskByDistrict={riskByDistrict}
                 highlightDistrictId={currentGeoId}
@@ -180,6 +176,7 @@ export function DigitalTwinWorkspace({ districts, riskState }: { districts: Dist
                 subtitle={`Scenario resolution: ${twinResult.geo_level}. District-centroid risk — mandal precision is not implied.`}
                 showLink={false}
                 showLegend={false}
+                height={220}
               />
             ) : null}
           </div>
@@ -203,14 +200,4 @@ export function DigitalTwinWorkspace({ districts, riskState }: { districts: Dist
       <AssumptionsDrawer open={assumptionsOpen} onClose={() => setAssumptionsOpen(false)} result={twinResult} />
     </div>
   );
-}
-
-function summarizeTwinResult(result: TwinResult) {
-  return {
-    geo_id: result.geo_id,
-    food_category: result.food_category,
-    shocked_risk_class: result.shocked_state?.risk_score ?? null,
-    resilience_gap_shock: result.shocked_state?.resilience_gap ?? null,
-    resilience_gap_optimized: result.optimized_state?.resilience_gap ?? null,
-  };
 }

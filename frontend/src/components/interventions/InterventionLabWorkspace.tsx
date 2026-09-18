@@ -15,6 +15,7 @@ import {
   type ShockResult,
 } from "@/lib/api";
 import { buildGraphShockInput, withGraphShockField, type GraphShockField } from "@/lib/shockMapping";
+import { persistAiScenarioContext, scenarioHandoffToAiContext } from "@/lib/aiScenarioContext";
 import { ScenarioControls } from "./ScenarioControls";
 import { ShockComposer } from "./ShockComposer";
 import { ShockResultPanel } from "./ShockResultPanel";
@@ -161,6 +162,7 @@ export function InterventionLabWorkspace({
     } catch {
       // sessionStorage unavailable (private browsing etc.) -- navigate anyway, twin page just won't show the banner
     }
+    persistAiScenarioContext(scenarioHandoffToAiContext(handoff));
     router.push("/twin");
   };
 

@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { StatTile } from "@/components/StatTile";
 import { RiskBadge } from "@/components/RiskBadge";
 import { StatusBadge } from "@/components/StatusBadge";
-import { ChoroplethPreview } from "@/components/ChoroplethPreview";
+import { MiniRiskMap } from "@/components/MiniRiskMap";
 import { getDistricts, getGraphOverview, getHealth, getRiskState, type RiskResult } from "@/lib/api";
 import styles from "./page.module.css";
 
@@ -82,7 +82,7 @@ export default async function CommandCenter() {
       <div className={styles.mainGrid}>
         <div className={styles.mainCol}>
           {districts && riskState ? (
-            <ChoroplethPreview districts={districts} riskByDistrict={riskByDistrict} />
+            <MiniRiskMap districts={districts} riskByDistrict={riskByDistrict} />
           ) : (
             <div className={`${styles.emptyState} card`}>
               Map preview unavailable — GIS or risk data did not load. Full interactive Spatial Intelligence
