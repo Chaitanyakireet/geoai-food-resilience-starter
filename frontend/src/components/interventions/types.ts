@@ -4,7 +4,7 @@ import type { GraphShockField } from "@/lib/shockMapping";
 export type DraftIntervention = CandidateIntervention;
 
 export type ScenarioHandoff = {
-  source: "intervention-lab";
+  source: "intervention-lab" | "food-network";
   geo_id: string;
   food_category: string;
   shock_field: GraphShockField;

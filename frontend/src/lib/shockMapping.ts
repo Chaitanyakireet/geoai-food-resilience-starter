@@ -43,3 +43,21 @@ export function buildGraphShockInput(geoId: string, field: GraphShockField, seve
     max_hops: maxHops,
   };
 }
+
+// A plausible starting shock field for a clicked graph node, purely a UI
+// convenience default -- the field remains a separate, explicit control
+// because the backend's own GRAPH_SHOCK_FIELD_MAP already routes
+// transport_capacity_reduction at the market_{geo} node, so no single
+// node-type -> shock-type inference could ever reach all four fields.
+export function defaultShockFieldForNodeType(nodeType: "production" | "aggregation" | "storage" | "market" | "demand"): GraphShockField {
+  switch (nodeType) {
+    case "production":
+    case "aggregation":
+      return "production_disruption";
+    case "storage":
+      return "storage_capacity_reduction";
+    case "market":
+    case "demand":
+      return "market_demand_disruption";
+  }
+}

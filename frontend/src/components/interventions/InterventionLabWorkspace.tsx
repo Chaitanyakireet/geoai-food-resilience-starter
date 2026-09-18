@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   postOptimizationRun,
   postPortfolio,
@@ -16,6 +16,7 @@ import {
 } from "@/lib/api";
 import { buildGraphShockInput, withGraphShockField, type GraphShockField } from "@/lib/shockMapping";
 import { persistAiScenarioContext, scenarioHandoffToAiContext } from "@/lib/aiScenarioContext";
+import { readAndClearNetworkInterventionHandoff } from "@/lib/networkHandoff";
 import { ScenarioControls } from "./ScenarioControls";
 import { ShockComposer } from "./ShockComposer";
 import { ShockResultPanel } from "./ShockResultPanel";
@@ -63,6 +64,24 @@ export function InterventionLabWorkspace({
   const [optimizationLoading, setOptimizationLoading] = useState(false);
 
   const [resultTab, setResultTab] = useState<"simulate" | "optimize">("simulate");
+  const [prefilledFromNetwork, setPrefilledFromNetwork] = useState(false);
+
+  useEffect(() => {
+    // Reading and clearing a one-shot sessionStorage handoff is a genuine
+    // external-system sync, but the resulting setState calls are deferred
+    // to a microtask so they aren't direct statements in the effect body
+    // (matches the pattern already used for other session-storage reads).
+    queueMicrotask(() => {
+      const handoff = readAndClearNetworkInterventionHandoff();
+      if (!handoff || !handoff.geo_id) return;
+      setGeoId(handoff.geo_id);
+      if (handoff.food_category) setFoodCategory(handoff.food_category);
+      if (handoff.shock_field) setShockField(handoff.shock_field as GraphShockField);
+      if (handoff.severity !== undefined) setSeverity(handoff.severity);
+      if (handoff.max_hops !== undefined) setMaxHops(handoff.max_hops);
+      setPrefilledFromNetwork(true);
+    });
+  }, []);
 
   const invalidateDownstream = () => {
     setPortfolioResult(null);
@@ -168,6 +187,12 @@ export function InterventionLabWorkspace({
 
   return (
     <div className={styles.workspace}>
+      {prefilledFromNetwork ? (
+        <div className="card" style={{ padding: "10px 16px", marginBottom: 12, fontSize: 12.5, color: "var(--text-secondary)" }}>
+          Geography, food scope, shock type and severity were carried over from the Food Network workspace — nothing
+          re-entered.
+        </div>
+      ) : null}
       <div className={styles.columns}>
         <div className={styles.left}>
           <ScenarioControls

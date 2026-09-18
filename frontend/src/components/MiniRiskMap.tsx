@@ -20,6 +20,8 @@ export function MiniRiskMap({
   districts,
   riskByDistrict,
   highlightDistrictId,
+  highlightDistrictIds,
+  onSelectDistrict,
   title = "Risk map",
   subtitle = "33 districts, current climate-stress risk class. Live GeoJSON from /gis/districts.",
   showLink = true,
@@ -29,6 +31,8 @@ export function MiniRiskMap({
   districts: DistrictsFeatureCollection;
   riskByDistrict: Map<string, RiskResult>;
   highlightDistrictId?: string;
+  highlightDistrictIds?: Set<string>;
+  onSelectDistrict?: (districtId: string) => void;
   title?: string;
   subtitle?: string;
   showLink?: boolean;
@@ -50,7 +54,13 @@ export function MiniRiskMap({
       </div>
 
       <div style={{ height }} className={styles.mapBox}>
-        <MiniRiskMapCanvas districts={districts} riskByDistrict={riskByDistrict} highlightDistrictId={highlightDistrictId} />
+        <MiniRiskMapCanvas
+          districts={districts}
+          riskByDistrict={riskByDistrict}
+          highlightDistrictId={highlightDistrictId}
+          highlightDistrictIds={highlightDistrictIds}
+          onSelectDistrict={onSelectDistrict}
+        />
       </div>
 
       {showLegend ? (

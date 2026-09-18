@@ -52,10 +52,14 @@ export function MiniRiskMapCanvas({
   districts,
   riskByDistrict,
   highlightDistrictId,
+  highlightDistrictIds,
+  onSelectDistrict,
 }: {
   districts: DistrictsFeatureCollection;
   riskByDistrict: Map<string, RiskResult>;
   highlightDistrictId?: string;
+  highlightDistrictIds?: Set<string>;
+  onSelectDistrict?: (districtId: string) => void;
 }) {
   const districtStyle = useMemo(
     () =>
@@ -63,15 +67,15 @@ export function MiniRiskMapCanvas({
         const id: string | undefined = feature?.properties?.district_id;
         const risk = id ? riskByDistrict.get(id) : undefined;
         const fill = risk ? riskClassColorVar(risk.risk_class) : "var(--status-neutral)";
-        const highlighted = id === highlightDistrictId;
+        const highlighted = id === highlightDistrictId || (id !== undefined && highlightDistrictIds?.has(id));
         return {
           color: highlighted ? "var(--accent)" : "var(--surface-1)",
           weight: highlighted ? 2.5 : 0.7,
           fillColor: fill,
-          fillOpacity: highlighted ? 0.85 : highlightDistrictId ? 0.25 : 0.6,
+          fillOpacity: highlighted ? 0.85 : highlightDistrictId || (highlightDistrictIds && highlightDistrictIds.size > 0) ? 0.25 : 0.6,
         };
       },
-    [riskByDistrict, highlightDistrictId],
+    [riskByDistrict, highlightDistrictId, highlightDistrictIds],
   );
 
   const onEachFeature = useMemo(
@@ -83,15 +87,32 @@ export function MiniRiskMapCanvas({
           `${feature.properties.name}${risk ? ` — ${risk.risk_class} (${risk.risk_score?.toFixed(2) ?? "n/a"})` : ""}`,
           { sticky: true },
         );
+        if (onSelectDistrict) {
+          layer.on("click", () => onSelectDistrict(id));
+          layer.on("mouseover", () => layer.setStyle({ weight: 2 }));
+          layer.on("mouseout", () => layer.setStyle(districtStyle(feature)));
+        }
       },
-    [riskByDistrict],
+    [riskByDistrict, onSelectDistrict, districtStyle],
   );
 
   return (
-    <MapContainer center={[17.9, 79.3]} zoom={6} style={{ height: "100%", width: "100%", background: "var(--page-plane)" }} zoomControl={false} scrollWheelZoom={false} attributionControl={false}>
+    <MapContainer
+      center={[17.9, 79.3]}
+      zoom={6}
+      style={{ height: "100%", width: "100%", background: "var(--page-plane)", cursor: onSelectDistrict ? "pointer" : undefined }}
+      zoomControl={false}
+      scrollWheelZoom={false}
+      attributionControl={false}
+    >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <FitToDistrictBounds districts={districts} highlightDistrictId={highlightDistrictId} />
-      <GeoJSON key={`${highlightDistrictId}-${riskByDistrict.size}`} data={districts as any} style={districtStyle as any} onEachFeature={onEachFeature as any} />
+      <GeoJSON
+        key={`${highlightDistrictId}-${riskByDistrict.size}-${highlightDistrictIds?.size ?? 0}`}
+        data={districts as any}
+        style={districtStyle as any}
+        onEachFeature={onEachFeature as any}
+      />
     </MapContainer>
   );
 }

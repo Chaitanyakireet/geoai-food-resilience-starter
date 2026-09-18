@@ -1,7 +1,7 @@
 import { PageHeader } from "@/components/PageHeader";
 import { StatTile } from "@/components/StatTile";
 import { FoodNetworkGraph } from "@/components/network/FoodNetworkGraph";
-import { getGraphEdges, getGraphNodes, getGraphOverview } from "@/lib/api";
+import { getDistricts, getGraphEdges, getGraphNodes, getGraphOverview, getGraphProvenance, getRiskConfig, getRiskState } from "@/lib/api";
 import styles from "../page.module.css";
 
 const STAGES: { label: string; note: string }[] = [
@@ -14,9 +14,22 @@ const STAGES: { label: string; note: string }[] = [
 ];
 
 export default async function FoodNetworkPage() {
-  const [graph, nodes, edges] = await Promise.all([getGraphOverview(), getGraphNodes(), getGraphEdges()]);
+  const [graph, nodes, edges, districts, riskState, riskConfig, graphProvenance] = await Promise.all([
+    getGraphOverview(),
+    getGraphNodes(),
+    getGraphEdges(),
+    getDistricts(),
+    getRiskState(),
+    getRiskConfig(),
+    getGraphProvenance(),
+  ]);
 
-  if (!graph || !nodes || !edges) {
+  const foodCategoryNote =
+    typeof graphProvenance?.food_category_note === "string"
+      ? graphProvenance.food_category_note
+      : "This graph does not yet differentiate node/edge participation by food category.";
+
+  if (!graph || !nodes || !edges || !districts) {
     return (
       <div>
         <PageHeader eyebrow="Food Network" title="Food Network" />
@@ -65,13 +78,23 @@ export default async function FoodNetworkPage() {
         </div>
       </details>
 
-      <FoodNetworkGraph nodes={nodes} edges={edges} bottlenecks={graph.bottlenecks} />
+      <FoodNetworkGraph
+        nodes={nodes}
+        edges={edges}
+        bottlenecks={graph.bottlenecks}
+        graphLimitations={graph.limitations}
+        districts={districts}
+        riskState={riskState}
+        foodCategories={riskConfig?.food_categories ?? ["all_food"]}
+        foodCategoryNote={foodCategoryNote}
+      />
 
       <p className="muted" style={{ fontSize: 11, marginTop: 14, lineHeight: 1.6 }}>
         Node color denotes truth status (observed / derived / simulated); an orange ring marks a graph-theoretic
-        bottleneck candidate, not a confirmed real-world dependency. Clicking a node runs an actual{" "}
-        <code style={{ fontFamily: "var(--font-mono)" }}>POST /graph/propagate</code> call and visualizes its real
-        result — the propagation itself is always labeled SIMULATED.
+        bottleneck candidate, not a confirmed real-world dependency. Selecting a node, edge, or district sets the
+        shock composer&apos;s geography; running a shock calls the real{" "}
+        <code style={{ fontFamily: "var(--font-mono)" }}>POST /graph/propagate</code> endpoint and animates its real
+        result hop-by-hop — the propagation itself is always labeled SIMULATED.
       </p>
     </div>
   );
