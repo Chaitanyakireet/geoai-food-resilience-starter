@@ -1,4 +1,5 @@
 import type { ScenarioState } from "@/lib/api";
+import { SDG_NAMES } from "@/lib/sdg";
 import styles from "./SdgFramework.module.css";
 
 type SdgStatus = "directly_modeled" | "co_benefit" | "not_modeled";
@@ -21,14 +22,14 @@ function buildFramework(headline: ScenarioState | null): SdgEntry[] {
   return [
     {
       number: 2,
-      name: "Zero Hunger",
+      name: SDG_NAMES[2],
       role: "primary",
       status: "directly_modeled",
       rationale: "Risk, resilience, resilience gap, and food-availability/loss effect proxies are direct outputs of this platform's risk, graph, and Digital Twin engines for any valid geography.",
     },
     {
       number: 6,
-      name: "Clean Water and Sanitation",
+      name: SDG_NAMES[6],
       role: "secondary",
       status: headline?.water_impact_m3 != null ? "directly_modeled" : "not_modeled",
       rationale: headline?.water_impact_m3 != null
@@ -37,35 +38,35 @@ function buildFramework(headline: ScenarioState | null): SdgEntry[] {
     },
     {
       number: 7,
-      name: "Affordable and Clean Energy",
+      name: SDG_NAMES[7],
       role: "secondary",
       status: "not_modeled",
       rationale: "No energy-system data or model exists anywhere in this platform.",
     },
     {
       number: 8,
-      name: "Decent Work and Economic Growth",
+      name: SDG_NAMES[8],
       role: "secondary",
       status: "not_modeled",
       rationale: "No labor-market, employment, or livelihood data is ingested.",
     },
     {
       number: 9,
-      name: "Industry, Innovation and Infrastructure",
+      name: SDG_NAMES[9],
       role: "secondary",
       status: "co_benefit",
       rationale: "Food-network transport/storage bottleneck diagnostics (backend/graph) are a structural proxy for infrastructure robustness, not a direct, validated SDG 9 indicator.",
     },
     {
       number: 11,
-      name: "Sustainable Cities and Communities",
+      name: SDG_NAMES[11],
       role: "secondary",
       status: "co_benefit",
       rationale: "Hyderabad is modeled as the principal demand hub — resilience improvements there plausibly support urban food-system stability, but no urban-livability metric is computed.",
     },
     {
       number: 12,
-      name: "Responsible Consumption and Production",
+      name: SDG_NAMES[12],
       role: "secondary",
       status: headline?.food_loss_effect != null ? "co_benefit" : "not_modeled",
       rationale: headline?.food_loss_effect != null
@@ -74,7 +75,7 @@ function buildFramework(headline: ScenarioState | null): SdgEntry[] {
     },
     {
       number: 13,
-      name: "Climate Action",
+      name: SDG_NAMES[13],
       role: "secondary",
       status: headline?.carbon_impact_tco2e != null ? "directly_modeled" : "not_modeled",
       rationale: headline?.carbon_impact_tco2e != null
@@ -83,14 +84,14 @@ function buildFramework(headline: ScenarioState | null): SdgEntry[] {
     },
     {
       number: 15,
-      name: "Life on Land",
+      name: SDG_NAMES[15],
       role: "secondary",
       status: "not_modeled",
       rationale: "No land-use, biodiversity, or ecosystem data exists anywhere in this platform.",
     },
     {
       number: 17,
-      name: "Partnerships for the Goals",
+      name: SDG_NAMES[17],
       role: "secondary",
       status: "not_modeled",
       rationale: "A cross-sector partnership indicator is a process-level goal, not something a per-scenario simulation can output.",

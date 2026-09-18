@@ -105,7 +105,7 @@ export function MiniRiskMapCanvas({
       scrollWheelZoom={false}
       attributionControl={false}
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
       <FitToDistrictBounds districts={districts} highlightDistrictId={highlightDistrictId} />
       <GeoJSON
         key={`${highlightDistrictId}-${riskByDistrict.size}-${highlightDistrictIds?.size ?? 0}`}

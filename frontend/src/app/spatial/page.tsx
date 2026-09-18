@@ -1,9 +1,14 @@
 import { PageHeader } from "@/components/PageHeader";
 import { SpatialWorkspace } from "@/components/spatial/SpatialWorkspace";
-import { getDistricts, getRiskState, getTelangana } from "@/lib/api";
+import { getDistricts, getGraphOverview, getRiskState, getTelangana } from "@/lib/api";
 
 export default async function SpatialIntelligencePage() {
-  const [districts, boundary, riskState] = await Promise.all([getDistricts(), getTelangana(), getRiskState()]);
+  const [districts, boundary, riskState, graphOverview] = await Promise.all([
+    getDistricts(),
+    getTelangana(),
+    getRiskState(),
+    getGraphOverview(),
+  ]);
 
   return (
     <div>
@@ -14,7 +19,7 @@ export default async function SpatialIntelligencePage() {
       />
 
       {districts ? (
-        <SpatialWorkspace districts={districts} boundary={boundary} riskState={riskState} />
+        <SpatialWorkspace districts={districts} boundary={boundary} riskState={riskState} graphOverview={graphOverview} />
       ) : (
         <div className="card" style={{ padding: 32, textAlign: "center" }}>
           <p style={{ fontWeight: 600, marginBottom: 6 }}>GIS service unavailable</p>

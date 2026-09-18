@@ -11,17 +11,20 @@ import {
   getRiskForGeo,
   type BottleneckEntry,
   type DistrictsFeatureCollection,
+  type GraphOverviewResponse,
   type MandalsFeatureCollection,
   type MarketNode,
   type RiskResult,
   type RiskStateResponse,
   type StateBoundaryFeatureCollection,
 } from "@/lib/api";
+import { RiskBadge } from "@/components/RiskBadge";
 import { LayerControl } from "./LayerControl";
 import { SearchBox } from "./SearchBox";
 import { LocationPanel, type Selection } from "./LocationPanel";
 import { ProvenanceDrawer } from "./ProvenanceDrawer";
 import { TemporalNote } from "./TemporalNote";
+import { RiskSummaryDonut, type DonutSegment } from "./RiskSummaryDonut";
 import styles from "./SpatialWorkspace.module.css";
 
 const MapCanvas = dynamic(() => import("./MapCanvas").then((m) => m.MapCanvas), {
@@ -33,10 +36,12 @@ export function SpatialWorkspace({
   districts,
   boundary,
   riskState,
+  graphOverview,
 }: {
   districts: DistrictsFeatureCollection;
   boundary: StateBoundaryFeatureCollection | null;
   riskState: RiskStateResponse | null;
+  graphOverview: GraphOverviewResponse | null;
 }) {
   const [selection, setSelection] = useState<Selection | null>(null);
   const [mandalsByDistrict, setMandalsByDistrict] = useState<Map<string, MandalsFeatureCollection | null>>(new Map());
@@ -203,7 +208,26 @@ export function SpatialWorkspace({
 
   const sampleRisk = riskState?.districts[0];
 
+  const riskCounts: Record<string, number> = { low: 0, moderate: 0, high: 0, severe: 0, insufficient_data: 0 };
+  riskState?.districts.forEach((d) => {
+    riskCounts[d.risk_class] = (riskCounts[d.risk_class] ?? 0) + 1;
+  });
+
+  const donutSegments: DonutSegment[] = [
+    { key: "severe", label: "Severe", count: riskCounts.severe, colorVar: "var(--status-critical)" },
+    { key: "high", label: "High", count: riskCounts.high, colorVar: "var(--status-serious)" },
+    { key: "moderate", label: "Moderate", count: riskCounts.moderate, colorVar: "var(--status-warning)" },
+    { key: "low", label: "Low", count: riskCounts.low, colorVar: "var(--status-good)" },
+    { key: "insufficient_data", label: "Insufficient Data", count: riskCounts.insufficient_data, colorVar: "var(--status-neutral)" },
+  ];
+
+  const topRiskDistricts = [...(riskState?.districts ?? [])]
+    .filter((d): d is RiskResult & { risk_score: number } => d.risk_score !== null)
+    .sort((a, b) => b.risk_score - a.risk_score)
+    .slice(0, 5);
+
   return (
+    <div className={styles.page}>
     <div className={styles.workspace}>
       <div className={styles.mapArea}>
         <MapCanvas
@@ -289,6 +313,106 @@ export function SpatialWorkspace({
       <ProvenanceDrawer open={provenanceOpen} onClose={() => setProvenanceOpen(false)} />
 
       {mandalsLoadingFor ? <div className={styles.mandalLoadingToast}>Loading mandal boundaries…</div> : null}
+    </div>
+
+    <div className={styles.bottomGrid}>
+      <div className={`${styles.bottomCard} card`}>
+        <div className={styles.bottomCardTitle}>State Risk Summary</div>
+        <div className={styles.donutRow}>
+          <RiskSummaryDonut
+            segments={donutSegments}
+            centerValue={riskState?.mean_risk_score != null ? riskState.mean_risk_score.toFixed(2) : "—"}
+            centerLabel="Mean Risk"
+          />
+          <ul className={styles.donutLegend}>
+            {donutSegments.map((s) => (
+              <li key={s.key}>
+                <span className={styles.donutLegendDot} style={{ background: s.colorVar }} />
+                <span className={styles.donutLegendCount}>{s.count}</span>
+                <span className={styles.donutLegendLabel}>{s.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className={`${styles.bottomCard} card`}>
+        <div className={styles.bottomCardTitle}>Top Risk Districts</div>
+        {topRiskDistricts.length > 0 ? (
+          <ol className={styles.rankList}>
+            {topRiskDistricts.map((d, i) => (
+              <li key={d.region_id}>
+                <span className={styles.rankNumber}>{i + 1}</span>
+                <span className={styles.rankName}>{d.region_id.replace(/_/g, " ")}</span>
+                <RiskBadge riskClass={d.risk_class} />
+                <span className={styles.rankScore}>{d.risk_score?.toFixed(2)}</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="secondary">No scored districts available.</p>
+        )}
+      </div>
+
+      <div className={`${styles.bottomCard} card`}>
+        <div className={styles.bottomCardTitle}>Network State</div>
+        {graphOverview ? (
+          <ul className={styles.factList}>
+            <li>
+              <span className="muted">Nodes / edges</span>
+              <span className={styles.factValue}>
+                {graphOverview.summary.node_count} / {graphOverview.summary.edge_count}
+              </span>
+            </li>
+            <li>
+              <span className="muted">Structural bottlenecks</span>
+              <span className={styles.factValue}>{graphOverview.bottlenecks.length}</span>
+            </li>
+            <li>
+              <span className="muted">Connectivity</span>
+              <span className={styles.factValue}>
+                {graphOverview.summary.connectivity.is_weakly_connected
+                  ? "Connected"
+                  : `${graphOverview.summary.connectivity.weakly_connected_component_count} components`}
+              </span>
+            </li>
+            <li>
+              <span className="muted">Isolated nodes</span>
+              <span className={styles.factValue}>{graphOverview.summary.connectivity.isolated_node_count}</span>
+            </li>
+          </ul>
+        ) : (
+          <p className="secondary">Graph service unavailable.</p>
+        )}
+      </div>
+
+      <div className={`${styles.bottomCard} card`}>
+        <div className={styles.bottomCardTitle}>Data & Provenance</div>
+        <ul className={styles.factList}>
+          <li>
+            <span className="muted">Climate data</span>
+            <span className={styles.factValue}>NASA POWER</span>
+          </li>
+          <li>
+            <span className="muted">Boundaries</span>
+            <span className={styles.factValue}>OpenStreetMap</span>
+          </li>
+          <li>
+            <span className="muted">Analysis window</span>
+            <span className={styles.factValue}>
+              {sampleRisk ? `${sampleRisk.data_coverage.available_days}/${sampleRisk.data_coverage.requested_days} days` : "n/a"}
+            </span>
+          </li>
+          <li>
+            <span className="muted">Risk method</span>
+            <span className={styles.factValue}>{riskState?.method ?? "n/a"}</span>
+          </li>
+        </ul>
+        <button type="button" className="btn btn-ghost" style={{ marginTop: 8, padding: "6px 0" }} onClick={() => setProvenanceOpen(true)}>
+          Open full provenance record →
+        </button>
+      </div>
+    </div>
     </div>
   );
 }

@@ -1,19 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
 import { Sidebar } from "@/components/Sidebar";
 import { TopBar } from "@/components/TopBar";
 import { getHealth } from "@/lib/api";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Three coordinated families for a deliberate, scientific-instrument feel:
+// Space Grotesk carries display weight (product name, page/section titles,
+// large metrics), IBM Plex Sans carries UI/body text, and IBM Plex Mono
+// carries data-grade text (IDs, coordinates, provenance, truth status).
+const displayFont = Space_Grotesk({
+  variable: "--font-display-raw",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sansFont = IBM_Plex_Sans({
+  variable: "--font-sans-raw",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const monoFont = IBM_Plex_Mono({
+  variable: "--font-mono-raw",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const health = await getHealth();
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}>
       <body>
         <div className="app-shell">
           <Sidebar />

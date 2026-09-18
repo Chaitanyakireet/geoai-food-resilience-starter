@@ -1,37 +1,53 @@
 :root {
-  color-scheme: light;
-  --page-plane: #f9f9f7;
-  --surface-1: #fcfcfb;
-  --surface-2: #ffffff;
-  --text-primary: #0b0b0b;
-  --text-secondary: #52514e;
-  --text-muted: #898781;
-  --gridline: #e1e0d9;
-  --border: rgba(11, 11, 11, 0.1);
-  --border-strong: #c3c2b7;
+  /* Near-black/charcoal is the product's persistent signature look -- not
+     conditional on the viewer's OS preference, so the platform reads the
+     same in every demo. Light mode remains available (below) for viewers
+     who prefer it or for a future explicit toggle via [data-theme]. */
+  color-scheme: dark;
+  --page-plane: #0d0d0d;
+  --surface-1: #1a1a19;
+  --surface-2: #202020;
+  --text-primary: #f7f3ea;
+  --text-secondary: #c3c2b7;
+  --text-muted: #8f8d86;
+  --gridline: #2c2c2a;
+  --border: rgba(247, 243, 234, 0.1);
+  --border-strong: #3a3a37;
 
-  --accent: #c2540a;
-  --accent-soft: rgba(194, 84, 10, 0.1);
+  --accent: #ff8a3d;
+  --accent-soft: rgba(255, 138, 61, 0.14);
+  --accent-secondary: #e0a72a;
+  --accent-secondary-soft: rgba(224, 167, 42, 0.14);
 
-  --status-good: #0ca30c;
-  --status-warning: #fab219;
+  --status-good: #3fb84f;
+  --status-warning: #e0a72a;
   --status-serious: #ec835a;
-  --status-critical: #d03b3b;
-  --status-neutral: #898781;
+  --status-critical: #e6544c;
+  --status-neutral: #767570;
 
-  --seq-100: #cde2fb;
-  --seq-300: #6da7ec;
-  --seq-500: #256abf;
-  --seq-700: #0d366b;
+  --seq-100: #184f95;
+  --seq-300: #256abf;
+  --seq-500: #5598e7;
+  --seq-700: #cde2fb;
 
-  --cat-blue: #2a78d6;
-  --cat-aqua: #1baf7a;
-  --cat-yellow: #eda100;
-  --cat-violet: #4a3aa7;
-  --cat-green: #008300;
+  --cat-blue: #3987e5;
+  --cat-aqua: #199e70;
+  --cat-yellow: #c98500;
+  --cat-violet: #9085e9;
+  --cat-green: #3fb84f;
 
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-floating: 0 4px 20px rgba(0, 0, 0, 0.45);
+
+  /* Semantic font tokens -- kept stable so components never reference the
+     underlying next/font variable names directly. Space Grotesk (display)
+     for product identity, page/section titles and large metrics; IBM Plex
+     Sans (sans) for UI/body; IBM Plex Mono (mono) for data-grade text. */
+  --font-display: var(--font-display-raw), var(--font-sans-raw), system-ui, sans-serif;
+  --font-sans: var(--font-sans-raw), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-mono-raw), ui-monospace, "SF Mono", monospace;
   --sidebar-width: 248px;
   --topbar-height: 64px;
 
@@ -56,52 +72,54 @@
   --duration-fast: 120ms;
   --duration-base: 220ms;
   --duration-slow: 420ms;
-
-  /* Elevation */
-  --shadow-sm: 0 1px 2px rgba(11, 11, 11, 0.06);
-  --shadow-md: 0 8px 24px rgba(11, 11, 11, 0.08);
-  --shadow-lg: 0 16px 48px rgba(11, 11, 11, 0.14);
-  --shadow-floating: 0 4px 16px rgba(11, 11, 11, 0.12);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --page-plane: #0d0d0d;
-    --surface-1: #1a1a19;
-    --surface-2: #202020;
-    --text-primary: #ffffff;
-    --text-secondary: #c3c2b7;
+/* Light mode is an explicit opt-in (OS preference, or a future [data-theme]
+   toggle) rather than the default -- see the note on :root above. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --page-plane: #f9f9f7;
+    --surface-1: #fcfcfb;
+    --surface-2: #ffffff;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
     --text-muted: #898781;
-    --gridline: #2c2c2a;
-    --border: rgba(255, 255, 255, 0.1);
-    --border-strong: #383835;
+    --gridline: #e1e0d9;
+    --border: rgba(11, 11, 11, 0.1);
+    --border-strong: #c3c2b7;
 
-    --accent: #ff8a3d;
-    --accent-soft: rgba(255, 138, 61, 0.14);
+    --accent: #c2540a;
+    --accent-soft: rgba(194, 84, 10, 0.1);
+    --accent-secondary: #a3760a;
+    --accent-secondary-soft: rgba(163, 118, 10, 0.1);
 
     --status-good: #0ca30c;
     --status-warning: #fab219;
     --status-serious: #ec835a;
     --status-critical: #d03b3b;
-    --status-neutral: #767570;
+    --status-neutral: #898781;
 
-    --seq-100: #184f95;
-    --seq-300: #256abf;
-    --seq-500: #5598e7;
-    --seq-700: #cde2fb;
+    --seq-100: #cde2fb;
+    --seq-300: #6da7ec;
+    --seq-500: #256abf;
+    --seq-700: #0d366b;
 
-    --cat-blue: #3987e5;
-    --cat-aqua: #199e70;
-    --cat-yellow: #c98500;
-    --cat-violet: #9085e9;
+    --cat-blue: #2a78d6;
+    --cat-aqua: #1baf7a;
+    --cat-yellow: #eda100;
+    --cat-violet: #4a3aa7;
     --cat-green: #008300;
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
-    --shadow-floating: 0 4px 20px rgba(0, 0, 0, 0.45);
+    --shadow-sm: 0 1px 2px rgba(11, 11, 11, 0.06);
+    --shadow-md: 0 8px 24px rgba(11, 11, 11, 0.08);
+    --shadow-lg: 0 16px 48px rgba(11, 11, 11, 0.14);
+    --shadow-floating: 0 4px 16px rgba(11, 11, 11, 0.12);
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 * {
@@ -134,6 +152,7 @@ h1,
 h2,
 h3,
 h4 {
+  font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
@@ -196,6 +215,84 @@ h4 {
 
 .secondary {
   color: var(--text-secondary);
+}
+
+/* ============================================================
+   Typography system -- one coordinated scale used across all seven
+   pages. Space Grotesk (--font-display) carries product identity, page
+   and section titles, and large metrics; IBM Plex Sans (--font-sans)
+   carries UI/body/navigation text; IBM Plex Mono (--font-mono) carries
+   data-grade text (IDs, coordinates, provenance, truth status).
+   ============================================================ */
+
+.type-product-name {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.type-page-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.type-section-title {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.type-metric {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.type-metric-label {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.type-nav {
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+.type-supporting {
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.type-metadata {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+}
+
+.type-truth-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.type-data {
+  font-family: var(--font-mono);
 }
 
 /* Shared button system -- one visual language for every action across the app */
@@ -328,4 +425,57 @@ table.data-table td {
 
 table.data-table tbody tr:last-child td {
   border-bottom: none;
+}
+
+/* Leaflet ships light-themed control chrome by default; restyle it to
+   match the product's dark surface system so every map (Spatial, the
+   Food Network sync map, mini risk maps) reads as one product. */
+.leaflet-bar,
+.leaflet-control-scale-line {
+  background: var(--surface-1) !important;
+  border-color: var(--border-strong) !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.leaflet-control-scale-line {
+  border: 1px solid var(--border-strong) !important;
+  border-top: none !important;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-secondary) !important;
+  padding: 1px 6px !important;
+}
+
+.leaflet-control-zoom a {
+  background: var(--surface-1) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-strong) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
+}
+
+.leaflet-control-attribution {
+  background: color-mix(in srgb, var(--surface-1) 85%, transparent) !important;
+  color: var(--text-muted) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--text-secondary) !important;
+}
+
+.leaflet-tooltip {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border-strong) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-sans);
+  font-size: 12px !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: var(--border-strong) !important;
 }

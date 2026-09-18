@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, ScaleControl, Tooltip, useMap } from "react-leaflet";
 import type { Layer, LeafletMouseEvent, Map as LeafletMap, Path } from "leaflet";
 import type {
   DistrictFeature,
@@ -163,12 +163,13 @@ export function MapCanvas({
       scrollWheelZoom
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       />
       <MapRefBridge onReady={onMapReady} />
       <FitToBounds boundary={boundary} />
       <FlyToTarget target={flyTarget} />
+      <ScaleControl position="bottomleft" imperial={false} />
 
       {boundary ? (
         <GeoJSON

@@ -2,14 +2,15 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 10.5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-secondary);
   border: 1px solid var(--border-strong);
   border-radius: 999px;
-  padding: 3px 8px;
+  padding: 3px 9px;
   cursor: default;
 }
 
