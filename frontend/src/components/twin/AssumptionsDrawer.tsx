@@ -2,26 +2,31 @@
 
 import { useEffect, useState } from "react";
 import { StatusBadge } from "@/components/StatusBadge";
-import { getTwinConfig, getTwinProvenance, type ProvenanceDataset, type TwinResult } from "@/lib/api";
+import { getTwinConfig, getTwinProvenance, type TwinResult } from "@/lib/api";
 import styles from "./AssumptionsDrawer.module.css";
 
+// /twin/provenance is "assumption disclosure" style ({nature,
+// assumption_disclosure, upstream_provenance_endpoints}), not the
+// dataset-registry shape gis/risk/graph use -- read loosely.
+type TwinProvenance = { nature?: string; assumption_disclosure?: string[]; upstream_provenance_endpoints?: string[] };
+
 export function AssumptionsDrawer({ open, onClose, result }: { open: boolean; onClose: () => void; result: TwinResult | null }) {
-  const [datasets, setDatasets] = useState<ProvenanceDataset[] | null>(null);
+  const [provenance, setProvenance] = useState<TwinProvenance | null>(null);
   const [config, setConfig] = useState<Record<string, unknown> | null>(null);
-  const loading = open && datasets === null;
+  const loading = open && provenance === null;
 
   useEffect(() => {
-    if (!open || datasets !== null) return;
+    if (!open || provenance !== null) return;
     let cancelled = false;
     Promise.all([getTwinProvenance(), getTwinConfig()]).then(([prov, cfg]) => {
       if (cancelled) return;
-      setDatasets(prov?.datasets ?? []);
+      setProvenance((prov as TwinProvenance) ?? {});
       setConfig(cfg);
     });
     return () => {
       cancelled = true;
     };
-  }, [open, datasets]);
+  }, [open, provenance]);
 
   if (!open) return null;
 
@@ -82,18 +87,18 @@ export function AssumptionsDrawer({ open, onClose, result }: { open: boolean; on
 
         {loading ? <p className="secondary">Loading provenance…</p> : null}
 
-        {datasets && datasets.length > 0 ? (
+        {provenance?.assumption_disclosure && provenance.assumption_disclosure.length > 0 ? (
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Upstream data sources</div>
-            {datasets.map((d) => (
-              <div key={d.dataset_name} className={styles.entry}>
-                <div className={styles.entryHeader}>
-                  <div className={styles.entryName}>{d.dataset_name}</div>
-                  <StatusBadge status={d.truth_status} compact />
-                </div>
-                <p className={styles.entryLimitations}>{d.limitations}</p>
-              </div>
-            ))}
+            <div className={styles.sectionTitle}>Assumption disclosure</div>
+            {provenance.nature ? <p className={styles.note}>{provenance.nature}</p> : null}
+            <ul className={styles.list}>
+              {provenance.assumption_disclosure.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+            {provenance.upstream_provenance_endpoints && provenance.upstream_provenance_endpoints.length > 0 ? (
+              <p className={styles.note}>Upstream provenance: {provenance.upstream_provenance_endpoints.join(", ")}</p>
+            ) : null}
           </div>
         ) : null}
       </div>

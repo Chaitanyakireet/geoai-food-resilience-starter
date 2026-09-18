@@ -1,0 +1,94 @@
+.wrap {
+  padding: 22px 26px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.note {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  max-width: 760px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid var(--gridline);
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sdgBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.primaryTag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+}
+
+.sdgName {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Deliberately NOT the risk-severity palette (good/warning/serious/critical) --
+   this classifies modeling coverage, not a risk score. */
+.statusTag {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+}
+
+.direct {
+  color: var(--cat-green);
+  border-color: var(--cat-green);
+}
+
+.coBenefit {
+  color: var(--cat-blue);
+  border-color: var(--cat-blue);
+}
+
+.notModeled {
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+.rationale {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-top: 2px;
+}

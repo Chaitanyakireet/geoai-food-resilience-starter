@@ -592,7 +592,9 @@ export const postTwinCompare = (input: TwinScenarioRequest) => postJson<CompareW
 
 export const getTwinConfig = () => getJson<{ recovery_model: Record<string, number>; [key: string]: unknown }>("/twin/config");
 
-export const getTwinProvenance = () => getJson<ProvenanceResponse>("/twin/provenance");
+// Disclosure-style ({nature, assumption_disclosure, ...}), not the
+// dataset-registry shape gis/risk/graph use.
+export const getTwinProvenance = () => getJson<Record<string, unknown>>("/twin/provenance");
 
 export type InterventionCatalog = {
   intervention_types: Record<
@@ -690,6 +692,15 @@ export const getLocationLookup = (lon: number, lat: number) =>
 export const getGisProvenance = () => getJson<ProvenanceResponse>("/gis/provenance");
 
 export const getRiskProvenance = () => getJson<ProvenanceResponse>("/risk/provenance");
+
+export const getGraphProvenance = () => getJson<ProvenanceResponse>("/graph/provenance");
+
+// Intervention/optimization provenance are "assumption disclosure" style
+// (nature + assumption_disclosure list), not the dataset-registry shape
+// gis/risk/graph use -- typed loosely, the Impact page reads known fields.
+export const getInterventionProvenance = () => getJson<Record<string, unknown>>("/interventions/provenance");
+
+export const getOptimizationProvenance = () => getJson<Record<string, unknown>>("/optimization/provenance");
 
 export const getRiskForGeo = (geoId: string, foodCategory = "all_food") =>
   getJson<RiskResult>(`/risk?geo_id=${encodeURIComponent(geoId)}&food_category=${encodeURIComponent(foodCategory)}`);

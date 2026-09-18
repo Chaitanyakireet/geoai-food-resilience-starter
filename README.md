@@ -319,8 +319,41 @@ backend-down state degrades gracefully across `/ai-brief`, `/twin`, and
 `/interventions` simultaneously. Backend's 211 tests (179 + 32 new AI
 tests) still pass.
 
+## Impact & Responsible AI (Hours 42-44)
+`/impact` (`frontend/src/components/impact/`) replaces the placeholder
+with the project's auditable closing page -- reused, not rebuilt, from
+existing APIs: it reads the same `ai.scenarioContext` sessionStorage key
+as the AI Decision Brief, reconstructs a `TwinScenarioRequest` via
+`aiContextToTwinScenario` (the same `buildGraphShockInput` mapping used
+everywhere else) and calls `POST /twin/run` (impact summary) and `POST
+/twin/compare` (co-benefits/trade-offs, rendering the existing
+`CompareWorldsPanel` directly rather than duplicating it). An SDG
+framework classifies all ten SDGs as directly-modeled / indirect-co-
+benefit / not-modeled -- honestly, not uniformly, and reactively: SDG 6/13
+only read "directly modeled" when the current scenario's portfolio
+actually carries a `water_impact_m3`/`carbon_impact_tco2e` value, since
+those are never independently computed, only echoed. A confidence/data-
+coverage panel keeps data confidence, model/assumption uncertainty, and
+scenario uncertainty in three separate columns rather than one fake
+interval. A consolidated provenance panel aggregates all seven
+provenance endpoints (gis/risk/graph/interventions/optimization/twin/ai)
+behind progressive-disclosure `<details>`. A Responsible-AI checklist and
+an Impact Trace (stage-by-stage, each stage lit only if actually present
+in the current scenario) close the page, alongside a Human Review panel
+whose "Mark as Reviewed" control is explicitly disclosed as a local-
+browser UI state (`localStorage`, no backend persistence exists) that
+does not constitute institutional approval.
+
+While wiring this page's provenance panel, found and fixed a real latent
+bug from the Hours 36-39 Digital Twin task: `/twin/provenance` was typed
+and consumed as the dataset-registry shape gis/risk/graph use, but it is
+actually assumption-disclosure-shaped (`{nature, assumption_disclosure,
+...}`) -- the Digital Twin's own Assumptions drawer had been silently
+showing an empty "Upstream data sources" list ever since. Fixed the type
+in `lib/api.ts` and the drawer's rendering to read the real fields.
+
 ## Current state
-Hours 0-42 done: both services boot, 211 backend tests pass, and the
+Hours 0-44 done: both services boot, 211 backend tests pass, and the
 frontend build/lint are clean across all 7 routes. The Telangana spatial
 layer, a climate-driven risk baseline, a food-system network with
 bottleneck/propagation diagnostics, a shock/intervention/portfolio decision
@@ -329,10 +362,11 @@ shared design system, a real interactive Spatial Intelligence GIS
 workspace (all map surfaces, including the two small preview widgets,
 verified rendering actual `/gis/*` GeoJSON via Leaflet -- no generated or
 approximated geometry anywhere), a real interactive Intervention Lab, a
-real interactive Digital Twin + Compare Worlds workspace, and a real AI
+real interactive Digital Twin + Compare Worlds workspace, a real AI
 Decision Brief + Copilot (deterministic-tool-grounded, RAG evidence over
 the project's own provenance/methodology, LLM-optional with a fully
-functional deterministic fallback) are live. The interactive Food Network
-workspace (a later Day 2 task per `docs/MASTER_HANDOFF.md`) is not yet
-implemented. Nothing here is fabricated; every value carries a
-truth_status and traces to a provenance file.
+functional deterministic fallback), and a real Impact & Responsible AI
+audit page are live. The interactive Food Network workspace (a later Day
+2 task per `docs/MASTER_HANDOFF.md`) is not yet implemented. Nothing here
+is fabricated; every value carries a truth_status and traces to a
+provenance file.

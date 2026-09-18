@@ -1,0 +1,95 @@
+.wrap {
+  padding: 22px 26px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.note {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  max-width: 760px;
+}
+
+.module {
+  border-top: 1px solid var(--gridline);
+  padding: 12px 0;
+}
+
+.module:last-child {
+  padding-bottom: 0;
+}
+
+.moduleSummary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.moduleBody {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dataset {
+  padding: 10px 12px;
+  background: var(--page-plane);
+  border-radius: var(--radius-sm);
+}
+
+.datasetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.datasetName {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.row > span:first-child {
+  flex-shrink: 0;
+  width: 68px;
+  color: var(--text-muted);
+}
+
+.rowValue {
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--accent);
+  word-break: break-all;
+}
+
+.limitations {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-top: 6px;
+}
+
+.list {
+  padding-left: 16px;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  line-height: 1.7;
+}
