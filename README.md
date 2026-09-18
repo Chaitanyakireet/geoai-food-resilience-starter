@@ -105,12 +105,40 @@ administrative geography or clearly labeled SIMULATED scenario placeholders
 -- no facility, capacity, or trade-volume number is invented anywhere in
 the graph. See `data/README.md` for the full breakdown.
 
+## Shock Composer + Intervention Engine (Hours 11-15)
+`backend/intervention/` and `backend/resilience/` compose (do not modify)
+the risk and graph engines into a decision layer. RISK, RESILIENCE, and
+RESILIENCE_GAP are kept as three distinct values — resilience is a
+composite of graph transport redundancy, graph-theoretic bottleneck status,
+and inverse climate risk (`config/resilience.yaml`), never `1 - risk`.
+Endpoints, served under `/interventions`:
+- `POST /interventions/shock` — structured shock (climate + graph fields)
+  → baseline/shocked risk (COUNTERFACTUAL), baseline/shocked resilience,
+  graph propagations (SIMULATED)
+- `POST /interventions/test` — one intervention against a graph shock,
+  reusing `backend/graph/propagation.py` with severity reduced by the
+  intervention's effectiveness
+- `POST /interventions/portfolio` — multiple interventions + optional
+  budget/water/carbon constraints; same-shock interventions combine via a
+  documented multiplicative (not linear) composition
+- `GET /interventions/catalog` — the four intervention types (alternative
+  sourcing, storage redistribution, route diversification, resource
+  efficiency), extensible via `config/interventions.yaml`
+- `GET /interventions/provenance` — assumption disclosure (this layer adds
+  no new external data; it documents which config-driven assumptions drive
+  its outputs)
+
+No cost, water, carbon, or effectiveness figure is invented: effectiveness
+defaults are clearly labeled ESTIMATED illustrative assumptions, and cost/
+water/carbon are only ever echoes of caller-supplied values.
+
 ## Current state
-Hours 0-11 done: both services boot, the frontend proves live reachability
-to the backend, and 78 tests pass (health + GIS + risk + graph). The
-Telangana spatial layer, a climate-driven risk baseline, and a food-system
-network with bottleneck/propagation diagnostics are live behind documented
-APIs. No further analytical modules (optimization, digital twin, RAG,
-copilot) are implemented yet — they follow the build order in
+Hours 0-15 done: both services boot, the frontend proves live reachability
+to the backend, and 115 tests pass (health + GIS + risk + graph +
+interventions). The Telangana spatial layer, a climate-driven risk
+baseline, a food-system network with bottleneck/propagation diagnostics,
+and a shock/intervention/portfolio decision layer are live behind
+documented APIs. No further analytical modules (optimization, digital
+twin, RAG, copilot) are implemented yet — they follow the build order in
 `docs/MASTER_HANDOFF.md` section 19. Nothing here is fabricated; every
 value carries a truth_status and traces to a provenance file.

@@ -1,0 +1,40 @@
+# Intervention type catalog (backend/intervention/catalog.py). Extensible:
+# add a new entry here (or pass an unlisted intervention_type with an
+# explicit effectiveness_override via the API) without changing code.
+#
+# default_effectiveness is an ASSUMED illustrative fraction of a shock's
+# impact_fraction that this intervention type offsets, for demonstration
+# and relative portfolio comparison ONLY. It is NOT a measured,
+# field-validated, or literature-sourced effectiveness figure -- no such
+# dataset was available this sprint. Every InterventionResult labels this
+# ESTIMATED and states its source (config_default vs user_override).
+intervention_types:
+  alternative_sourcing:
+    label: "Alternative sourcing"
+    mechanism: "Source the affected food category from an alternate, less-impacted district/market via the existing transport backbone, partially replacing disrupted supply."
+    applicable_shock_types: [production_reduction, market_disruption]
+    default_effectiveness: 0.35
+  storage_redistribution:
+    label: "Storage redistribution"
+    mechanism: "Redistribute available storage capacity/buffer stock from less-affected districts toward the affected district."
+    applicable_shock_types: [storage_capacity_reduction]
+    default_effectiveness: 0.30
+  route_diversification:
+    label: "Route diversification"
+    mechanism: "Route goods via alternate modeled transport links (bypassing the shocked link) using existing district-adjacency connectivity."
+    applicable_shock_types: [transport_capacity_reduction]
+    default_effectiveness: 0.40
+  resource_efficiency:
+    label: "Resource-efficiency intervention"
+    mechanism: "Reduce loss/resource intensity along the existing chain (e.g. improved handling/storage practice reducing spoilage), independent of shock type."
+    applicable_shock_types: [production_reduction, storage_capacity_reduction, transport_capacity_reduction, market_disruption]
+    default_effectiveness: 0.15
+
+portfolio:
+  # Documented, explicit non-linear composition rule -- see backend/intervention/portfolio.py.
+  # Interventions applied to the SAME shock target combine multiplicatively on
+  # residual severity: combined_effectiveness = 1 - product(1 - effectiveness_i).
+  # This assumes independence between interventions; real synergy or conflict
+  # between combined interventions is NOT modeled (documented as a future
+  # extension, not pretended to be known).
+  effect_composition_method: multiplicative_independent

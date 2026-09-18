@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 TruthStatus = Literal["OBSERVED", "DERIVED", "ESTIMATED", "COUNTERFACTUAL", "SIMULATED"]
 NodeType = Literal["production", "aggregation", "storage", "market", "demand"]
@@ -74,7 +74,7 @@ class GraphResult(BaseModel):
 class ShockInput(BaseModel):
     target_node_id: str
     shock_type: Literal["production_reduction", "storage_capacity_reduction", "transport_capacity_reduction", "market_disruption"]
-    severity: float  # 0.0-1.0, fraction of capacity/throughput removed at the target node
+    severity: float = Field(ge=0.0, le=1.0)  # fraction of capacity/throughput removed at the target node
     max_hops: int = 5
 
 

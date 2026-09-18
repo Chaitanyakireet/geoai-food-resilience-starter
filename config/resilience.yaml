@@ -1,0 +1,15 @@
+# Resilience proxy (backend/resilience/model.py). RESILIENCE is deliberately
+# kept distinct from RISK (backend/risk): risk is likelihood/severity of
+# disruption; resilience is modeled ability to absorb/maintain/recover. This
+# formula is an ESTIMATED, documented composite -- not a fitted or externally
+# validated resilience index (no such dataset exists for this sprint).
+resilience_model:
+  model_version: baseline-resilience-v0
+  weights:
+    transport_redundancy: 0.4 # more transport-adjacent neighbor districts -> more alternate routes
+    non_bottleneck: 0.3 # 1.0 if this district's market is not a graph-theoretic bottleneck, else a reduced value
+    inverse_climate_risk: 0.3 # current climate-stress risk_score erodes resilience capacity
+  bottleneck_penalty: 0.3 # non_bottleneck component value when the market IS flagged as a bottleneck (else 1.0)
+  # An assumed policy/demonstration target, not an official target -- no
+  # authoritative target resilience level was available this sprint.
+  target_resilience_score: 0.7
