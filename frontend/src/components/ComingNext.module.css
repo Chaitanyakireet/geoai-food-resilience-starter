@@ -1,0 +1,17 @@
+.wrap {
+  padding: 20px;
+  margin-top: 16px;
+  border-style: dashed;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}

@@ -188,16 +188,34 @@ Metrics (peak/final disruption, recovery_time_days, recovery_fraction,
 resilience_gap before/after, residual_impact) are each defined in the
 result payload itself (`RecoveryMetrics.definitions`), not just in code.
 
+## Website shell (Hours 21-29)
+`frontend/src/` replaces the Hours 0-2 reachability placeholder with the
+locked 7-section information architecture: Command Center, Spatial
+Intelligence, Food Network, Intervention Lab, Digital Twin, AI Decision
+Brief, Impact & Responsible AI (`frontend/src/components/Sidebar.tsx`).
+Command Center (`frontend/src/app/page.tsx`) is fully live: mean risk score,
+food-network size/connectivity, and bottleneck-count stat tiles, a top-5
+risk-hotspots table, a truth-status/provenance disclosure panel, and a
+static risk choropleth (`frontend/src/components/ChoroplethPreview.tsx`) --
+real `/gis/districts` geometry + real `/risk/state` classification through
+an approximate equirectangular projection, explicitly not the interactive
+Spatial Intelligence workspace. The other six pages are real, API-backed
+previews (food-network summary + bottlenecks, intervention catalog, twin
+scenario catalog, truth-status framework) with an explicit "coming next"
+notice where the interactive/RAG/Copilot pieces are intentionally deferred.
+All data is live from the backend; nothing is a fabricated placeholder
+value. Fixed one integration bug found during the Hours 21-24 vertical
+check: CORS only allowlisted GET, which silently blocked every POST
+endpoint (interventions, optimization, twin) from the browser.
+
 ## Current state
-Hours 0-21 done: both services boot, the frontend proves live reachability
-to the backend, and 179 tests pass (health + GIS + risk + graph +
-interventions + optimization + twin). The Telangana spatial layer, a
-climate-driven risk baseline, a food-system network with bottleneck/
-propagation diagnostics, a shock/intervention/portfolio decision layer, a
-multi-objective portfolio optimizer, and a Digital Twin with recovery
-simulation and Compare Worlds are live behind documented APIs. This closes
-out the planned Day 1 "backend vertical integration" arc (data →
-risk → action → twin → impact loop) at a foundation-first depth; RAG/AI
-Copilot and the website (Day 2 per `docs/MASTER_HANDOFF.md`) are not yet
-implemented. Nothing here is fabricated; every value carries a truth_status
-and traces to a provenance file.
+Hours 0-29 done: both services boot, 179 backend tests pass, and the
+frontend build/lint are clean across all 7 routes. The Telangana spatial
+layer, a climate-driven risk baseline, a food-system network with
+bottleneck/propagation diagnostics, a shock/intervention/portfolio decision
+layer, a multi-objective portfolio optimizer, a Digital Twin with recovery
+simulation and Compare Worlds, and a real (non-placeholder) website shell
+are live. RAG/AI Copilot and the full interactive GIS workspace (later Day
+2 tasks per `docs/MASTER_HANDOFF.md`) are not yet implemented. Nothing here
+is fabricated; every value carries a truth_status and traces to a
+provenance file.
