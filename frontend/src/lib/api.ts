@@ -35,6 +35,18 @@ export type DataCoverage = {
   spatial_resolution: string;
 };
 
+export type Driver = {
+  feature: string;
+  observed_value: number | null;
+  baseline_value: number | null;
+  unit: string;
+  anomaly_pct: number | null;
+  contribution_to_score: number | null;
+  used_in_score: boolean;
+  truth_status: TruthStatus;
+  note: string | null;
+};
+
 export type RiskResult = {
   region_id: string;
   geo_level: "district" | "mandal" | "state";
@@ -45,6 +57,7 @@ export type RiskResult = {
   risk_class: RiskClass;
   confidence: Confidence;
   uncertainty_interval: [number, number] | null;
+  major_drivers: Driver[];
   data_coverage: DataCoverage;
   model_version: string;
   run_id: string;
@@ -124,6 +137,99 @@ export type DistrictsFeatureCollection = {
   features: DistrictFeature[];
 };
 
+export type MandalFeature = {
+  type: "Feature";
+  properties: {
+    mandal_id: string;
+    name: string;
+    osm_id: number;
+    district_id: string;
+    district_name: string;
+    area_sq_km: number;
+    centroid_lon: number;
+    centroid_lat: number;
+    truth_status: TruthStatus;
+  };
+  geometry: {
+    type: "Polygon" | "MultiPolygon";
+    coordinates: number[][][] | number[][][][];
+  };
+  bbox?: [number, number, number, number];
+};
+
+export type MandalsFeatureCollection = {
+  type: "FeatureCollection";
+  features: MandalFeature[];
+};
+
+export type StateBoundaryFeatureCollection = {
+  type: "FeatureCollection";
+  features: {
+    type: "Feature";
+    properties: { state_id: string; name: string; area_sq_km: number; district_count: number; truth_status: TruthStatus };
+    geometry: { type: "Polygon" | "MultiPolygon"; coordinates: unknown };
+    bbox: [number, number, number, number];
+  }[];
+};
+
+export type LocationLookupResponse = {
+  query: { lon: number; lat: number };
+  district: {
+    district_id: string;
+    name: string;
+    osm_id: number;
+    area_sq_km: number;
+    centroid_lon: number;
+    centroid_lat: number;
+    truth_status: TruthStatus;
+  } | null;
+  mandal: {
+    mandal_id: string;
+    name: string;
+    osm_id: number;
+    district_id: string;
+    district_name: string;
+    area_sq_km: number;
+    centroid_lon: number;
+    centroid_lat: number;
+    truth_status: TruthStatus;
+  } | null;
+  resolved: boolean;
+};
+
+export type ProvenanceDataset = {
+  dataset_name: string;
+  publisher: string;
+  source_url: string;
+  access_date: string;
+  license?: string;
+  geographic_level?: string;
+  crs?: string;
+  processing: string;
+  truth_status: TruthStatus;
+  feature_count?: number;
+  limitations: string;
+};
+
+export type ProvenanceResponse = {
+  generated_at: string;
+  datasets: ProvenanceDataset[];
+  [key: string]: unknown;
+};
+
+export type MarketNode = {
+  node_id: string;
+  node_type: string;
+  geo_id: string;
+  geo_level: string;
+  name: string;
+  food_categories: string[];
+  truth_status: TruthStatus;
+  provenance: string;
+  lon: number;
+  lat: number;
+};
+
 export type InterventionCatalog = {
   intervention_types: Record<
     string,
@@ -164,6 +270,27 @@ export const getGraphOverview = (foodCategory = "all_food") =>
   getJson<GraphOverviewResponse>(`/graph/overview?food_category=${encodeURIComponent(foodCategory)}`);
 
 export const getDistricts = () => getJson<DistrictsFeatureCollection>("/gis/districts");
+
+export const getTelangana = () => getJson<StateBoundaryFeatureCollection>("/gis/telangana");
+
+export const getMandals = (districtId: string) =>
+  getJson<MandalsFeatureCollection>(`/gis/mandals?district_id=${encodeURIComponent(districtId)}`);
+
+export const getLocationLookup = (lon: number, lat: number) =>
+  getJson<LocationLookupResponse>(`/gis/location?lon=${lon}&lat=${lat}`);
+
+export const getGisProvenance = () => getJson<ProvenanceResponse>("/gis/provenance");
+
+export const getRiskProvenance = () => getJson<ProvenanceResponse>("/risk/provenance");
+
+export const getRiskForGeo = (geoId: string, foodCategory = "all_food") =>
+  getJson<RiskResult>(`/risk?geo_id=${encodeURIComponent(geoId)}&food_category=${encodeURIComponent(foodCategory)}`);
+
+export const getMarketNodes = async (): Promise<MarketNode[] | null> => {
+  const nodes = await getJson<MarketNode[]>("/graph/nodes");
+  if (!nodes) return null;
+  return nodes.filter((n) => n.node_type === "market");
+};
 
 export const getInterventionCatalog = () => getJson<InterventionCatalog>("/interventions/catalog");
 

@@ -198,24 +198,47 @@ food-network size/connectivity, and bottleneck-count stat tiles, a top-5
 risk-hotspots table, a truth-status/provenance disclosure panel, and a
 static risk choropleth (`frontend/src/components/ChoroplethPreview.tsx`) --
 real `/gis/districts` geometry + real `/risk/state` classification through
-an approximate equirectangular projection, explicitly not the interactive
-Spatial Intelligence workspace. The other six pages are real, API-backed
-previews (food-network summary + bottlenecks, intervention catalog, twin
-scenario catalog, truth-status framework) with an explicit "coming next"
-notice where the interactive/RAG/Copilot pieces are intentionally deferred.
-All data is live from the backend; nothing is a fabricated placeholder
-value. Fixed one integration bug found during the Hours 21-24 vertical
-check: CORS only allowlisted GET, which silently blocked every POST
-endpoint (interventions, optimization, twin) from the browser.
+an approximate equirectangular projection. The other five pages (Food
+Network, Intervention Lab, Digital Twin, AI Decision Brief, Impact &
+Responsible AI) are real, API-backed previews with an explicit "coming
+next" notice where interactive/RAG/Copilot pieces are intentionally
+deferred. All data is live from the backend; nothing is a fabricated
+placeholder value. Fixed one integration bug found during the Hours 21-24
+vertical check: CORS only allowlisted GET, which silently blocked every
+POST endpoint (interventions, optimization, twin) from the browser.
+
+## Spatial Intelligence GIS workspace (Hours 29-33)
+`/spatial` (`frontend/src/components/spatial/`) replaces the static
+choropleth preview with a real interactive Leaflet workspace: Telangana
+state boundary, all 33 districts, and mandals loaded on demand per selected
+district (`/gis/telangana`, `/gis/districts`, `/gis/mandals`), pan/zoom/
+hover/click, and a risk choropleth layer toggle backed by `/risk/state`
+with a legend, an "insufficient data" class, and a truth-status-labeled
+layer control. Clicking a district/mandal opens a Location Intelligence
+panel (`LocationPanel.tsx`): risk/confidence/data-coverage/truth-status,
+a driver table, a deterministic template-based "Why here?" explanation
+(`lib/whyHere.ts`, no LLM), food-network structural-bottleneck context
+where available, and a link to a full provenance drawer
+(`/gis/provenance` + `/risk/provenance`). Mandal selections explicitly
+disclose that the risk engine is district-centroid based and the mandal
+result is inherited (surfacing the backend's own `resolved_via` field).
+Search resolves districts/loaded mandals by name; a coordinates form uses
+`/gis/location`. A `TemporalNote` states plainly that only a current-
+conditions snapshot exists -- no fabricated historical time series. Mandal
+GeoJSON is fetched once per district and cached client-side, not
+re-downloaded on repeat selection. Backend-down and malformed-GeoJSON
+states are handled explicitly (verified by stopping the backend and
+re-fetching `/spatial`).
 
 ## Current state
-Hours 0-29 done: both services boot, 179 backend tests pass, and the
+Hours 0-33 done: both services boot, 179 backend tests pass, and the
 frontend build/lint are clean across all 7 routes. The Telangana spatial
 layer, a climate-driven risk baseline, a food-system network with
 bottleneck/propagation diagnostics, a shock/intervention/portfolio decision
 layer, a multi-objective portfolio optimizer, a Digital Twin with recovery
-simulation and Compare Worlds, and a real (non-placeholder) website shell
-are live. RAG/AI Copilot and the full interactive GIS workspace (later Day
-2 tasks per `docs/MASTER_HANDOFF.md`) are not yet implemented. Nothing here
-is fabricated; every value carries a truth_status and traces to a
-provenance file.
+simulation and Compare Worlds, a real website shell, and a real interactive
+Spatial Intelligence GIS workspace are live. RAG/AI Copilot and the
+interactive Food Network / Intervention Lab / Digital Twin workspaces
+(later Day 2 tasks per `docs/MASTER_HANDOFF.md`) are not yet implemented.
+Nothing here is fabricated; every value carries a truth_status and traces
+to a provenance file.
