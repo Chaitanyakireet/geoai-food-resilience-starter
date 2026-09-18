@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.api.ai import router as ai_router
 from backend.api.gis import router as gis_router
 from backend.api.graph import router as graph_router
 from backend.api.interventions import router as interventions_router
@@ -29,6 +30,7 @@ app.include_router(graph_router)
 app.include_router(interventions_router)
 app.include_router(optimization_router)
 app.include_router(twin_router)
+app.include_router(ai_router)
 
 app.add_middleware(
     CORSMiddleware,
