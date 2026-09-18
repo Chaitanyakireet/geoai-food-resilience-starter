@@ -1,9 +1,8 @@
 import { PageHeader } from "@/components/PageHeader";
 import { StatTile } from "@/components/StatTile";
-import { RiskBadge } from "@/components/RiskBadge";
-import { StatusBadge } from "@/components/StatusBadge";
-import { MiniRiskMap } from "@/components/MiniRiskMap";
-import { getDistricts, getGraphOverview, getHealth, getRiskState, type RiskResult } from "@/lib/api";
+import { CommandCenterMain } from "@/components/command/CommandCenterMain";
+import { SDG_NAMES } from "@/lib/sdg";
+import { getDistricts, getGraphOverview, getHealth, getRiskState } from "@/lib/api";
 import styles from "./page.module.css";
 
 export default async function CommandCenter() {
@@ -30,24 +29,35 @@ export default async function CommandCenter() {
     );
   }
 
-  const hotspots = [...(riskState?.districts ?? [])]
-    .filter((d): d is RiskResult & { risk_score: number } => d.risk_score !== null)
-    .sort((a, b) => b.risk_score - a.risk_score)
-    .slice(0, 5);
-
-  const riskByDistrict = new Map(riskState?.districts.map((d) => [d.region_id, d]) ?? []);
+  const scoredDistricts = riskState?.districts.filter((d) => d.risk_score !== null) ?? [];
+  const meanCoverage =
+    scoredDistricts.length > 0
+      ? scoredDistricts.reduce((sum, d) => sum + d.data_coverage.coverage_ratio, 0) / scoredDistricts.length
+      : null;
 
   return (
     <div>
       <PageHeader
         eyebrow="Command Center"
         title="Hyderabad–Telangana food system, at a glance"
-        subtitle={`${health.project.food_scope.replace(/_/g, " ")} · primary ${health.project.primary_sdg} · as of ${riskState?.districts[0]?.date ?? "—"}`}
+        subtitle={`${health.project.food_scope.replace(/_/g, " ")} · primary ${health.project.primary_sdg} (${SDG_NAMES[2]}) · as of ${riskState?.districts[0]?.date ?? "—"}`}
       />
+
+      <div className={`${styles.statusStrip} card`}>
+        <StatusField label="System Status" value={health.status === "ok" ? "Operational" : health.status} dotClass={styles.dotGood} />
+        <StatusField label="Backend Status" value="Connected" dotClass={styles.dotGood} />
+        <StatusField label="Data Status" value={riskState ? "Risk service live" : "Risk service down"} dotClass={riskState ? styles.dotGood : styles.dotCritical} />
+        <StatusField
+          label="Active Analysis Window"
+          value={riskState?.districts[0] ? `${riskState.districts[0].data_coverage.available_days}/${riskState.districts[0].data_coverage.requested_days} days` : "n/a"}
+        />
+        <StatusField label="Geographic Coverage" value={districts ? `${districts.features.length} districts` : "n/a"} />
+        <StatusField label="Food Scope" value={health.project.food_scope.replace(/_/g, " ")} />
+      </div>
 
       <div className={styles.statRow}>
         <StatTile
-          label="Mean climate-stress risk"
+          label="Statewide Risk"
           value={riskState?.mean_risk_score != null ? riskState.mean_risk_score.toFixed(2) : "—"}
           helpText={
             riskState
@@ -57,97 +67,70 @@ export default async function CommandCenter() {
           tone="accent"
         />
         <StatTile
-          label="Food network nodes"
-          value={graphOverview ? String(graphOverview.summary.node_count) : "—"}
-          helpText={graphOverview ? `${graphOverview.summary.edge_count} edges, all districts` : "Graph service unavailable"}
+          label="Network Size"
+          value={graphOverview ? `${graphOverview.summary.node_count} / ${graphOverview.summary.edge_count}` : "—"}
+          helpText={graphOverview ? "Nodes / edges across all districts" : "Graph service unavailable"}
         />
         <StatTile
-          label="Structural bottlenecks"
+          label="Structural Bottlenecks"
           value={graphOverview ? String(graphOverview.bottlenecks.length) : "—"}
           helpText="Graph-theoretic candidates, not confirmed real-world importance"
         />
         <StatTile
-          label="Network connectivity"
-          value={
-            graphOverview
-              ? graphOverview.summary.connectivity.is_weakly_connected
-                ? "Connected"
-                : `${graphOverview.summary.connectivity.weakly_connected_component_count} components`
-              : "—"
-          }
-          helpText={graphOverview ? `${graphOverview.summary.connectivity.isolated_node_count} isolated nodes` : undefined}
+          label="Data Coverage"
+          value={meanCoverage != null ? `${Math.round(meanCoverage * 100)}%` : "—"}
+          helpText={riskState ? "Mean requested-vs-available days, scored districts" : "Risk service unavailable"}
         />
       </div>
 
-      <div className={styles.mainGrid}>
-        <div className={styles.mainCol}>
-          {districts && riskState ? (
-            <MiniRiskMap districts={districts} riskByDistrict={riskByDistrict} />
-          ) : (
-            <div className={`${styles.emptyState} card`}>
-              Map preview unavailable — GIS or risk data did not load. Full interactive Spatial Intelligence
-              workspace is built in the next phase regardless.
-            </div>
-          )}
+      {districts ? (
+        <CommandCenterMain districts={districts} riskState={riskState} graphOverview={graphOverview} />
+      ) : (
+        <div className={`${styles.emptyState} card`}>
+          GIS service unavailable — the Command Center needs <code>/gis/districts</code> to render its map and
+          situation panel.
         </div>
-
-        <div className={styles.sideCol}>
-          <div className={`${styles.panel} card`}>
-            <div className={styles.panelTitle}>Top risk hotspots</div>
-            {hotspots.length > 0 ? (
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>District</th>
-                    <th>Risk</th>
-                    <th>Confidence</th>
-                    <th>Coverage</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {hotspots.map((d) => (
-                    <tr key={d.region_id}>
-                      <td>{d.region_id.replace(/_/g, " ")}</td>
-                      <td>
-                        <RiskBadge riskClass={d.risk_class} />
-                      </td>
-                      <td className="secondary">{d.confidence}</td>
-                      <td className="secondary">{Math.round(d.data_coverage.coverage_ratio * 100)}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p className="secondary">No scored districts available.</p>
-            )}
-          </div>
-
-          <div className={`${styles.panel} card`}>
-            <div className={styles.panelTitle}>Data provenance & truth status</div>
-            <p className={styles.panelText}>
-              Risk baseline: <StatusBadge status="ESTIMATED" /> transparent climate-stress proxy over NASA POWER —
-              not a fitted, validated model.
-            </p>
-            <p className={styles.panelText}>
-              Food network: <StatusBadge status="OBSERVED" /> market locations (OpenStreetMap),{" "}
-              <StatusBadge status="SIMULATED" /> production/aggregation/storage placeholders where no source
-              dataset exists.
-            </p>
-            <p className={styles.panelText}>
-              District mean risk aggregation method: <span className="secondary">{riskState?.method ?? "n/a"}</span>
-            </p>
-          </div>
-        </div>
-      </div>
+      )}
 
       <div className={`${styles.disclosure} card`}>
-        <div className={styles.panelTitle}>Core loop</div>
-        <p className="secondary">{health.loop_stages.join(" → ")}</p>
+        <div className={styles.panelTitle}>Core Loop</div>
+        <div className={styles.loopRow}>
+          {health.loop_stages.map((stage, i) => (
+            <span key={stage} className={styles.loopStage}>
+              {stage.replace(/_/g, " ")}
+              {i < health.loop_stages.length - 1 ? <span className={styles.loopArrow}>→</span> : null}
+            </span>
+          ))}
+        </div>
+
+        <div className={styles.sdgRow}>
+          <span className={`${styles.sdgChip} ${styles.sdgChipPrimary}`}>
+            SDG 2 · {SDG_NAMES[2]} (Primary)
+          </span>
+          {health.project.secondary_sdgs.map((n) => (
+            <span key={n} className={styles.sdgChip}>
+              SDG {n} · {SDG_NAMES[n] ?? "—"}
+            </span>
+          ))}
+        </div>
+
         <div className={styles.disclosureFooter}>
           <span className="muted">Backend service: {health.service}</span>
           <span className="muted">Truth-status framework: {health.truth_status_labels.join(", ")}</span>
         </div>
       </div>
+    </div>
+  );
+}
+
+function StatusField({ label, value, dotClass }: { label: string; value: string; dotClass?: string }) {
+  return (
+    <div className={styles.statusField}>
+      <div className={styles.statusFieldLabel}>
+        {dotClass ? <span className={`${styles.statusDot} ${dotClass}`} aria-hidden /> : null}
+        {label}
+      </div>
+      <div className={styles.statusFieldValue}>{value}</div>
     </div>
   );
 }

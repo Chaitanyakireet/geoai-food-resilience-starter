@@ -24,7 +24,7 @@ import { SearchBox } from "./SearchBox";
 import { LocationPanel, type Selection } from "./LocationPanel";
 import { ProvenanceDrawer } from "./ProvenanceDrawer";
 import { TemporalNote } from "./TemporalNote";
-import { RiskSummaryDonut, type DonutSegment } from "./RiskSummaryDonut";
+import { RiskSummaryDonut, type DonutSegment } from "@/components/RiskSummaryDonut";
 import styles from "./SpatialWorkspace.module.css";
 
 const MapCanvas = dynamic(() => import("./MapCanvas").then((m) => m.MapCanvas), {
