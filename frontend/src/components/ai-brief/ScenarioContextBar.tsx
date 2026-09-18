@@ -26,48 +26,65 @@ export function ScenarioContextBar({
   const [quickGeoId, setQuickGeoId] = useState("hyderabad");
 
   return (
-    <div className={`${styles.wrap} card-floating`}>
-      <div className={styles.left}>
-        {context?.geo_id ? (
-          <>
-            <Pill label="Geography" value={context.geo_id.replace(/_/g, " ")} />
-            <Pill label="Food scope" value={(context.food_category ?? "all_food").replace(/_/g, " ")} />
-            {context.shock_field ? <Pill label="Shock" value={`${context.shock_field.replace(/_/g, " ")} @ ${Math.round((context.severity ?? 0) * 100)}%`} /> : null}
-            {context.intervention_types && context.intervention_types.length > 0 ? <Pill label="Portfolio" value={`${context.intervention_types.length} intervention(s)`} /> : null}
-            {context.optimization_selected_types ? <Pill label="Optimizer" value={context.optimization_selected_types.join(", ").replace(/_/g, " ")} /> : null}
-            <StatusBadge status="ESTIMATED" compact />
-          </>
-        ) : (
-          <div className={styles.noContext}>
-            <span className="muted" style={{ fontSize: 12.5 }}>
-              No scenario received —{" "}
+    <div className={styles.stack}>
+      {providerConfigured === false ? (
+        <div className={styles.providerBanner}>
+          <span className={styles.providerBannerDot} aria-hidden />
+          <div>
+            <span className={styles.providerBannerLabel}>AI provider not configured</span>
+            <span className={styles.providerBannerCopy}>
+              {" "}
+              — the Copilot runs in deterministic mode: every answer below is assembled from real tool results,
+              never generated prose. Set <code className={styles.code}>ANTHROPIC_API_KEY</code> to enable narrated
+              responses.
             </span>
-            <select className={styles.select} value={quickGeoId} onChange={(e) => setQuickGeoId(e.target.value)}>
-              {[...districts.features]
-                .sort((a, b) => a.properties.name.localeCompare(b.properties.name))
-                .map((f) => (
-                  <option key={f.properties.district_id} value={f.properties.district_id}>
-                    {f.properties.name}
-                  </option>
-                ))}
-            </select>
-            <button type="button" className="btn btn-secondary" style={{ padding: "6px 12px", fontSize: 12 }} onClick={() => onPickGeo(quickGeoId)}>
-              Use this geography
-            </button>
-            <Link href="/interventions" className={styles.editLink}>
-              or compose a full scenario →
-            </Link>
           </div>
-        )}
-      </div>
+        </div>
+      ) : null}
 
-      <div className={styles.right}>
-        <span className={styles.providerStatus}>
-          {providerConfigured === null ? "Checking AI provider…" : providerConfigured ? `AI: ${providerName}` : "AI provider not configured — deterministic mode"}
-        </span>
-        <button type="button" className="btn btn-primary" disabled={!context?.geo_id || generating} onClick={onGenerateBrief}>
-          {generating ? "Generating…" : "Generate Decision Brief"}
-        </button>
+      <div className={`${styles.wrap} card-floating`}>
+        <div className={styles.left}>
+          {context?.geo_id ? (
+            <>
+              <Pill label="Geography" value={context.geo_id.replace(/_/g, " ")} />
+              <Pill label="Food scope" value={(context.food_category ?? "all_food").replace(/_/g, " ")} />
+              {context.shock_field ? <Pill label="Shock" value={`${context.shock_field.replace(/_/g, " ")} @ ${Math.round((context.severity ?? 0) * 100)}%`} /> : null}
+              {context.intervention_types && context.intervention_types.length > 0 ? <Pill label="Portfolio" value={`${context.intervention_types.length} intervention(s)`} /> : null}
+              {context.optimization_selected_types ? <Pill label="Optimizer" value={context.optimization_selected_types.join(", ").replace(/_/g, " ")} /> : null}
+              <StatusBadge status="ESTIMATED" compact />
+            </>
+          ) : (
+            <div className={styles.noContext}>
+              <span className="muted" style={{ fontSize: 12.5 }}>
+                No active scenario —{" "}
+              </span>
+              <select className={styles.select} value={quickGeoId} onChange={(e) => setQuickGeoId(e.target.value)}>
+                {[...districts.features]
+                  .sort((a, b) => a.properties.name.localeCompare(b.properties.name))
+                  .map((f) => (
+                    <option key={f.properties.district_id} value={f.properties.district_id}>
+                      {f.properties.name}
+                    </option>
+                  ))}
+              </select>
+              <button type="button" className="btn btn-secondary" style={{ padding: "6px 12px", fontSize: 12 }} onClick={() => onPickGeo(quickGeoId)}>
+                Set geography
+              </button>
+              <Link href="/interventions" className={styles.editLink}>
+                or compose a full scenario in the Intervention Lab →
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.right}>
+          <span className={styles.providerStatus}>
+            {providerConfigured === null ? "Checking provider…" : providerConfigured ? `Live provider: ${providerName}` : "Deterministic mode"}
+          </span>
+          <button type="button" className="btn btn-primary" disabled={!context?.geo_id || generating} onClick={onGenerateBrief}>
+            {generating ? "Assembling brief…" : "Generate Decision Brief"}
+          </button>
+        </div>
       </div>
     </div>
   );

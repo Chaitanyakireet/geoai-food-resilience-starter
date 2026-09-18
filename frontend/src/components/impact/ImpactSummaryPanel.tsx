@@ -35,7 +35,7 @@ export function ImpactSummaryPanel({ result, error, loading }: { result: TwinRes
     <div className={`${styles.wrap} card`}>
       <div className={styles.header}>
         <div>
-          <div className={styles.title}>Impact summary</div>
+          <div className={styles.title}>Modeled Impact</div>
           <p className={styles.subnote}>Headline state: {headlineLabel} — the best-available modeled outcome for this scenario.</p>
         </div>
         <StatusBadge status={headline.truth_status} compact />

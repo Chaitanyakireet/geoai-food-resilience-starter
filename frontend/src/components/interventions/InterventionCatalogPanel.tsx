@@ -24,7 +24,7 @@ export function InterventionCatalogPanel({
 
   return (
     <div className={`${styles.wrap} card`}>
-      <div className={styles.title}>Intervention catalog</div>
+      <div className={styles.title}>Intervention Catalog</div>
       <div className={styles.grid}>
         {Object.entries(catalog.intervention_types).map(([key, t]) => (
           <CatalogCard

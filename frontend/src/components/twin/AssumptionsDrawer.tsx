@@ -43,7 +43,7 @@ export function AssumptionsDrawer({ open, onClose, result }: { open: boolean; on
         </div>
 
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>Truth-status framework</div>
+          <div className={styles.sectionTitle}>Truth-Status Framework</div>
           <div className={styles.badgeRow}>
             <StatusBadge status="OBSERVED" compact />
             <StatusBadge status="DERIVED" compact />
@@ -60,7 +60,7 @@ export function AssumptionsDrawer({ open, onClose, result }: { open: boolean; on
 
         {recoveryModel ? (
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Recovery model assumptions</div>
+            <div className={styles.sectionTitle}>Recovery Model Assumptions</div>
             <div className={styles.configGrid}>
               <ConfigRow label="Recovery rate (assumed daily closure)" value={`${(recoveryModel.recovery_rate * 100).toFixed(1)}%`} />
               <ConfigRow label="Timestep" value={`${recoveryModel.timestep_days} days`} />

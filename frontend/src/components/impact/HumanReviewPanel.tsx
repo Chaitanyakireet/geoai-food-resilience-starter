@@ -21,7 +21,7 @@ export function HumanReviewPanel({
 }) {
   return (
     <div className={`${styles.wrap} card`}>
-      <div className={styles.title}>Human review required</div>
+      <div className={styles.title}>Human Review Required</div>
       <p className={styles.note}>
         This platform produces modeled decision support, not an automated recommendation to act. A person with
         domain context should review the items below before any real-world decision is made.

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LeafletMap } from "leaflet";
 import {
   getGraphOverview,
@@ -67,6 +67,21 @@ export function SpatialWorkspace({
   const hyderabadCentroid = useMemo((): [number, number] | null => {
     const f = districtById.get("hyderabad");
     return f ? [f.properties.centroid_lat, f.properties.centroid_lon] : null;
+  }, [districtById]);
+
+  // Hyderabad is the platform's principal demand hub, so its urban-core
+  // places (Secunderabad, Quthbullapur, Kukatpally, Malkajgiri, ...) should
+  // be searchable immediately, not only after the district is clicked --
+  // these two districts (Hyderabad + the post-2016 Medchal-Malkajgiri
+  // split) cover the real Hyderabad metro mandals already in the dataset.
+  useEffect(() => {
+    for (const districtId of ["hyderabad", "medchalmalkajgiri"]) {
+      if (districtById.has(districtId)) {
+        getMandals(districtId).then((result) => {
+          setMandalsByDistrict((prev) => (prev.has(districtId) ? prev : new Map(prev).set(districtId, result)));
+        });
+      }
+    }
   }, [districtById]);
 
   const ensureBottlenecks = useCallback(() => {

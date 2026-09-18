@@ -42,13 +42,37 @@ def _shock_field_from_question(question: str) -> str | None:
     return None
 
 
-def classify_and_run(question: str, context: ScenarioContext | None) -> tuple[list[ToolCallRecord], list[dict]]:
+GUIDANCE_NO_GEO_FOR_LOCATION = (
+    "No geography is selected for this question yet. Choose a district on the Spatial Intelligence page, or "
+    "compose a scenario in the Intervention Lab, then ask again -- I can explain the modeled risk drivers and "
+    "network exposure for that specific location."
+)
+GUIDANCE_NO_GEO_FOR_SHOCK = (
+    "No geography is selected yet. Choose a district and I can run this shock scenario against it and report "
+    "the actual modeled impact, rather than a generic answer."
+)
+GUIDANCE_NO_SCENARIO_FOR_COMPARE = (
+    "No shock-and-intervention scenario is active yet. Compose a shock and at least one intervention in the "
+    "Intervention Lab, or run the Digital Twin, then ask me to compare World A and World B -- I'll report the "
+    "actual modeled difference, not an estimate."
+)
+GUIDANCE_NO_PORTFOLIO_FOR_FEASIBILITY = (
+    "No intervention portfolio is active yet. Add interventions to a scenario in the Intervention Lab, then ask "
+    "which are feasible under your constraints -- I'll run the actual optimizer, not guess."
+)
+
+
+def classify_and_run(question: str, context: ScenarioContext | None) -> tuple[list[ToolCallRecord], list[dict], str | None]:
     """Deterministic intent routing -- mirrors the mapping documented in the
     task brief (risk -> get_risk/inspect_location, vulnerability -> +graph +
     evidence, hypothetical shocks -> simulate_shock, budget/feasibility ->
     optimization, world comparison -> calculate_impact, evidence -> retrieve_evidence).
-    Returns (tool_trace, raw_evidence_results) -- the latter carries full
-    EvidenceItem-shaped dicts for citation-building."""
+    Returns (tool_trace, raw_evidence_results, guidance) -- raw_evidence
+    carries full EvidenceItem-shaped dicts for citation-building; guidance
+    is set (with empty tool_trace/raw_evidence) when the question clearly
+    needs scenario context that isn't active, so the caller can say so
+    plainly instead of running a keyword search against the raw question
+    that would return nothing useful or an irrelevant match."""
     q = question.lower()
     geo_id = context.geo_id if context else None
     food_category = (context.food_category if context else None) or "all_food"
@@ -63,6 +87,22 @@ def classify_and_run(question: str, context: ScenarioContext | None) -> tuple[li
     wants_budget = any(kw in q for kw in ["budget", "feasible", "afford", "constraint"])
     wants_portfolio_why = "portfolio" in q and ("why" in q or "select" in q or "chose" in q or "chosen" in q)
     wants_compare = "compare" in q and ("world" in q or "scenario" in q)
+
+    # A clearly-scoped question with missing prerequisites gets honest
+    # guidance instead of a keyword search over the raw question, which
+    # tends to return either nothing or an irrelevant match -- explicit
+    # requests for evidence (wants_evidence) skip this and search anyway.
+    if not wants_evidence:
+        if (wants_vulnerability or wants_risk) and not wants_shock and not geo_id:
+            return [], [], GUIDANCE_NO_GEO_FOR_LOCATION
+        if wants_shock and not geo_id:
+            return [], [], GUIDANCE_NO_GEO_FOR_SHOCK
+        if wants_compare and not (geo_id and context and context.shock_field and context.severity is not None):
+            return [], [], GUIDANCE_NO_SCENARIO_FOR_COMPARE
+        if (wants_budget or wants_portfolio_why) and not (
+            geo_id and context and context.shock_field and context.severity is not None and context.intervention_types
+        ):
+            return [], [], GUIDANCE_NO_PORTFOLIO_FOR_FEASIBILITY
 
     if geo_id and (wants_vulnerability or wants_risk) and not wants_shock:
         records.append(run_tool("inspect_location", "Fetch combined risk + resilience for the scenario geography.", {"geo_id": geo_id, "food_category": food_category}, raw_evidence))
@@ -121,7 +161,7 @@ def classify_and_run(question: str, context: ScenarioContext | None) -> tuple[li
     if wants_evidence or not records:
         records.append(run_tool("retrieve_evidence", "Retrieve supporting evidence from project provenance/methodology documents.", {"query": question, "top_k": 3, "geo_id": geo_id}, raw_evidence))
 
-    return records, raw_evidence
+    return records, raw_evidence, None
 
 
 def target_node_id_for_field(shock_field: str, geo_id: str) -> str:
@@ -138,7 +178,10 @@ def shock_type_for_field(shock_field: str) -> str:
     }[shock_field]
 
 
-def compose_fallback_answer(question: str, records: list[ToolCallRecord]) -> str:
+def compose_fallback_answer(question: str, records: list[ToolCallRecord], guidance: str | None = None) -> str:
+    if guidance:
+        return guidance
+
     lines = [
         "Structured system brief -- AI generation is unavailable, so this is a deterministic summary of backend "
         "tool results (not natural-language generation).",

@@ -34,7 +34,7 @@ export function ShockComposer({
   return (
     <div className={`${styles.wrap} card`}>
       <div className={styles.header}>
-        <div className={styles.title}>Compose shock</div>
+        <div className={styles.title}>Shock Composer</div>
         <StatusBadge status="COUNTERFACTUAL" compact />
         <StatusBadge status="SIMULATED" compact />
       </div>
@@ -112,7 +112,7 @@ export function ShockComposer({
       </details>
 
       <button type="button" className={styles.runButton} onClick={onRun} disabled={loading}>
-        {loading ? "Running…" : "Compose shock & inspect impact"}
+        {loading ? "Simulating…" : "Run Scenario Simulation"}
       </button>
     </div>
   );

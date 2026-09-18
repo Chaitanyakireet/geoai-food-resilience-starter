@@ -124,53 +124,123 @@ def test_malformed_tool_arguments_return_error_not_exception():
 
 
 def test_routing_risk_question_calls_inspect_location():
-    records, _ = classify_and_run("What is the current risk in Hyderabad?", ScenarioContext(geo_id="hyderabad"))
+    records, _, guidance = classify_and_run("What is the current risk in Hyderabad?", ScenarioContext(geo_id="hyderabad"))
+    assert guidance is None
     tool_names = [r.tool_name for r in records]
     assert "inspect_location" in tool_names
 
 
 def test_routing_vulnerability_question_calls_location_and_graph():
-    records, _ = classify_and_run("Why is this location vulnerable?", ScenarioContext(geo_id="khammam"))
+    records, _, guidance = classify_and_run("Why is this location vulnerable?", ScenarioContext(geo_id="khammam"))
+    assert guidance is None
     tool_names = [r.tool_name for r in records]
     assert "inspect_location" in tool_names
     assert "inspect_food_graph" in tool_names
 
 
 def test_routing_evidence_question_calls_retrieve_evidence():
-    records, _ = classify_and_run("Where did this evidence come from?", None)
+    records, _, guidance = classify_and_run("Where did this evidence come from?", None)
+    assert guidance is None
     assert [r.tool_name for r in records] == ["retrieve_evidence"]
 
 
-def test_routing_without_geo_context_does_not_crash():
-    records, _ = classify_and_run("What is the current risk?", None)
-    # No geo_id available -> falls through to the evidence default rather than guessing a geography
-    assert len(records) >= 1
-
-
 def test_routing_shock_question_uses_illustrative_severity_when_unspecified():
-    records, _ = classify_and_run("What happens if transport capacity falls?", ScenarioContext(geo_id="hyderabad"))
+    records, _, guidance = classify_and_run("What happens if transport capacity falls?", ScenarioContext(geo_id="hyderabad"))
+    assert guidance is None
     shock_records = [r for r in records if r.tool_name == "simulate_shock"]
     assert len(shock_records) == 1
     assert shock_records[0].arguments["transport_capacity_reduction"] == pytest.approx(0.3)
+
+
+# --- Guidance for clearly-scoped questions missing required context -----------
+# (the bug behind "the AI chatbot doesn't work": a keyword search against the
+# raw question text returned nothing useful, or an irrelevant match, for the
+# two most prominent suggested prompts when no scenario was active.)
+
+
+def test_vulnerability_question_without_geo_gives_guidance_not_empty_search():
+    records, raw_evidence, guidance = classify_and_run("Why is this location vulnerable?", None)
+    assert records == []
+    assert raw_evidence == []
+    assert guidance is not None
+    assert "geography is selected" in guidance
+    assert "Spatial Intelligence" in guidance
+
+
+def test_risk_question_without_geo_gives_guidance():
+    records, _, guidance = classify_and_run("What is the current risk?", None)
+    assert records == []
+    assert guidance is not None
+    assert "geography is selected" in guidance
+
+
+def test_shock_question_without_geo_gives_guidance():
+    records, _, guidance = classify_and_run("What happens if transport capacity falls?", None)
+    assert records == []
+    assert guidance is not None
+    assert "geography is selected" in guidance
+
+
+def test_compare_worlds_without_scenario_gives_guidance_not_irrelevant_match():
+    records, raw_evidence, guidance = classify_and_run("Compare World A and World B.", None)
+    assert records == []
+    assert raw_evidence == []
+    assert guidance is not None
+    assert "scenario is active" in guidance
+
+
+def test_compare_worlds_with_geo_but_no_shock_still_gives_guidance():
+    records, _, guidance = classify_and_run("Compare the two worlds.", ScenarioContext(geo_id="hyderabad"))
+    assert records == []
+    assert guidance is not None
+
+
+def test_feasibility_question_without_portfolio_gives_guidance():
+    records, _, guidance = classify_and_run("Which interventions are feasible under this budget?", ScenarioContext(geo_id="hyderabad"))
+    assert records == []
+    assert guidance is not None
+    assert "Intervention Lab" in guidance
+
+
+def test_explicit_evidence_request_skips_guidance_even_without_context():
+    # "what evidence supports this" contains no guidance-triggering keywords
+    # itself, but confirms retrieve_evidence still runs when evidence is
+    # explicitly requested rather than being blocked by a guidance branch.
+    records, _, guidance = classify_and_run("What evidence supports this?", None)
+    assert guidance is None
+    assert [r.tool_name for r in records] == ["retrieve_evidence"]
+
+
+def test_compare_worlds_with_full_context_runs_calculate_impact_not_guidance():
+    ctx = ScenarioContext(geo_id="hyderabad", shock_field="production_disruption", severity=0.4, intervention_types=["alternative_sourcing"])
+    records, _, guidance = classify_and_run("Compare World A and World B.", ctx)
+    assert guidance is None
+    assert any(r.tool_name == "calculate_impact" for r in records)
 
 
 # --- Deterministic fallback: determinism + no fabrication ---------------------
 
 
 def test_fallback_answer_is_labeled_structured_not_ai_generated():
-    records, _ = classify_and_run("What is the current risk in Hyderabad?", ScenarioContext(geo_id="hyderabad"))
-    answer = compose_fallback_answer("What is the current risk in Hyderabad?", records)
+    records, _, guidance = classify_and_run("What is the current risk in Hyderabad?", ScenarioContext(geo_id="hyderabad"))
+    answer = compose_fallback_answer("What is the current risk in Hyderabad?", records, guidance)
     assert "Structured system brief" in answer
     assert "AI generation is unavailable" in answer
+
+
+def test_fallback_guidance_answer_is_returned_verbatim():
+    records, _, guidance = classify_and_run("Why is this location vulnerable?", None)
+    answer = compose_fallback_answer("Why is this location vulnerable?", records, guidance)
+    assert answer == guidance
 
 
 def test_fallback_is_deterministic_across_repeated_calls():
     q = "What is the current risk in Hyderabad?"
     ctx = ScenarioContext(geo_id="hyderabad")
-    r1, _ = classify_and_run(q, ctx)
-    r2, _ = classify_and_run(q, ctx)
-    a1 = compose_fallback_answer(q, r1)
-    a2 = compose_fallback_answer(q, r2)
+    r1, _, g1 = classify_and_run(q, ctx)
+    r2, _, g2 = classify_and_run(q, ctx)
+    a1 = compose_fallback_answer(q, r1, g1)
+    a2 = compose_fallback_answer(q, r2, g2)
     assert a1 == a2
 
 

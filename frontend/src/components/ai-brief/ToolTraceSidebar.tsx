@@ -9,7 +9,7 @@ export function ToolTraceSidebar({ toolTrace, citations, label }: { toolTrace: A
   return (
     <div className={styles.stack}>
       <div className={`${styles.panel} card`}>
-        <div className={styles.panelTitle}>Tool trace</div>
+        <div className={styles.panelTitle}>Tool Activity</div>
         <p className={styles.panelSubnote}>{label}</p>
         {toolTrace.length === 0 ? (
           <p className="muted" style={{ fontSize: 12 }}>

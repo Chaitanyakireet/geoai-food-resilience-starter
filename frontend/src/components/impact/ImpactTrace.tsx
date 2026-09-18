@@ -22,8 +22,8 @@ export function ImpactTrace({ context, hasImpactResult, reviewed }: { context: A
 
   return (
     <div className={`${styles.wrap} card`}>
-      <div className={styles.title}>Impact trace</div>
-      <p className={styles.note}>End-to-end provenance for this scenario, stage by stage.</p>
+      <div className={styles.title}>Decision Trace</div>
+      <p className={styles.note}>The end-to-end provenance chain behind this scenario, stage by stage.</p>
       <div className={styles.track}>
         {steps.map((s, i) => (
           <div key={s.label} className={styles.stepWrap}>

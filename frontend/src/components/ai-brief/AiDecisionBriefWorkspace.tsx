@@ -98,7 +98,7 @@ export function AiDecisionBriefWorkspace({ districts }: { districts: DistrictsFe
 
           {conversation.length > 0 ? (
             <div className={`${styles.conversationCard} card`}>
-              <div className={styles.conversationTitle}>Copilot conversation</div>
+              <div className={styles.conversationTitle}>Decision Copilot</div>
               {conversation.map((entry, i) => (
                 <ConversationTurn key={i} question={entry.question} output={entry.output} />
               ))}

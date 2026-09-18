@@ -230,6 +230,44 @@ export type MarketNode = {
   lat: number;
 };
 
+export type GraphNodeItem = {
+  node_id: string;
+  node_type: "production" | "aggregation" | "storage" | "market" | "demand";
+  geo_id: string;
+  geo_level: string;
+  name: string;
+  food_categories: string[];
+  capacity: number | null;
+  truth_status: TruthStatus;
+  provenance: string;
+  lon?: number;
+  lat?: number;
+  is_principal_demand_hub?: boolean;
+};
+
+export type GraphEdgeItem = {
+  edge_id: string;
+  source: string;
+  target: string;
+  edge_type: string;
+  food_categories: string[];
+  weight: number | null;
+  truth_status: TruthStatus;
+  provenance: string;
+};
+
+export type GraphPropagationStep = { node_id: string; node_type: string; geo_id: string; hop_distance: number; impact_fraction: number; truth_status: TruthStatus };
+
+export type GraphPropagationResult = {
+  shock: { target_node_id: string; shock_type: string; severity: number; max_hops: number };
+  steps: GraphPropagationStep[];
+  impacted_geographies: string[];
+  impacted_food_categories: string[];
+  truth_status: TruthStatus;
+  method: string;
+  limitations: string[];
+};
+
 export type ResilienceComponent = { name: string; value: number; weight: number; contribution: number; note: string };
 
 export type ResilienceResult = {
@@ -710,6 +748,13 @@ export const getMarketNodes = async (): Promise<MarketNode[] | null> => {
   if (!nodes) return null;
   return nodes.filter((n) => n.node_type === "market");
 };
+
+export const getGraphNodes = (foodCategory = "all_food") => getJson<GraphNodeItem[]>(`/graph/nodes?food_category=${encodeURIComponent(foodCategory)}`);
+
+export const getGraphEdges = (foodCategory = "all_food") => getJson<GraphEdgeItem[]>(`/graph/edges?food_category=${encodeURIComponent(foodCategory)}`);
+
+export const postGraphPropagate = (input: { target_node_id: string; shock_type: string; severity: number; max_hops?: number }) =>
+  postJson<GraphPropagationResult>("/graph/propagate", input);
 
 export const getInterventionCatalog = () => getJson<InterventionCatalog>("/interventions/catalog");
 

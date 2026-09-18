@@ -54,7 +54,7 @@ export function LocationPanel({
         <div className={styles.loading}>Loading risk data…</div>
       ) : risk ? (
         <>
-          <Section title="Risk">
+          <Section title="Modeled Risk">
             <div className={styles.riskRow}>
               <RiskBadge riskClass={risk.risk_class} />
               <span className={styles.riskScore}>
@@ -72,27 +72,27 @@ export function LocationPanel({
             ) : null}
           </Section>
 
-          <Section title="Data coverage">
+          <Section title="Data Coverage">
             <span className="secondary">
               {risk.data_coverage.available_days}/{risk.data_coverage.requested_days} days (
               {Math.round(risk.data_coverage.coverage_ratio * 100)}%) · {risk.data_coverage.spatial_resolution}
             </span>
           </Section>
 
-          <Section title="Truth status">
+          <Section title="Truth Status">
             <StatusBadge status={risk.truth_status} />
             {inherited ? <span className={styles.inlineNote}>resolved via: {risk.resolved_via}</span> : null}
           </Section>
 
-          <Section title="Food categories affected">
+          <Section title="Food Categories Affected">
             <span className="secondary">{risk.food_scope.replace(/_/g, " ")}</span>
           </Section>
 
-          <Section title="Main drivers">
+          <Section title="Risk-Driver Decomposition">
             <DriverTable risk={risk} />
           </Section>
 
-          <Section title="Food-network structural exposure (where available)">
+          <Section title="Network Dependency">
             {localBottlenecks === null ? (
               <span className="muted">Network data unavailable.</span>
             ) : localBottlenecks.length > 0 ? (
@@ -113,14 +113,14 @@ export function LocationPanel({
             )}
           </Section>
 
-          <Section title="Vegetation condition / water stress">
+          <Section title="Vegetation & Water Stress">
             <span className="muted">
               Data unavailable — no remote-sensing NDVI or water-stress dataset was ingested this sprint.
             </span>
           </Section>
 
           {explanation ? (
-            <Section title="Why here?">
+            <Section title="Location Intelligence">
               <ul className={styles.whyList}>
                 {explanation.used.map((s) => (
                   <li key={s}>{s}</li>
@@ -136,14 +136,14 @@ export function LocationPanel({
             </Section>
           ) : null}
 
-          <Section title="Source / evidence">
+          <Section title="Evidence & Provenance">
             <ul className={styles.sourceList}>
               {risk.provenance_refs.map((ref) => (
                 <li key={ref}>{ref}</li>
               ))}
             </ul>
             <button type="button" className={styles.provenanceBtn} onClick={onOpenProvenance}>
-              View full provenance & limitations →
+              Open full provenance record →
             </button>
           </Section>
         </>

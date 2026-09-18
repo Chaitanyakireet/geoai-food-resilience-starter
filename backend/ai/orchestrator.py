@@ -171,8 +171,8 @@ def run_query(question: str, scenario_context: ScenarioContext | None) -> AiQuer
 
 
 def _run_query_fallback(question: str, scenario_context: ScenarioContext | None, provider_status: str) -> AiQueryOutput:
-    tool_trace, raw_evidence = classify_and_run(question, scenario_context)
-    answer = compose_fallback_answer(question, tool_trace)
+    tool_trace, raw_evidence, guidance = classify_and_run(question, scenario_context)
+    answer = compose_fallback_answer(question, tool_trace, guidance)
     citations = [EvidenceItem(**m) for r in raw_evidence for m in r.get("matches", [])]
     seen: set[str] = set()
     deduped_citations = []

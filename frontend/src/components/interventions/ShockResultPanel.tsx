@@ -19,7 +19,7 @@ export function ShockResultPanel({ result, error, loading }: { result: ShockResu
 
   return (
     <div className={`${styles.wrap} card`}>
-      <div className={styles.title}>Modeled impact</div>
+      <div className={styles.title}>Modeled System Response</div>
 
       <div className={styles.compareGrid}>
         <div>

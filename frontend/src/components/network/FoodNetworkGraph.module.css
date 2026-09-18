@@ -1,0 +1,170 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+  align-items: start;
+}
+
+.diagramCard {
+  padding: 20px 22px;
+}
+
+.diagramHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.diagramTitle {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.diagramSubnote {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  max-width: 460px;
+  line-height: 1.5;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.legendDotMark {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.legendBottleneck {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: var(--page-plane);
+  border-radius: var(--radius-sm);
+}
+
+.colLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  fill: var(--text-muted);
+}
+
+.rowLabel {
+  font-size: 6.5px;
+  fill: var(--text-muted);
+}
+
+.edge {
+  stroke: var(--text-muted);
+  stroke-width: 0.5;
+}
+
+.node {
+  cursor: pointer;
+  transition: r var(--duration-fast) var(--ease-standard);
+}
+
+.tooltip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  background: var(--page-plane);
+  border-radius: var(--radius-sm);
+  text-transform: capitalize;
+}
+
+.tooltipPlaceholder {
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  padding: 8px 12px;
+}
+
+.sidePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 16px;
+}
+
+.controlCard {
+  padding: 16px 18px;
+}
+
+.controlTitle {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.controlCard input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.severityValue {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.controlNote {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.resultLine {
+  font-size: 12.5px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.5;
+  text-transform: capitalize;
+}
+
+.resultMuted {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidePanel {
+    position: static;
+  }
+}
