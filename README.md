@@ -158,14 +158,46 @@ objectives/constraints, never an unconditional optimality claim; when no
 candidate satisfies the given constraints, nothing is selected rather than
 silently picking an infeasible one.
 
+## Digital Twin + Recovery (Hours 18-21)
+`backend/twin/` composes (does not modify) the shock composer, portfolio
+engine, optimizer, resilience proxy, and risk baseline, and adds one new
+piece: a deterministic recovery model. This is a scenario/decision-support
+simulation, not a live operational twin and not a validated real-world
+recovery forecast. Endpoints, served under `/twin`:
+- `POST /twin/run` — a `TwinScenario` → baseline/shocked/intervention/
+  optimized states plus per-state recovery trajectories and metrics
+- `POST /twin/compare` — Compare Worlds: World A (shock, no intervention)
+  vs. World B (optimized if present, else the manual portfolio), with
+  explicit deltas
+- `GET /twin/scenarios` — catalog of the four canonical scenario types and
+  how to construct each from `TwinScenario`'s fields (stateless API, no
+  runs are persisted)
+- `GET /twin/config`, `GET /twin/provenance`
+
+Scenario types implemented: **A** baseline/no shock (district, mandal, or
+state-level `"telangana"` aggregate), **B** shock/no intervention, **C**
+shock + optimizer-selected portfolio, **D** shock + a manual alternative
+portfolio (settable in the same run as C for direct comparison).
+
+Recovery model (`config/twin.yaml`): deterministic exponential decay,
+`demand_impact(day) = initial_impact * (1 - recovery_rate)^day`, resilience
+recovering toward the pre-shock baseline the same way. `recovery_rate` is
+an ESTIMATED assumed daily closure fraction — explicitly **not** fit to any
+observed Telangana recovery event (none exists in this sprint's data).
+Metrics (peak/final disruption, recovery_time_days, recovery_fraction,
+resilience_gap before/after, residual_impact) are each defined in the
+result payload itself (`RecoveryMetrics.definitions`), not just in code.
+
 ## Current state
-Hours 0-18 done: both services boot, the frontend proves live reachability
-to the backend, and 142 tests pass (health + GIS + risk + graph +
-interventions + optimization). The Telangana spatial layer, a
+Hours 0-21 done: both services boot, the frontend proves live reachability
+to the backend, and 179 tests pass (health + GIS + risk + graph +
+interventions + optimization + twin). The Telangana spatial layer, a
 climate-driven risk baseline, a food-system network with bottleneck/
-propagation diagnostics, a shock/intervention/portfolio decision layer, and
-a multi-objective portfolio optimizer are live behind documented APIs. No
-further analytical modules (digital twin, RAG, copilot) are implemented
-yet — they follow the build order in `docs/MASTER_HANDOFF.md` section 19.
-Nothing here is fabricated; every value carries a truth_status and traces
-to a provenance file.
+propagation diagnostics, a shock/intervention/portfolio decision layer, a
+multi-objective portfolio optimizer, and a Digital Twin with recovery
+simulation and Compare Worlds are live behind documented APIs. This closes
+out the planned Day 1 "backend vertical integration" arc (data →
+risk → action → twin → impact loop) at a foundation-first depth; RAG/AI
+Copilot and the website (Day 2 per `docs/MASTER_HANDOFF.md`) are not yet
+implemented. Nothing here is fabricated; every value carries a truth_status
+and traces to a provenance file.

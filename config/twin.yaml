@@ -1,0 +1,14 @@
+# Digital Twin recovery model (backend/twin/recovery.py). This is a
+# deterministic scenario/decision-support simulation, NOT a live
+# operational twin and NOT a validated real-world recovery forecast.
+#
+# recovery_rate is an ASSUMED, ESTIMATED fraction of residual disruption
+# closed per simulated day (simple exponential decay toward the pre-shock
+# baseline). It is NOT fit to any observed Telangana recovery event -- no
+# such historical dataset was available this sprint. Do not present it as
+# a calibrated recovery rate.
+recovery_model:
+  recovery_rate: 0.05 # ESTIMATED: fraction of residual impact/resilience-gap closed per day
+  timestep_days: 7 # simulation step size for the exposed trajectory
+  default_horizon_days: 90
+  recovery_threshold: 0.05 # residual impact_fraction below which "recovery" is considered reached

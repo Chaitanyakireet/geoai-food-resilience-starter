@@ -19,6 +19,7 @@ from backend.api.graph import router as graph_router
 from backend.api.interventions import router as interventions_router
 from backend.api.optimization import router as optimization_router
 from backend.api.risk import router as risk_router
+from backend.api.twin import router as twin_router
 from backend.core.config import load_project_config
 
 app = FastAPI(title="GeoAI Food-Resilience Digital Twin API")
@@ -27,6 +28,7 @@ app.include_router(risk_router)
 app.include_router(graph_router)
 app.include_router(interventions_router)
 app.include_router(optimization_router)
+app.include_router(twin_router)
 
 app.add_middleware(
     CORSMiddleware,
