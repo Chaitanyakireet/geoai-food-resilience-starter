@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { ComingNext } from "@/components/ComingNext";
+import { TwinHandoffBanner } from "@/components/interventions/TwinHandoffBanner";
 import { getTwinScenarios } from "@/lib/api";
 
 export default async function DigitalTwinPage() {
@@ -13,6 +14,8 @@ export default async function DigitalTwinPage() {
         title="Digital Twin"
         subtitle="A deterministic scenario/decision-support simulation — not a live operational twin, and its recovery trajectories are not validated real-world forecasts."
       />
+
+      <TwinHandoffBanner />
 
       {scenarios.length > 0 ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

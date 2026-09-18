@@ -230,15 +230,44 @@ re-downloaded on repeat selection. Backend-down and malformed-GeoJSON
 states are handled explicitly (verified by stopping the backend and
 re-fetching `/spatial`).
 
+## Intervention Lab (Hours 33-36)
+`/interventions` (`frontend/src/components/interventions/`) replaces the
+static catalog preview with a real decision workspace: pick a geography +
+food category (LEFT), compose a graph shock (one of production/storage/
+transport/market, mirroring `backend/intervention/shock_composer.py`'s
+`GRAPH_SHOCK_FIELD_MAP` client-side) plus optional independent climate
+fields, and inspect its modeled impact via `POST /interventions/shock`
+(CENTER, `ShockComposer.tsx` + `ShockResultPanel.tsx`); add interventions
+from the real four-type catalog with optional cost/water/carbon/
+effectiveness-override fields that stay explicitly "unknown" unless
+supplied (`InterventionCatalogPanel.tsx`, `PortfolioPanel.tsx`); then
+SIMULATE (`POST /interventions/portfolio`) or OPTIMIZE
+(`POST /optimization/run`) from a sticky bottom action bar (RIGHT +
+`ActionBar.tsx`). The optimizer's own `OptimizationResult.explanation`
+(why_feasible/binding_constraints/objectives_improved/worsened/
+assumptions) is rendered directly as the required "Why this portfolio?"
+panel -- no LLM involved, and "selected" is always phrased as "modeled best
+under configured objectives and constraints." "Simulate in Digital Twin"
+hands the composed scenario to `/twin` via `sessionStorage` + a
+`TwinHandoffBanner` (the interactive Twin workspace itself is a later
+task, so this is an honest read-only carry-through, not a live handoff).
+Verified: build/lint clean; live-tested shock/portfolio/optimization calls
+directly against the backend with the frontend's exact request shapes
+(including an infeasible-budget case and a 404 invalid-district case);
+found and fixed a real bug where FastAPI's native 422 validation-error
+`detail` (an array of objects) would have broken error rendering, which
+only returns a plain string `detail` for the app's own `HTTPException`s;
+confirmed the backend-down state degrades gracefully instead of crashing.
+
 ## Current state
-Hours 0-33 done: both services boot, 179 backend tests pass, and the
+Hours 0-36 done: both services boot, 179 backend tests pass, and the
 frontend build/lint are clean across all 7 routes. The Telangana spatial
 layer, a climate-driven risk baseline, a food-system network with
 bottleneck/propagation diagnostics, a shock/intervention/portfolio decision
 layer, a multi-objective portfolio optimizer, a Digital Twin with recovery
-simulation and Compare Worlds, a real website shell, and a real interactive
-Spatial Intelligence GIS workspace are live. RAG/AI Copilot and the
-interactive Food Network / Intervention Lab / Digital Twin workspaces
-(later Day 2 tasks per `docs/MASTER_HANDOFF.md`) are not yet implemented.
-Nothing here is fabricated; every value carries a truth_status and traces
-to a provenance file.
+simulation and Compare Worlds, a real website shell, a real interactive
+Spatial Intelligence GIS workspace, and a real interactive Intervention Lab
+are live. RAG/AI Copilot and the interactive Food Network / Digital Twin
+workspaces (later Day 2 tasks per `docs/MASTER_HANDOFF.md`) are not yet
+implemented. Nothing here is fabricated; every value carries a truth_status
+and traces to a provenance file.

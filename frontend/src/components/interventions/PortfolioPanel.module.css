@@ -1,0 +1,83 @@
+.wrap {
+  padding: 18px 20px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  border: 1px solid var(--gridline);
+  border-radius: 8px;
+  gap: 8px;
+}
+
+.itemName {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.itemMeta {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.removeBtn {
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: var(--status-critical);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.constraintsTitle {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.constraintsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.constraintsGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.constraintsGrid input {
+  padding: 7px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+}

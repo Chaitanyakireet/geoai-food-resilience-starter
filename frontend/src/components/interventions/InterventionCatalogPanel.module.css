@@ -1,0 +1,141 @@
+.wrap {
+  padding: 18px 20px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1300px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  border: 1px solid var(--gridline);
+  border-radius: 10px;
+  padding: 13px 14px;
+}
+
+.cardAdded {
+  border-color: var(--status-good);
+  background: color-mix(in srgb, var(--status-good) 6%, transparent);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.cardTitle {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mechanism {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.metaRow {
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.mismatch {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  background: var(--page-plane);
+  border-radius: 6px;
+  padding: 5px 8px;
+  margin-bottom: 8px;
+}
+
+.addedNote {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--status-good);
+}
+
+.addBtn {
+  width: 100%;
+  padding: 7px;
+  border-radius: 7px;
+  border: 1px dashed var(--border-strong);
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.addBtn:hover {
+  background: var(--accent-soft);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.form input {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.confirmBtn {
+  flex: 1;
+  padding: 7px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+}

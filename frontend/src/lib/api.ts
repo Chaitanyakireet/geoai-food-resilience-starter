@@ -230,6 +230,189 @@ export type MarketNode = {
   lat: number;
 };
 
+export type ResilienceComponent = { name: string; value: number; weight: number; contribution: number; note: string };
+
+export type ResilienceResult = {
+  region_id: string;
+  geo_level: string;
+  food_scope: string;
+  current_resilience_score: number;
+  target_resilience_score: number;
+  resilience_gap: number;
+  components: ResilienceComponent[];
+  model_version: string;
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export type GraphShockType = "production_reduction" | "storage_capacity_reduction" | "transport_capacity_reduction" | "market_disruption";
+
+export type ShockInput = { target_node_id: string; shock_type: GraphShockType; severity: number; max_hops: number };
+
+export type PropagationStep = { node_id: string; node_type: string; geo_id: string; hop_distance: number; impact_fraction: number; truth_status: TruthStatus };
+
+export type PropagationResult = {
+  shock: ShockInput;
+  steps: PropagationStep[];
+  impacted_geographies: string[];
+  impacted_food_categories: string[];
+  truth_status: TruthStatus;
+  method: string;
+  limitations: string[];
+};
+
+export type ShockComposerRequest = {
+  geo_id: string;
+  food_category?: string;
+  heat_change_c?: number;
+  rainfall_change_pct?: number;
+  transport_capacity_reduction?: number;
+  storage_capacity_reduction?: number;
+  production_disruption?: number;
+  market_demand_disruption?: number;
+  max_hops?: number;
+};
+
+export type ShockResult = {
+  shock_input: ShockComposerRequest;
+  geo_id: string;
+  food_category: string;
+  baseline_risk: RiskResult | null;
+  shocked_risk: RiskResult | null;
+  baseline_resilience: ResilienceResult;
+  shocked_resilience: ResilienceResult;
+  graph_propagations: PropagationResult[];
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export type CandidateIntervention = {
+  intervention_type: string;
+  effectiveness_override?: number;
+  cost_estimate?: number;
+  cost_note?: string;
+  water_impact_m3?: number;
+  carbon_impact_tco2e?: number;
+  loss_reduction_pct?: number;
+  assumption_note?: string;
+};
+
+export type InterventionInputRequest = CandidateIntervention & { shock: ShockInput };
+
+export type ModeledChange = {
+  target_node_impact_reduction: number;
+  food_availability_effect_proxy: number;
+  resilience_effect: number;
+  note: string;
+};
+
+export type InterventionResult = {
+  intervention_type: string;
+  intervention_label: string;
+  mechanism: string;
+  affected_geo_id: string;
+  affected_food_categories: string[];
+  effectiveness_used: number;
+  effectiveness_source: "config_default" | "user_override";
+  baseline_resilience: ResilienceResult;
+  shock_propagation: PropagationResult;
+  shock_resilience: ResilienceResult;
+  intervention_propagation: PropagationResult;
+  intervention_resilience: ResilienceResult;
+  modeled_change: ModeledChange;
+  food_loss_effect: number | null;
+  water_impact_m3: number | null;
+  carbon_impact_tco2e: number | null;
+  cost_estimate: number | null;
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export type Constraints = { budget?: number; water_limit_m3?: number; carbon_target_tco2e?: number };
+
+export type ConstraintCheckEntry = { limit: number | null; total: number | null; within_limit: boolean | null };
+
+export type PortfolioInputRequest = { interventions: InterventionInputRequest[]; constraints?: Constraints };
+
+export type PortfolioResult = {
+  interventions: InterventionResult[];
+  combined_effect_composition_method: string;
+  combined_food_availability_effect_proxy: number | null;
+  combined_resilience_effect: number | null;
+  total_cost_estimate: number | null;
+  total_water_impact_m3: number | null;
+  total_carbon_impact_tco2e: number | null;
+  constraint_check: Record<string, ConstraintCheckEntry>;
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export type OptimizationInputRequest = {
+  shock: ShockInput;
+  candidate_interventions: CandidateIntervention[];
+  constraints?: Constraints;
+  objective_weights?: Record<string, number>;
+};
+
+export type ObjectiveValues = {
+  food_availability_effect_proxy: number | null;
+  resilience_effect: number | null;
+  food_loss_effect: number | null;
+  cost: number | null;
+  water_impact_m3: number | null;
+  carbon_impact_tco2e: number | null;
+};
+
+export type FeasibilityStatus = "feasible" | "infeasible" | "unconstrained";
+
+export type PortfolioCandidate = {
+  intervention_types: string[];
+  portfolio: PortfolioResult;
+  objective_values: ObjectiveValues;
+  feasibility_status: FeasibilityStatus;
+  feasibility_note: string;
+  normalized_score: number | null;
+  is_pareto_optimal: boolean;
+};
+
+export type BaselineState = {
+  risk_score: number | null;
+  risk_truth_status: TruthStatus | null;
+  resilience_score: number;
+  resilience_gap: number;
+  demand_impact_fraction: number;
+  truth_status: TruthStatus;
+};
+
+export type OptimizationExplanation = {
+  selected_intervention_types: string[];
+  why_feasible: string;
+  binding_constraints: string[];
+  objectives_improved: string[];
+  objectives_worsened: string[];
+  assumptions_influencing_result: string[];
+};
+
+export type OptimizationResult = {
+  objective_weights_used: Record<string, number>;
+  normalization_method: string;
+  baseline_state: BaselineState;
+  candidates: PortfolioCandidate[];
+  feasible_candidate_count: number;
+  infeasible_candidate_count: number;
+  selected_candidate: PortfolioCandidate | null;
+  explanation: OptimizationExplanation | null;
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export type RiskConfig = { food_categories: string[]; [key: string]: unknown };
+
 export type InterventionCatalog = {
   intervention_types: Record<
     string,
@@ -258,6 +441,50 @@ async function getJson<T>(path: string): Promise<T | null> {
     return (await res.json()) as T;
   } catch {
     return null;
+  }
+}
+
+export type ApiError = { status: number; detail: string };
+
+// FastAPI's own validation errors (422) return `detail` as an array of
+// {msg, loc, ...} objects; the app's own HTTPException(detail=str(...))
+// returns a plain string. Normalize both into one displayable string so
+// every error panel can just render `error.detail` as text.
+function normalizeErrorDetail(detail: unknown): string | undefined {
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) {
+    return detail
+      .map((d) => (d && typeof d === "object" && "msg" in d ? String((d as { msg: unknown }).msg) : JSON.stringify(d)))
+      .join("; ");
+  }
+  if (detail != null) return JSON.stringify(detail);
+  return undefined;
+}
+
+// POST calls surface the backend's error detail (400/404) rather than
+// collapsing every failure to null -- the Intervention Lab needs to show
+// *why* a shock/portfolio/optimization call was rejected (invalid shock,
+// infeasible portfolio, etc.), not just "unavailable".
+async function postJson<T>(path: string, body: unknown): Promise<{ data: T | null; error: ApiError | null }> {
+  try {
+    const res = await fetch(`${API_URL}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      let detail = res.statusText;
+      try {
+        const parsed = await res.json();
+        detail = normalizeErrorDetail(parsed?.detail) ?? detail;
+      } catch {
+        // non-JSON error body; keep statusText
+      }
+      return { data: null, error: { status: res.status, detail } };
+    }
+    return { data: (await res.json()) as T, error: null };
+  } catch {
+    return { data: null, error: { status: 0, detail: "Backend unreachable" } };
   }
 }
 
@@ -295,3 +522,13 @@ export const getMarketNodes = async (): Promise<MarketNode[] | null> => {
 export const getInterventionCatalog = () => getJson<InterventionCatalog>("/interventions/catalog");
 
 export const getTwinScenarios = () => getJson<TwinScenarioCatalog>("/twin/scenarios");
+
+export const getRiskConfig = () => getJson<RiskConfig>("/risk/config");
+
+export const getOptimizationConfig = () => getJson<{ objective_weights: Record<string, number>; max_candidates: number; [key: string]: unknown }>("/optimization/config");
+
+export const postShock = (input: ShockComposerRequest) => postJson<ShockResult>("/interventions/shock", input);
+
+export const postPortfolio = (input: PortfolioInputRequest) => postJson<PortfolioResult>("/interventions/portfolio", input);
+
+export const postOptimizationRun = (input: OptimizationInputRequest) => postJson<OptimizationResult>("/optimization/run", input);
