@@ -1,0 +1,36 @@
+# Multi-objective portfolio optimizer (backend/optimization/). Brute-force
+# over the powerset of candidate interventions (small search space by
+# design -- see max_candidates below), reusing backend/intervention's
+# portfolio composition and constraint checking unmodified.
+#
+# objective_weights are ASSUMED, documented illustrative weights used ONLY
+# to rank feasible candidates into a single "selected" pick. They do not
+# change the underlying modeled objective VALUES, which are always exposed
+# raw and unweighted per candidate for independent inspection (Pareto-style
+# comparison) -- the weighted score is one transparent lens on that data,
+# not a hidden ground truth. Weights sum to 1.0; override per-request via
+# OptimizationInput.objective_weights.
+objective_weights:
+  food_availability_effect_proxy: 0.35 # PRIMARY: modeled service/availability protection
+  resilience_effect: 0.30 # PRIMARY: modeled resilience improvement
+  food_loss_effect: 0.10 # SECONDARY, only where a caller-supplied loss_reduction_pct exists
+  cost: 0.10 # SECONDARY, minimize (only where caller-supplied)
+  water_impact_m3: 0.075 # SECONDARY, minimize (only where caller-supplied)
+  carbon_impact_tco2e: 0.075 # SECONDARY, minimize (only where caller-supplied)
+
+normalization_method: >
+  Min-max normalization computed ACROSS the feasible candidate set of this
+  single optimization run (not an absolute/external scale). For
+  maximize-objectives, normalized = (value - min) / (max - min); for
+  minimize-objectives (cost, water, carbon), normalized = (max - value) /
+  (max - min). A candidate missing data for a given objective contributes 0
+  to that objective's term in its weighted score (disclosed per-candidate),
+  it is never imputed with a guessed value. If every feasible candidate has
+  the same value for an objective (max == min), that objective contributes
+  0 for all candidates on that run (no information to rank on).
+
+# Hard cap on the number of candidate interventions considered per
+# optimization run, to keep the brute-force powerset (2^n) small and the
+# result interactively explainable. If more are supplied, only the first
+# max_candidates are used and this is disclosed in OptimizationResult.limitations.
+max_candidates: 8

@@ -132,13 +132,40 @@ No cost, water, carbon, or effectiveness figure is invented: effectiveness
 defaults are clearly labeled ESTIMATED illustrative assumptions, and cost/
 water/carbon are only ever echoes of caller-supplied values.
 
+## Multi-Objective Optimizer (Hours 15-18)
+`backend/optimization/` composes (does not modify) `backend/intervention`,
+`backend/graph`, `backend/resilience`, and `backend/risk` into a brute-force
+portfolio optimizer. Method: enumerate every non-empty subset of the
+(capped, default 8) candidate interventions, evaluate each via the
+existing `compute_portfolio`, and rank feasible ones with a transparent
+weighted score — while always returning every candidate's raw, unweighted
+objective values and a Pareto-optimality flag, so the weighting is one
+disclosed lens, not the only view. Endpoints, served under `/optimization`:
+- `POST /optimization/run` — full candidate set + selection + explanation
+  in one response (also serves the future Intervention Lab / Compare
+  Worlds UI — no separate endpoint needed since nothing is stateful)
+- `GET /optimization/config` — objective weights, normalization method,
+  max_candidates
+- `GET /optimization/provenance` — assumption disclosure
+
+Objectives: PRIMARY food_availability_effect_proxy + resilience_effect
+(maximize), SECONDARY food_loss_effect (maximize where supplied), cost/
+water/carbon (minimize where supplied). Weights (`config/optimization.yaml`)
+are disclosed ESTIMATED assumptions, not derived — overridable per request.
+Normalization is min-max, relative to each run's own candidate set. A
+"selected" portfolio is always phrased as modeled best under the configured
+objectives/constraints, never an unconditional optimality claim; when no
+candidate satisfies the given constraints, nothing is selected rather than
+silently picking an infeasible one.
+
 ## Current state
-Hours 0-15 done: both services boot, the frontend proves live reachability
-to the backend, and 115 tests pass (health + GIS + risk + graph +
-interventions). The Telangana spatial layer, a climate-driven risk
-baseline, a food-system network with bottleneck/propagation diagnostics,
-and a shock/intervention/portfolio decision layer are live behind
-documented APIs. No further analytical modules (optimization, digital
-twin, RAG, copilot) are implemented yet — they follow the build order in
-`docs/MASTER_HANDOFF.md` section 19. Nothing here is fabricated; every
-value carries a truth_status and traces to a provenance file.
+Hours 0-18 done: both services boot, the frontend proves live reachability
+to the backend, and 142 tests pass (health + GIS + risk + graph +
+interventions + optimization). The Telangana spatial layer, a
+climate-driven risk baseline, a food-system network with bottleneck/
+propagation diagnostics, a shock/intervention/portfolio decision layer, and
+a multi-objective portfolio optimizer are live behind documented APIs. No
+further analytical modules (digital twin, RAG, copilot) are implemented
+yet — they follow the build order in `docs/MASTER_HANDOFF.md` section 19.
+Nothing here is fabricated; every value carries a truth_status and traces
+to a provenance file.

@@ -28,7 +28,7 @@ from backend.intervention.contracts import (
     PortfolioResult,
 )
 from backend.intervention.engine import compute_intervention_effect
-from backend.intervention.utils import impact_at_node
+from backend.intervention.utils import degrade_resilience_by_impact, impact_at_node
 
 
 def _sum_optional(values: list[float | None]) -> tuple[float | None, bool]:
@@ -54,6 +54,7 @@ def compute_portfolio(inp: PortfolioInput) -> PortfolioResult:
     max_hops_values = {i.shock.max_hops for i in inp.interventions}
 
     combined_food_availability_effect_proxy = None
+    combined_resilience_effect = None
     if len(target_node_ids) == 1 and len(shock_types) == 1 and len(severities) == 1:
         food_graph = get_food_graph()
         shared_target = next(iter(target_node_ids))
@@ -77,6 +78,11 @@ def compute_portfolio(inp: PortfolioInput) -> PortfolioResult:
         combined_demand_impact = impact_at_node(combined_propagation, demand_node_id)
         original_demand_impact = impact_at_node(results[0].shock_propagation, demand_node_id)
         combined_food_availability_effect_proxy = round(original_demand_impact - combined_demand_impact, 4)
+
+        combined_resilience = degrade_resilience_by_impact(results[0].baseline_resilience, combined_demand_impact)
+        combined_resilience_effect = round(
+            combined_resilience.current_resilience_score - results[0].shock_resilience.current_resilience_score, 4
+        )
         limitations.append(
             f"combined_effectiveness={combined_effectiveness} computed via 1 - product(1 - effectiveness_i) "
             f"across {len(results)} interventions sharing shock target '{shared_target}'."
@@ -124,6 +130,7 @@ def compute_portfolio(inp: PortfolioInput) -> PortfolioResult:
         interventions=results,
         combined_effect_composition_method=load_interventions_config()["portfolio"]["effect_composition_method"],
         combined_food_availability_effect_proxy=combined_food_availability_effect_proxy,
+        combined_resilience_effect=combined_resilience_effect,
         total_cost_estimate=total_cost,
         total_water_impact_m3=total_water,
         total_carbon_impact_tco2e=total_carbon,

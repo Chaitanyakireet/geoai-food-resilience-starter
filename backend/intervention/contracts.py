@@ -142,6 +142,9 @@ class PortfolioResult(BaseModel):
     # node (mirrors food_availability_effect_proxy per-intervention) -- only computed
     # when every intervention targets the same shock; None otherwise.
     combined_food_availability_effect_proxy: Optional[float] = None
+    # Portfolio-level analog of InterventionResult.modeled_change.resilience_effect,
+    # computed the same way (degrade_resilience_by_impact) using the combined demand-node impact.
+    combined_resilience_effect: Optional[float] = None
     total_cost_estimate: Optional[float] = None
     total_water_impact_m3: Optional[float] = None
     total_carbon_impact_tco2e: Optional[float] = None
