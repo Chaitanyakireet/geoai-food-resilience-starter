@@ -259,15 +259,54 @@ found and fixed a real bug where FastAPI's native 422 validation-error
 only returns a plain string `detail` for the app's own `HTTPException`s;
 confirmed the backend-down state degrades gracefully instead of crashing.
 
+## Design system elevation + Digital Twin workspace (Hours 36-39)
+Per an explicit UI-quality directive, `frontend/src/app/globals.css` gained
+a real design system shared by every page: a spacing/radius/motion/
+elevation token set, a fixed button language (`.btn-primary/-secondary/
+-ghost`), shared empty/loading/error state primitives (`.state-block`),
+and -- a genuine bug fix -- `--font-sans` now actually resolves to the
+already-loaded Geist font instead of silently falling back to the system
+font the whole app had been rendering in. `Sidebar.tsx` gained inline line
+icons and a left-accent active indicator. `ChoroplethPreview` gained an
+optional `highlightDistrictId`/compact mode so the Twin workspace could
+reuse it as a spatial-context mini-map instead of duplicating map code.
+
+`/twin` (`frontend/src/components/twin/`) replaces the scenario-catalog
+preview with the real workspace: it reads the Intervention Lab's
+`sessionStorage` handoff (`useScenarioHandoff.ts`) and reconstructs a
+`TwinScenarioRequest` via the same `buildGraphShockInput` mapping used in
+the Intervention Lab, or -- with no handoff -- offers a polished empty
+state whose only "invented-free" option is a real baseline-only view (no
+shock parameters to fabricate). RUN SIMULATION calls `POST /twin/run`;
+World controls switch the active KPI/chart focus between Baseline/World A
+(shock)/manual portfolio/World B (optimized), each rendering actual
+`ScenarioState` fields with "Data unavailable"/"Not modeled" for missing
+values, never invented zeros. The recovery trajectory
+(`RecoveryChart.tsx`) is a from-scratch inline-SVG line chart (2px lines,
+>=8px end markers with a surface ring, hairline solid gridlines, a
+crosshair + one-tooltip-per-series-at-X, a legend, and a ~10% area wash
+under the emphasized series) built to the same mark/interaction spec used
+elsewhere in the product -- always plotting World A as a reference line
+alongside whichever world is active. COMPARE WORLDS calls `POST
+/twin/compare` and renders World A vs World B with delta tiles whose
+polarity (which sign is "improvement") mirrors the backend's own
+documented convention exactly (verified against live delta values, not
+assumed) and treats cost/water/carbon as neutral resource accounting, not
+a good/bad axis. An `AssumptionsDrawer` surfaces `/twin/provenance` +
+`/twin/config` plus the current run's own limitations. "Send to AI
+Decision Brief" only preserves scenario state in `sessionStorage` for the
+next task, per scope.
+
 ## Current state
-Hours 0-36 done: both services boot, 179 backend tests pass, and the
+Hours 0-39 done: both services boot, 179 backend tests pass, and the
 frontend build/lint are clean across all 7 routes. The Telangana spatial
 layer, a climate-driven risk baseline, a food-system network with
 bottleneck/propagation diagnostics, a shock/intervention/portfolio decision
-layer, a multi-objective portfolio optimizer, a Digital Twin with recovery
-simulation and Compare Worlds, a real website shell, a real interactive
-Spatial Intelligence GIS workspace, and a real interactive Intervention Lab
-are live. RAG/AI Copilot and the interactive Food Network / Digital Twin
-workspaces (later Day 2 tasks per `docs/MASTER_HANDOFF.md`) are not yet
-implemented. Nothing here is fabricated; every value carries a truth_status
-and traces to a provenance file.
+layer, a multi-objective portfolio optimizer, a real website shell with a
+shared design system, a real interactive Spatial Intelligence GIS
+workspace, a real interactive Intervention Lab, and a real interactive
+Digital Twin + Compare Worlds workspace are live. RAG/AI Copilot and the
+interactive Food Network workspace (later Day 2 tasks per
+`docs/MASTER_HANDOFF.md`) are not yet implemented. Nothing here is
+fabricated; every value carries a truth_status and traces to a provenance
+file.

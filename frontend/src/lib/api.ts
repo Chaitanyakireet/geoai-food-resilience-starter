@@ -413,6 +413,112 @@ export type OptimizationResult = {
 
 export type RiskConfig = { food_categories: string[]; [key: string]: unknown };
 
+// --- Digital Twin ---
+
+export type TwinScenarioRequest = {
+  scenario_id: string;
+  geo_id: string;
+  food_category?: string;
+  shock?: ShockInput;
+  heat_change_c?: number;
+  rainfall_change_pct?: number;
+  intervention_portfolio?: CandidateIntervention[];
+  optimize_candidates?: CandidateIntervention[];
+  constraints?: Constraints;
+  objective_weights?: Record<string, number>;
+  simulation_horizon_days?: number;
+  recovery_rate_override?: number;
+};
+
+export type ScenarioState = {
+  label: string;
+  risk_score: number | null;
+  risk_truth_status: TruthStatus | null;
+  resilience_score: number;
+  resilience_gap: number;
+  demand_impact_fraction: number;
+  food_availability_effect_proxy: number | null;
+  food_loss_effect: number | null;
+  cost: number | null;
+  water_impact_m3: number | null;
+  carbon_impact_tco2e: number | null;
+  intervention_types: string[];
+  truth_status: TruthStatus;
+};
+
+export type RecoveryPoint = { day: number; demand_impact_fraction: number; resilience_score: number; resilience_gap: number };
+
+export type RecoveryTrajectory = {
+  starting_label: string;
+  points: RecoveryPoint[];
+  recovery_rate_used: number;
+  recovery_rate_source: "config_default" | "user_override";
+  timestep_days: number;
+  horizon_days: number;
+  truth_status: TruthStatus;
+  method: string;
+  limitations: string[];
+};
+
+export type RecoveryMetrics = {
+  peak_disruption: number;
+  final_disruption: number;
+  recovery_time_days: number | null;
+  recovery_fraction: number;
+  resilience_gap_before: number;
+  resilience_gap_after: number;
+  residual_impact: number;
+  definitions: Record<string, string>;
+};
+
+export type TwinResult = {
+  scenario_id: string;
+  geo_id: string;
+  geo_level: string;
+  food_category: string;
+  baseline_state: ScenarioState;
+  shocked_state: ScenarioState | null;
+  intervention_state: ScenarioState | null;
+  optimized_state: ScenarioState | null;
+  shock_recovery: RecoveryTrajectory | null;
+  intervention_recovery: RecoveryTrajectory | null;
+  optimized_recovery: RecoveryTrajectory | null;
+  shock_recovery_metrics: RecoveryMetrics | null;
+  intervention_recovery_metrics: RecoveryMetrics | null;
+  optimized_recovery_metrics: RecoveryMetrics | null;
+  affected_geographies: string[];
+  affected_food_categories: string[];
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export type CompareWorldsResult = {
+  scenario_id: string;
+  world_a_label: string;
+  world_b_label: string;
+  world_a_state: ScenarioState;
+  world_b_state: ScenarioState;
+  world_a_recovery: RecoveryTrajectory;
+  world_b_recovery: RecoveryTrajectory;
+  world_a_metrics: RecoveryMetrics;
+  world_b_metrics: RecoveryMetrics;
+  deltas: Record<string, number | null>;
+  affected_geographies: string[];
+  affected_food_categories: string[];
+  truth_status: TruthStatus;
+  provenance_refs: string[];
+  limitations: string[];
+};
+
+export const postTwinRun = (input: TwinScenarioRequest) => postJson<TwinResult>("/twin/run", input);
+
+export const postTwinCompare = (input: TwinScenarioRequest) => postJson<CompareWorldsResult>("/twin/compare", input);
+
+export const getTwinConfig = () => getJson<{ recovery_model: Record<string, number>; [key: string]: unknown }>("/twin/config");
+
+export const getTwinProvenance = () => getJson<ProvenanceResponse>("/twin/provenance");
+
 export type InterventionCatalog = {
   intervention_types: Record<
     string,

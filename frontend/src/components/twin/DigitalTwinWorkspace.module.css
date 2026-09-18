@@ -1,0 +1,64 @@
+.workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.errorBanner {
+  padding: 18px 20px;
+}
+
+.loadingBlock {
+  padding: 60px 20px;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 18px;
+  align-items: start;
+  animation: fade-in var(--duration-slow) var(--ease-standard);
+}
+
+.center {
+  min-width: 0;
+}
+
+.chartCard {
+  padding: 24px 28px;
+}
+
+.chartHeader {
+  margin-bottom: 18px;
+}
+
+.chartTitle {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chartSubnote {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 16px;
+}
+
+@media (max-width: 1200px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+  .side {
+    position: static;
+  }
+}
