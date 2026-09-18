@@ -297,16 +297,42 @@ a good/bad axis. An `AssumptionsDrawer` surfaces `/twin/provenance` +
 Decision Brief" only preserves scenario state in `sessionStorage` for the
 next task, per scope.
 
+## AI Decision Brief + Copilot (Hours 39-42)
+`/ai-brief` (`frontend/src/components/ai-brief/`) replaces the placeholder
+with a real workspace on top of `backend/ai/` (see that section above):
+a scenario context bar (reads the same `ai.scenarioContext` sessionStorage
+key the Intervention Lab / Digital Twin now write to, or lets you pick a
+district directly), a Decision Brief view (`POST /ai/decision-brief`,
+sections rendered with per-section truth-status badges and an explicit
+"structured system brief" label whenever the AI provider isn't
+configured), a Copilot conversation (`POST /ai/query`) with the task's
+own suggested prompts, and a persistent tool-trace + evidence sidebar
+(`ToolTraceSidebar.tsx`) showing exactly which deterministic tools ran,
+their key results, and full citation cards (source, truth status,
+excerpt, relevance score) for every retrieved evidence item. Verified:
+build/lint clean; confirmed via curl that the empty state, suggested
+prompts, and district picker all render with real data and no fabricated
+placeholders; confirmed (by actually killing and restarting the backend
+process -- twice, after discovering `uvicorn --reload`'s auto-respawning
+worker had silently kept the port alive the first time) that the
+backend-down state degrades gracefully across `/ai-brief`, `/twin`, and
+`/interventions` simultaneously. Backend's 211 tests (179 + 32 new AI
+tests) still pass.
+
 ## Current state
-Hours 0-39 done: both services boot, 179 backend tests pass, and the
+Hours 0-42 done: both services boot, 211 backend tests pass, and the
 frontend build/lint are clean across all 7 routes. The Telangana spatial
 layer, a climate-driven risk baseline, a food-system network with
 bottleneck/propagation diagnostics, a shock/intervention/portfolio decision
 layer, a multi-objective portfolio optimizer, a real website shell with a
 shared design system, a real interactive Spatial Intelligence GIS
-workspace, a real interactive Intervention Lab, and a real interactive
-Digital Twin + Compare Worlds workspace are live. RAG/AI Copilot and the
-interactive Food Network workspace (later Day 2 tasks per
-`docs/MASTER_HANDOFF.md`) are not yet implemented. Nothing here is
-fabricated; every value carries a truth_status and traces to a provenance
-file.
+workspace (all map surfaces, including the two small preview widgets,
+verified rendering actual `/gis/*` GeoJSON via Leaflet -- no generated or
+approximated geometry anywhere), a real interactive Intervention Lab, a
+real interactive Digital Twin + Compare Worlds workspace, and a real AI
+Decision Brief + Copilot (deterministic-tool-grounded, RAG evidence over
+the project's own provenance/methodology, LLM-optional with a fully
+functional deterministic fallback) are live. The interactive Food Network
+workspace (a later Day 2 task per `docs/MASTER_HANDOFF.md`) is not yet
+implemented. Nothing here is fabricated; every value carries a
+truth_status and traces to a provenance file.
