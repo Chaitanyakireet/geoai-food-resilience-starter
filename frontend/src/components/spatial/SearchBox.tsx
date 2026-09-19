@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { DistrictsFeatureCollection, MandalsFeatureCollection } from "@/lib/api";
+import { LOCALITY_ALIASES } from "@/lib/localityAliases";
 import styles from "./SearchBox.module.css";
 
 type Match = { type: "district" | "mandal"; id: string; label: string; sublabel: string };
@@ -29,6 +30,7 @@ export function SearchBox({
       .map((f) => ({ type: "district", id: f.properties.district_id, label: f.properties.name, sublabel: "District" }));
 
     const mandalMatches: Match[] = [];
+    const matchedMandalIds = new Set<string>();
     for (const [districtId, collection] of loadedMandals.entries()) {
       for (const f of collection.features) {
         if (f.properties.name.toLowerCase().includes(q)) {
@@ -38,10 +40,32 @@ export function SearchBox({
             label: f.properties.name,
             sublabel: `Mandal, ${f.properties.district_name}`,
           });
+          matchedMandalIds.add(f.properties.mandal_id);
         }
       }
     }
-    return [...districtMatches, ...mandalMatches.slice(0, 6)];
+
+    // Well-known localities that aren't their own mandal (e.g. Hitech
+    // City) resolve to the real mandal that contains them -- only surfaced
+    // once that mandal is actually loaded, and always labeled as an
+    // alias resolving to a mandal, never as if the locality itself had
+    // independent geometry or risk data.
+    const aliasMatches: Match[] = [];
+    for (const alias of LOCALITY_ALIASES) {
+      if (!alias.name.toLowerCase().includes(q)) continue;
+      if (matchedMandalIds.has(alias.mandalId)) continue; // already listed by its real mandal name
+      const collection = loadedMandals.get(alias.districtId);
+      const target = collection?.features.find((f) => f.properties.mandal_id === alias.mandalId);
+      if (!target) continue;
+      aliasMatches.push({
+        type: "mandal",
+        id: `${alias.districtId}::${alias.mandalId}`,
+        label: alias.name,
+        sublabel: `Locality → ${target.properties.name}, ${target.properties.district_name}`,
+      });
+    }
+
+    return [...districtMatches, ...mandalMatches.slice(0, 6), ...aliasMatches.slice(0, 4)];
   }, [query, districts, loadedMandals]);
 
   const handleSelect = (m: Match) => {

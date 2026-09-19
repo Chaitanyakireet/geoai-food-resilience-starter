@@ -75,12 +75,14 @@ export function SpatialWorkspace({
   }, [districtById]);
 
   // Hyderabad is the platform's principal demand hub, so its urban-core
-  // places (Secunderabad, Quthbullapur, Kukatpally, Malkajgiri, ...) should
-  // be searchable immediately, not only after the district is clicked --
-  // these two districts (Hyderabad + the post-2016 Medchal-Malkajgiri
-  // split) cover the real Hyderabad metro mandals already in the dataset.
+  // places (Secunderabad, Quthbullapur, Kukatpally, Malkajgiri, Alwal,
+  // Hitech City/Gachibowli via Serilingampalle, ...) should be searchable
+  // immediately, not only after the district is clicked -- these three
+  // districts (Hyderabad + the post-2016 Medchal-Malkajgiri split + Ranga
+  // Reddy, which holds the western IT-corridor mandals) cover the real
+  // Hyderabad metro mandals already in the dataset.
   useEffect(() => {
-    for (const districtId of ["hyderabad", "medchalmalkajgiri"]) {
+    for (const districtId of ["hyderabad", "medchalmalkajgiri", "ranga_reddy"]) {
       if (districtById.has(districtId)) {
         getMandals(districtId).then((result) => {
           setMandalsByDistrict((prev) => (prev.has(districtId) ? prev : new Map(prev).set(districtId, result)));
