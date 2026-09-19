@@ -8,6 +8,7 @@ build order in docs/MASTER_HANDOFF.md.
 """
 from __future__ import annotations
 
+import os
 import sys
 from datetime import datetime, timezone
 
@@ -32,9 +33,17 @@ app.include_router(optimization_router)
 app.include_router(twin_router)
 app.include_router(ai_router)
 
+
+# Local dev origins are always allowed; production frontend origin(s) come
+# from an env var (comma-separated for more than one, e.g. a Railway
+# preview + production URL) since the deployed frontend's domain isn't
+# knowable at code-authoring time.
+_default_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
+_extra_origins = [o.strip() for o in os.environ.get("CORS_ALLOWED_ORIGINS", "").split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=_default_origins + _extra_origins,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
