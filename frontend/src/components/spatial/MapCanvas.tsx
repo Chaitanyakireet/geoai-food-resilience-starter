@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, ScaleControl, Tooltip, ZoomControl, useMap } from "react-leaflet";
-import type { Layer, LeafletMouseEvent, Map as LeafletMap, Path } from "leaflet";
+import { useEffect, useMemo, useState } from "react";
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Marker, ScaleControl, Tooltip, ZoomControl, useMap, useMapEvent } from "react-leaflet";
+import L, { type DivIcon, type Layer, type LeafletMouseEvent, type Map as LeafletMap, type Path } from "leaflet";
 import type {
   DistrictFeature,
   DistrictsFeatureCollection,
@@ -12,6 +12,35 @@ import type {
   StateBoundaryFeatureCollection,
 } from "@/lib/api";
 import { riskClassColorVar } from "@/components/RiskBadge";
+import styles from "./MapCanvas.module.css";
+
+// Zoom level from which mandal name labels appear -- below this the whole
+// Hyderabad-metro mandal set (the only mandals eagerly loaded) would be a
+// cluttered mass of overlapping text at whole-state zoom.
+const MANDAL_LABEL_MIN_ZOOM = 8;
+
+// A plain text label anchored at a lat/lon, built via textContent (not
+// innerHTML) so a place name can never be interpreted as markup. Used for
+// both district and mandal name labels, which are otherwise only shown on
+// hover via the polygon's own tooltip.
+function textLabelIcon(text: string, className: string): DivIcon {
+  const el = document.createElement("span");
+  el.className = className;
+  el.textContent = text;
+  return L.divIcon({ html: el, className: styles.labelIconReset, iconSize: [0, 0] });
+}
+
+// useMapEvent/useMap only work inside a child of <MapContainer>, not in
+// MapCanvas's own body -- this tracker lives inside the map and lifts the
+// current zoom up via a callback, same pattern as MapRefBridge below.
+function ZoomTracker({ onZoomChange }: { onZoomChange: (zoom: number) => void }) {
+  const map = useMap();
+  useMapEvent("zoomend", (e) => onZoomChange(e.target.getZoom()));
+  useEffect(() => {
+    onZoomChange(map.getZoom());
+  }, [map, onZoomChange]);
+  return null;
+}
 
 // react-leaflet's GeoJSON typings expect the standard `geojson` package
 // shapes; our API types are structurally compatible (real GeoJSON from the
@@ -129,6 +158,18 @@ export function MapCanvas({
   onSelectMandal: (mandalId: string) => void;
   onMapReady: (map: LeafletMap) => void;
 }) {
+  const [zoom, setZoom] = useState(TELANGANA_DEFAULT_ZOOM);
+
+  const districtLabelIcons = useMemo(
+    () => new Map(districts.features.map((f) => [f.properties.district_id, textLabelIcon(f.properties.name, styles.districtLabel)])),
+    [districts],
+  );
+
+  const mandalLabelIcons = useMemo(
+    () => new Map((mandals?.features ?? []).map((f) => [f.properties.mandal_id, textLabelIcon(f.properties.name, styles.mandalLabel)])),
+    [mandals],
+  );
+
   const districtStyle = useMemo(
     () =>
       (feature?: any) => {
@@ -215,6 +256,7 @@ export function MapCanvas({
         maxNativeZoom={16}
       />
       <MapRefBridge onReady={onMapReady} />
+      <ZoomTracker onZoomChange={setZoom} />
       <FitToBounds boundary={boundary} districts={districts} />
       <FlyToTarget target={flyTarget} />
       {/* The default topleft zoom control sits at the exact corner our
@@ -235,9 +277,37 @@ export function MapCanvas({
 
       <GeoJSON key={geoJsonKey} data={districts as any} style={districtStyle as any} onEachFeature={onEachDistrict as any} />
 
+      {districts.features.map((f) => {
+        const icon = districtLabelIcons.get(f.properties.district_id);
+        return icon ? (
+          <Marker
+            key={f.properties.district_id}
+            position={[f.properties.centroid_lat, f.properties.centroid_lon]}
+            icon={icon}
+            interactive={false}
+            keyboard={false}
+          />
+        ) : null;
+      })}
+
       {mandals ? (
         <GeoJSON key={mandalKey} data={mandals as any} style={mandalStyle as any} onEachFeature={onEachMandal as any} />
       ) : null}
+
+      {zoom >= MANDAL_LABEL_MIN_ZOOM
+        ? (mandals?.features ?? []).map((f) => {
+            const icon = mandalLabelIcons.get(f.properties.mandal_id);
+            return icon ? (
+              <Marker
+                key={f.properties.mandal_id}
+                position={[f.properties.centroid_lat, f.properties.centroid_lon]}
+                icon={icon}
+                interactive={false}
+                keyboard={false}
+              />
+            ) : null;
+          })
+        : null}
 
       {showMarkets && markets
         ? markets.map((m) => (

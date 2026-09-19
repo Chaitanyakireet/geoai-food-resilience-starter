@@ -233,7 +233,18 @@ export function SpatialWorkspace({
     }
   }, [boundary, districts]);
 
-  const currentMandals = selection ? (mandalsByDistrict.get(selection.districtId) ?? null) : null;
+  // Every mandal loaded so far (eagerly for the Hyderabad-metro districts,
+  // or on demand once a district is clicked) is shown on the map at once,
+  // not just the currently-selected district's -- otherwise "major places"
+  // like Secunderabad or Serilingampalle only became visible after already
+  // knowing to click into their district first.
+  const visibleMandals: MandalsFeatureCollection = useMemo(() => {
+    const features: MandalsFeatureCollection["features"] = [];
+    for (const collection of mandalsByDistrict.values()) {
+      if (collection) features.push(...collection.features);
+    }
+    return { type: "FeatureCollection", features };
+  }, [mandalsByDistrict]);
 
   const featureCollectionValid = districts.type === "FeatureCollection" && Array.isArray(districts.features) && districts.features.length > 0;
 
@@ -272,7 +283,7 @@ export function SpatialWorkspace({
         <MapCanvas
           boundary={boundary}
           districts={districts}
-          mandals={currentMandals}
+          mandals={visibleMandals}
           riskByDistrict={riskByDistrict}
           showRisk={showRisk}
           showMarkets={showMarkets}
