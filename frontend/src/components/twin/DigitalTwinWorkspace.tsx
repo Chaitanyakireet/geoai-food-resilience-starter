@@ -23,6 +23,7 @@ import { TwinKpiPanel } from "./TwinKpiPanel";
 import { RecoveryChart, type ChartSeries } from "./RecoveryChart";
 import { RecoveryMetricsStrip } from "./RecoveryMetricsStrip";
 import { CompareWorldsPanel } from "./CompareWorldsPanel";
+import { CarbonImpactPanel } from "@/components/CarbonImpactPanel";
 import { AssumptionsDrawer } from "./AssumptionsDrawer";
 import { TwinActionBar } from "./TwinActionBar";
 import { buildBaselineScenario, buildTwinScenarioFromHandoff, metricsForWorld, recoveryForWorld, stateForWorld, type WorldKey } from "./types";
@@ -188,6 +189,8 @@ export function DigitalTwinWorkspace({ districts, riskState }: { districts: Dist
       ) : null}
 
       <CompareWorldsPanel result={compareResult} error={compareError} loading={compareLoading} />
+
+      {currentGeoId && districts ? <CarbonImpactPanel districts={districts} geoId={currentGeoId} /> : null}
 
       <TwinActionBar
         canCompare={scenario !== null && twinResult !== null}

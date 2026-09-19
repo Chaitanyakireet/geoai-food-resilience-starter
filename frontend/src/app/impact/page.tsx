@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ImpactWorkspace } from "@/components/impact/ImpactWorkspace";
 import {
   getAiProvenance,
+  getDistricts,
   getGisProvenance,
   getGraphProvenance,
   getInterventionProvenance,
@@ -11,7 +12,7 @@ import {
 } from "@/lib/api";
 
 export default async function ImpactResponsibleAiPage() {
-  const [gis, risk, graph, intervention, optimization, twin, ai] = await Promise.all([
+  const [gis, risk, graph, intervention, optimization, twin, ai, districts] = await Promise.all([
     getGisProvenance(),
     getRiskProvenance(),
     getGraphProvenance(),
@@ -19,6 +20,7 @@ export default async function ImpactResponsibleAiPage() {
     getOptimizationProvenance(),
     getTwinProvenance(),
     getAiProvenance(),
+    getDistricts(),
   ]);
 
   if (!gis) {
@@ -43,7 +45,7 @@ export default async function ImpactResponsibleAiPage() {
         title="Impact & Responsible AI"
         subtitle="An auditable decision-support summary: modeled impact, SDG coverage, confidence, provenance, Responsible-AI discipline, and the human-review boundary — not a generic ESG dashboard."
       />
-      <ImpactWorkspace provenance={{ gis, risk, graph, intervention, optimization, twin, ai }} />
+      <ImpactWorkspace provenance={{ gis, risk, graph, intervention, optimization, twin, ai }} districts={districts} />
     </div>
   );
 }

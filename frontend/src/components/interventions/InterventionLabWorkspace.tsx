@@ -22,6 +22,7 @@ import { ShockComposer } from "./ShockComposer";
 import { ShockResultPanel } from "./ShockResultPanel";
 import { InterventionCatalogPanel } from "./InterventionCatalogPanel";
 import { PortfolioPanel } from "./PortfolioPanel";
+import { CarbonImpactPanel } from "@/components/CarbonImpactPanel";
 import { SimulationResultPanel } from "./SimulationResultPanel";
 import { OptimizationResultPanel } from "./OptimizationResultPanel";
 import { ActionBar } from "./ActionBar";
@@ -233,6 +234,7 @@ export function InterventionLabWorkspace({
 
         <div className={styles.right}>
           <PortfolioPanel draft={draft} onRemove={removeDraft} constraints={constraints} onConstraintsChange={setConstraints} />
+          <CarbonImpactPanel districts={districts} geoId={geoId} draft={draft} />
 
           <div className={styles.tabs}>
             <button type="button" className={resultTab === "simulate" ? styles.tabActive : styles.tab} onClick={() => setResultTab("simulate")}>

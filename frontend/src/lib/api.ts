@@ -769,3 +769,64 @@ export const postShock = (input: ShockComposerRequest) => postJson<ShockResult>(
 export const postPortfolio = (input: PortfolioInputRequest) => postJson<PortfolioResult>("/interventions/portfolio", input);
 
 export const postOptimizationRun = (input: OptimizationInputRequest) => postJson<OptimizationResult>("/optimization/run", input);
+
+// --- Carbon Impact Calculator -------------------------------------------------
+// Deterministic activity x cited-emissions-factor calculator (backend/carbon/).
+// The LLM never touches these numbers -- see config/carbon_factors.yaml.
+
+export type CarbonFactor = {
+  factor_id: string;
+  activity_category: string;
+  status: "available" | "not_modeled";
+  source_name: string | null;
+  source_url: string | null;
+  factor_value: number | null;
+  unit: string | null;
+  geography: string | null;
+  year: number | null;
+  methodology: string | null;
+  uncertainty_limitations: string | null;
+};
+
+export type CarbonCalculationResult = {
+  origin_geo_id: string;
+  destination_geo_id: string;
+  distance_km: number | null;
+  distance_truth_status: TruthStatus | null;
+  factor: CarbonFactor;
+  activity_tonnes: number | null;
+  carbon_intensity_kg_per_tonne: number | null;
+  total_carbon_kg: number | null;
+  truth_status: TruthStatus;
+  available: boolean;
+  unavailable_reason: string | null;
+  limitations: string[];
+};
+
+export type WorldCarbon = {
+  label: string;
+  total_carbon_kg: number | null;
+  available: boolean;
+  truth_status: TruthStatus;
+  unavailable_reason: string | null;
+};
+
+export type CarbonComparisonResult = {
+  world_a: WorldCarbon;
+  world_b: WorldCarbon;
+  delta_carbon_kg: number | null;
+  pct_change: number | null;
+  detail: CarbonCalculationResult | null;
+  limitations: string[];
+};
+
+export type CarbonComparisonRequest = {
+  geo_id: string;
+  alternate_geo_id?: string;
+  activity_tonnes?: number;
+  factor_id?: string;
+};
+
+export const getCarbonFactors = () => getJson<CarbonFactor[]>("/carbon/factors");
+
+export const postCarbonCompare = (input: CarbonComparisonRequest) => postJson<CarbonComparisonResult>("/carbon/compare", input);

@@ -7,6 +7,7 @@ import {
   postTwinRun,
   type ApiError,
   type CompareWorldsResult,
+  type DistrictsFeatureCollection,
   type ProvenanceResponse,
   type RiskResult,
   type TwinResult,
@@ -14,6 +15,7 @@ import {
 import { aiContextToTwinScenario } from "@/lib/aiScenarioContext";
 import { useAiScenarioContext } from "@/components/ai-brief/useAiScenarioContext";
 import { CompareWorldsPanel } from "@/components/twin/CompareWorldsPanel";
+import { CarbonImpactPanel } from "@/components/CarbonImpactPanel";
 import { ScenarioContextStrip } from "./ScenarioContextStrip";
 import { TruthStatusStrip } from "./TruthStatusStrip";
 import { ImpactSummaryPanel } from "./ImpactSummaryPanel";
@@ -42,7 +44,7 @@ type ProvenanceBundle = {
   } | null;
 };
 
-export function ImpactWorkspace({ provenance }: { provenance: ProvenanceBundle }) {
+export function ImpactWorkspace({ provenance, districts }: { provenance: ProvenanceBundle; districts: DistrictsFeatureCollection | null }) {
   const context = useAiScenarioContext();
 
   const [twinResult, setTwinResult] = useState<TwinResult | null>(null);
@@ -109,6 +111,8 @@ export function ImpactWorkspace({ provenance }: { provenance: ProvenanceBundle }
       <SdgFramework headline={headline} />
 
       <CompareWorldsPanel result={compareResult} error={compareError} loading={compareLoading} />
+
+      {context?.geo_id && districts ? <CarbonImpactPanel districts={districts} geoId={context.geo_id} /> : null}
 
       <ConfidenceDataCoverage risk={riskResult} />
 

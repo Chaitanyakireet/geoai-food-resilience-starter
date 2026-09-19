@@ -1,0 +1,53 @@
+# Emissions-factor registry for the food-system carbon calculator
+# (backend/carbon/). Every factor here is a real, cited, publicly published
+# number -- NONE are invented or estimated by this project. If a category
+# has no defensible factor, its entry has factor_value: null and
+# status: not_modeled instead of a fabricated number (see cold_chain_storage
+# below) -- the calculator returns an explicit "unavailable" result for it,
+# never a guess.
+#
+# Schema per factor:
+#   factor_id, activity_category, source_name, source_url, factor_value,
+#   unit, geography, year, methodology, uncertainty_limitations, status
+factors:
+  - factor_id: road_freight_hgv_rigid_gt17t_avg_laden_uk_2021
+    activity_category: transport
+    status: available
+    source_name: "UK Government (BEIS/DEFRA) -- Greenhouse Gas Reporting: Conversion Factors 2021"
+    source_url: "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021"
+    factor_value: 0.04401
+    unit: "kg CO2e per tonne-km"
+    geography: "United Kingdom (national average road-freight fleet)"
+    year: 2021
+    methodology: >
+      HGV, Rigid, >17 tonnes gross vehicle weight, average laden (not 100% laden),
+      diesel. Well-to-wheel (WTW): direct combustion (tank-to-wheel) plus upstream
+      fuel production (well-to-tank) emissions, per UK Government GHG conversion
+      factor methodology.
+    uncertainty_limitations: >
+      This is a UK government reference factor, used here as the best publicly
+      available, properly documented road-freight factor -- no India-specific or
+      Telangana-specific road-freight emissions factor was sourced this sprint.
+      India's freight fleet composition, average vehicle age/efficiency, fuel mix,
+      and road/traffic conditions differ from the UK and are not accounted for.
+      Actual transported tonnage for any specific intervention is not measured by
+      this platform; it must be supplied as an explicit activity assumption.
+
+  - factor_id: cold_chain_storage_electricity
+    activity_category: storage
+    status: not_modeled
+    source_name: null
+    source_url: null
+    factor_value: null
+    unit: null
+    geography: null
+    year: null
+    methodology: null
+    uncertainty_limitations: >
+      No defensible, properly documented cold-chain/refrigerated-storage energy-
+      intensity factor (e.g. kWh per tonne per day) combined with a Telangana/India
+      grid emissions factor was sourced with sufficient confidence this sprint.
+      Rather than fabricate a number, storage-related carbon is reported as
+      NOT MODELED. A future pass could add this once a defensible pair of
+      sources (storage energy intensity + regional grid emissions factor) is
+      identified and cited the same way the transport factor above is.

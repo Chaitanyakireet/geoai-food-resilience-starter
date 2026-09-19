@@ -356,7 +356,7 @@ def test_ai_provenance_endpoint_exposes_no_secret(monkeypatch):
     assert "sk-should-never-appear-in-response" not in resp.text
     body = resp.json()
     assert body["provider"]["configured"] is True
-    assert len(body["approved_tools"]) == 8
+    assert len(body["approved_tools"]) == 9
 
 
 # --- LLM tool-use loop, wired against a fake provider (no real API key) -------

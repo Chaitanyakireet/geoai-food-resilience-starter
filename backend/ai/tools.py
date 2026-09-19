@@ -213,6 +213,32 @@ def retrieve_evidence(query: str, top_k: int = 3, geo_id: str | None = None) -> 
     return result.model_dump()
 
 
+def calculate_carbon_impact(
+    geo_id: str,
+    alternate_geo_id: str | None = None,
+    activity_tonnes: float | None = None,
+    factor_id: str = "road_freight_hgv_rigid_gt17t_avg_laden_uk_2021",
+) -> dict:
+    """Deterministic food-system transport-carbon calculator (activity x a
+    cited emissions factor -- see config/carbon_factors.yaml). This is the
+    ONLY approved way to produce a carbon-impact number for a rerouting/
+    alternative-sourcing intervention; the LLM must never invent one. Returns
+    a baseline-vs-scenario comparison (World A = no intervention = 0 kg by
+    definition, World B = the geo_id -> alternate_geo_id transport leg)."""
+    from backend.carbon.calculator import calculate_carbon_comparison
+
+    try:
+        result = calculate_carbon_comparison(
+            geo_id=geo_id,
+            alternate_geo_id=alternate_geo_id,
+            activity_tonnes=activity_tonnes,
+            factor_id=factor_id,
+        )
+        return result.model_dump()
+    except KeyError as exc:
+        return {"error": str(exc)}
+
+
 TOOL_REGISTRY: dict[str, Callable[..., dict]] = {
     "get_risk": get_risk,
     "inspect_location": inspect_location,
@@ -221,6 +247,7 @@ TOOL_REGISTRY: dict[str, Callable[..., dict]] = {
     "test_intervention": test_intervention,
     "run_optimization": run_optimization,
     "calculate_impact": calculate_impact,
+    "calculate_carbon_impact": calculate_carbon_impact,
     "retrieve_evidence": retrieve_evidence,
 }
 
@@ -287,6 +314,17 @@ def summarize_tool_result(tool_name: str, result: dict) -> dict:
             "optimized_food_availability_effect_proxy": optimized.get("food_availability_effect_proxy"),
             "recovery_time_days": (result.get("optimized_recovery_metrics") or result.get("shock_recovery_metrics") or {}).get("recovery_time_days"),
             "truth_status": result.get("truth_status", "SIMULATED"),
+        }
+    if tool_name == "calculate_carbon_impact":
+        world_b = result.get("world_b", {})
+        return {
+            "baseline_carbon_kg": result.get("world_a", {}).get("total_carbon_kg"),
+            "scenario_carbon_kg": world_b.get("total_carbon_kg"),
+            "scenario_available": world_b.get("available"),
+            "delta_carbon_kg": result.get("delta_carbon_kg"),
+            "pct_change": result.get("pct_change"),
+            "truth_status": world_b.get("truth_status"),
+            "source": (result.get("detail") or {}).get("factor", {}).get("source_name"),
         }
     if tool_name == "retrieve_evidence":
         return {"found": result.get("found"), "match_count": len(result.get("matches", [])), "sources": [m["source_name"] for m in result.get("matches", [])]}
@@ -415,6 +453,20 @@ TOOL_SCHEMAS: list[dict] = [
                 "max_hops": {"type": "integer", "default": 5},
                 "intervention_types": {"type": "array", "items": {"type": "string"}, "description": "manual/alternative portfolio"},
                 "optimize_candidate_types": {"type": "array", "items": {"type": "string"}, "description": "candidate pool for the Twin's own optimizer"},
+            },
+            "required": ["geo_id"],
+        },
+    },
+    {
+        "name": "calculate_carbon_impact",
+        "description": "Deterministic transport-carbon calculator for a rerouting/alternative-sourcing intervention: real great-circle distance between district/mandal centroids x a cited emissions factor. Returns World A (no intervention, 0 kg by definition) vs World B (the geo_id -> alternate_geo_id leg). This is the ONLY approved source of a carbon-impact number for such an intervention -- never invent one.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "geo_id": {"type": "string", "description": "district_id or mandal_id the intervention originates from"},
+                "alternate_geo_id": {"type": "string", "description": "district_id or mandal_id being rerouted to/sourced from"},
+                "activity_tonnes": {"type": "number", "description": "assumed freight tonnage; omit for carbon-intensity-only (kg per tonne)"},
+                "factor_id": {"type": "string", "default": "road_freight_hgv_rigid_gt17t_avg_laden_uk_2021", "description": "see /carbon/factors for the full registry, including not_modeled categories"},
             },
             "required": ["geo_id"],
         },
