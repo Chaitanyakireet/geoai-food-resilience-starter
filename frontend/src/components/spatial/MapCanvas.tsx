@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, ScaleControl, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, ScaleControl, Tooltip, ZoomControl, useMap } from "react-leaflet";
 import type { Layer, LeafletMouseEvent, Map as LeafletMap, Path } from "leaflet";
 import type {
   DistrictFeature,
@@ -207,6 +207,7 @@ export function MapCanvas({
       doubleClickZoom
       touchZoom
       dragging
+      zoomControl={false}
     >
       <TileLayer
         attribution='Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, and the GIS User Community'
@@ -216,6 +217,12 @@ export function MapCanvas({
       <MapRefBridge onReady={onMapReady} />
       <FitToBounds boundary={boundary} districts={districts} />
       <FlyToTarget target={flyTarget} />
+      {/* The default topleft zoom control sits at the exact corner our
+          custom SearchBox overlay occupies (.topLeftControls), silently
+          hiding the +/- buttons underneath it -- this was the actual
+          "can't zoom out" bug, not a config/logic restriction. Moving it
+          to bottomright (clear of every other custom overlay) fixes it. */}
+      <ZoomControl position="bottomright" />
       <ScaleControl position="bottomleft" imperial={false} />
 
       {boundary ? (

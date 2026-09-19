@@ -208,7 +208,7 @@
 
 .provenanceLauncher {
   position: absolute;
-  bottom: 14px;
+  bottom: 104px;
   right: 14px;
   z-index: 400;
   background: var(--surface-1);
@@ -244,7 +244,7 @@
 
 .mandalLoadingToast {
   position: absolute;
-  bottom: 60px;
+  bottom: 150px;
   right: 14px;
   z-index: 400;
   background: var(--surface-1);

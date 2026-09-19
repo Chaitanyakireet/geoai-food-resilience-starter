@@ -112,8 +112,8 @@ export function MiniRiskMapCanvas({
       center={[17.9, 79.3]}
       zoom={6}
       style={{ height: "100%", width: "100%", background: "var(--page-plane)", cursor: onSelectDistrict ? "pointer" : undefined }}
-      zoomControl={false}
-      scrollWheelZoom={false}
+      scrollWheelZoom
+      doubleClickZoom
       maxZoom={18}
     >
       <TileLayer
