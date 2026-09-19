@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
 
@@ -123,9 +124,42 @@ export function Sidebar() {
         })}
       </nav>
 
+      <div className={styles.identityPanel}>
+        <Image
+          src="/sidebar/charminar-hyderabad-night.jpg"
+          alt="Charminar, Hyderabad, at night"
+          fill
+          sizes="220px"
+          className={styles.identityImage}
+          unoptimized
+        />
+        <div className={styles.identityGradient} aria-hidden />
+        <div className={styles.identityText}>
+          <div className={styles.identityHeadline}>
+            A Resilient
+            <br />
+            Food Future
+            <br />
+            for <span className={styles.identityAccent}>Telangana</span>
+          </div>
+          <div className={styles.identityTagline}>Spatial Intelligence · Food · Climate · Resilience</div>
+        </div>
+      </div>
+
       <div className={styles.footer}>
-        <div className={styles.footerLine}>Hyderabad–Telangana</div>
-        <div className={styles.footerLine}>Multi-food · SDG 2</div>
+        <div className={styles.footerLine}>Hyderabad–Telangana · Multi-food · SDG 2</div>
+        <div className={styles.photoCredit}>
+          Charminar at night — Tarunsamanta,{" "}
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Charminar_night_view_in_Hyderabad_31.jpg"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.photoCreditLink}
+          >
+            Wikimedia Commons
+          </a>
+          , CC BY-SA 4.0
+        </div>
       </div>
     </aside>
   );
