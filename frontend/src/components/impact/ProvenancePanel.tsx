@@ -62,6 +62,16 @@ export function ProvenancePanel({
           </div>
         </details>
       ) : null}
+
+      <div className={styles.assetAttribution}>
+        SDG icons: United Nations Sustainable Development Goals —{" "}
+        <a href="https://www.un.org/sustainabledevelopment" target="_blank" rel="noreferrer" className={styles.link}>
+          un.org/sustainabledevelopment
+        </a>
+        . The content of this publication has not been approved by the United Nations and does not reflect the
+        views of the United Nations or its officials or Member States. Their use here is illustrative of project
+        alignment only and does not imply United Nations endorsement of this platform.
+      </div>
     </div>
   );
 }

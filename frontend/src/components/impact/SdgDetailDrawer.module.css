@@ -1,0 +1,76 @@
+.headerIdentity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.headerIcon {
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.statusPill {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+}
+
+.status_directly_modeled {
+  color: var(--cat-green);
+  border-color: var(--cat-green);
+}
+
+.status_co_benefit {
+  color: var(--cat-blue);
+  border-color: var(--cat-blue);
+}
+
+.status_not_modeled {
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  padding-top: 14px;
+  border-top: 1px solid var(--gridline);
+}
+
+.section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.limitations {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
