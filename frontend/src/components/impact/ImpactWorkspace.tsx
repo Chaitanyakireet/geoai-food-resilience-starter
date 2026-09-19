@@ -25,6 +25,7 @@ import { ProvenancePanel } from "./ProvenancePanel";
 import { ResponsibleAiChecklist } from "./ResponsibleAiChecklist";
 import { HumanReviewPanel } from "./HumanReviewPanel";
 import { ImpactTrace } from "./ImpactTrace";
+import { AuthorSection } from "./AuthorSection";
 import { scenarioFingerprint, useReviewState } from "./useReviewState";
 import styles from "./ImpactWorkspace.module.css";
 
@@ -131,6 +132,8 @@ export function ImpactWorkspace({ provenance, districts }: { provenance: Provena
       <ResponsibleAiChecklist />
 
       <HumanReviewPanel limitations={twinResult?.limitations ?? []} record={record} markReviewed={markReviewed} clearReview={clearReview} />
+
+      <AuthorSection />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import { Footer } from "@/components/Footer";
 import { Sidebar } from "@/components/Sidebar";
 import { TopBar } from "@/components/TopBar";
 import { getAiProvenance, getDistricts, getHealth } from "@/lib/api";
@@ -45,6 +46,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <div className="app-main">
             <TopBar backendReachable={health !== null} districts={districts} aiConfigured={aiProvenance?.provider.configured ?? null} />
             <main className="app-content">{children}</main>
+            <Footer />
           </div>
         </div>
       </body>
