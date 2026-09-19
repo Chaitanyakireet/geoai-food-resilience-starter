@@ -98,11 +98,15 @@ export function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
-        <div className={styles.brandMark}>GF</div>
-        <div>
-          <div className={styles.brandTitle}>GeoAI Food-Resilience</div>
-          <div className={styles.brandSubtitle}>Digital Twin</div>
-        </div>
+        <Image
+          src="/geoai-food-resilience-logo.png"
+          alt="GeoAI Food-Resilience Digital Twin"
+          width={1659}
+          height={948}
+          className={styles.brandLogo}
+          unoptimized
+          priority
+        />
       </div>
 
       <nav className={styles.nav}>
