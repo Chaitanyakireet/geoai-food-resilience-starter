@@ -126,8 +126,8 @@ export function Sidebar() {
 
       <div className={styles.identityPanel}>
         <Image
-          src="/sidebar/charminar-hyderabad-night.jpg"
-          alt="Charminar, Hyderabad, at night"
+          src="/sidebar/hussain-sagar-buddha-sunset.jpg"
+          alt="The Buddha statue at Hussain Sagar, Hyderabad, at sunset"
           fill
           sizes="220px"
           className={styles.identityImage}
@@ -149,16 +149,16 @@ export function Sidebar() {
       <div className={styles.footer}>
         <div className={styles.footerLine}>Hyderabad–Telangana · Multi-food · SDG 2</div>
         <div className={styles.photoCredit}>
-          Charminar at night — Tarunsamanta,{" "}
+          Hussain Sagar, Hyderabad — Lakshayreddy,{" "}
           <a
-            href="https://commons.wikimedia.org/wiki/File:Charminar_night_view_in_Hyderabad_31.jpg"
+            href="https://commons.wikimedia.org/wiki/File:Sunset_at_Hussain_Sagar.jpg"
             target="_blank"
             rel="noreferrer"
             className={styles.photoCreditLink}
           >
             Wikimedia Commons
           </a>
-          , CC BY-SA 4.0
+          , CC BY-SA 3.0
         </div>
       </div>
     </aside>
