@@ -26,6 +26,22 @@ climate_source:
   recent_window_days: 30
   climatology_period: "2001-2020"
 
+# Vegetation condition (NDVI) -- built by scripts/build_vegetation_features.py.
+# Requires a free NASA Earthdata Login account (EARTHDATA_USERNAME/PASSWORD),
+# unlike NASA POWER which is keyless. Reported as an OBSERVED context driver
+# (see backend/risk/baseline_model.py) but NOT folded into risk_model.weights
+# below -- there is no vetted methodology yet for how vegetation stress
+# should be weighted against rainfall/heat in the composite score, and
+# fabricating a weight would violate the same "no unvalidated calibration"
+# principle documented for the existing weights.
+vegetation_source:
+  provider: NASA LP DAAC (MODIS MOD13Q1.061 NDVI, via AppEEARS point extraction)
+  layer: _250m_16_days_NDVI
+  quality_layer: _250m_16_days_pixel_reliability
+  good_reliability_values: [0, 1] # Good, Marginal -- excludes snow/ice (2) and cloudy (3)
+  history_years: 6
+  seasonal_baseline_window_days: 24 # +/- days of day-of-year for the "same season" historical mean
+
 # Baseline risk formula (backend/risk/baseline_model.py). These weights and
 # thresholds are ASSUMED/documented calibration choices, not fit to any
 # labeled outcome data -- no historical food-system-disruption ground truth

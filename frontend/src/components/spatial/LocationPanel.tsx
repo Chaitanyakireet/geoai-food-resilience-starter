@@ -42,6 +42,7 @@ export function LocationPanel({
 
   const inherited = risk?.resolved_via?.startsWith("inherited_from_parent_district") ?? false;
   const explanation = risk ? buildWhyHereExplanation(risk) : null;
+  const vegetation = risk?.major_drivers.find((d) => d.feature === "vegetation_condition") ?? null;
 
   return (
     <aside className={`${styles.panel} card`}>
@@ -181,9 +182,27 @@ export function LocationPanel({
               </Section>
 
               <Section title="Vegetation & Water Stress">
-                <span className="muted">
-                  Data unavailable — no remote-sensing NDVI or water-stress dataset was ingested this sprint.
-                </span>
+                {vegetation ? (
+                  <>
+                    <div className={styles.vegHeadline}>
+                      <span>
+                        NDVI {vegetation.observed_value?.toFixed(3)} vs. seasonal norm {vegetation.baseline_value?.toFixed(3)}
+                        {vegetation.anomaly_pct !== null
+                          ? ` (${vegetation.anomaly_pct >= 0 ? "+" : ""}${vegetation.anomaly_pct.toFixed(1)}% ${vegetation.anomaly_pct >= 0 ? "above" : "below"} normal)`
+                          : ""}
+                      </span>
+                      <StatusBadge status={vegetation.truth_status} compact />
+                    </div>
+                    <p className="muted" style={{ fontSize: 11, marginTop: 5, lineHeight: 1.5 }}>{vegetation.note}</p>
+                    <p className="muted" style={{ fontSize: 11, marginTop: 6 }}>Water stress: no dataset ingested this sprint.</p>
+                  </>
+                ) : (
+                  <span className="muted">
+                    Vegetation: no quality-passing satellite composite available for this district (cloud cover, or
+                    the vegetation dataset hasn&apos;t been built — see scripts/build_vegetation_features.py). Water
+                    stress: no dataset ingested this sprint.
+                  </span>
+                )}
               </Section>
             </>
           ) : null}

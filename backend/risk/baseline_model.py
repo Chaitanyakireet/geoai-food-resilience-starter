@@ -29,6 +29,7 @@ import uuid
 
 from backend.risk.contracts import DataCoverage, Driver, RiskInput, RiskResult
 from backend.risk.features import get_district_feature_row, load_features_config
+from backend.risk.vegetation_features import get_district_vegetation_row
 
 STRUCTURAL_UNCERTAINTY_FLOOR = 0.05  # acknowledged formula/threshold-assumption uncertainty, even at full data coverage
 MAX_COVERAGE_UNCERTAINTY = 0.45
@@ -186,6 +187,44 @@ def compute_risk_for_district(inp: RiskInput, feature_row: dict, geo_level: str 
             ),
         )
     )
+
+    # Vegetation (NDVI) is a real, separately-sourced OBSERVED signal (MODIS
+    # via NASA AppEEARS, see scripts/build_vegetation_features.py) but is
+    # deliberately NOT folded into risk_score -- same treatment as
+    # heat_stress_t2m_max_context above: reported for context only, pending
+    # a deliberate methodology decision on how to weight it. A district
+    # with no quality-passing composite in the query window (cloud cover,
+    # fetch failure) simply has no row here rather than a fabricated one.
+    # feature_row["geo_id"] is always the underlying DISTRICT id (the
+    # district itself for a direct query, or the parent district for an
+    # inherited mandal query) -- using it here means vegetation inherits
+    # to mandals exactly the way climate already does, instead of never
+    # resolving for any mandal query.
+    vegetation_row = get_district_vegetation_row(feature_row["geo_id"])
+    if vegetation_row is not None:
+        veg_observed = vegetation_row["observed"]["ndvi"]
+        veg_baseline = vegetation_row["baseline"]["ndvi"]
+        veg_anomaly_pct = _pct_deviation(veg_observed, veg_baseline)
+        drivers.append(
+            Driver(
+                feature="vegetation_condition",
+                observed_value=veg_observed,
+                baseline_value=veg_baseline,
+                unit="NDVI (unitless index, -1 to 1)",
+                anomaly_pct=round(veg_anomaly_pct * 100, 2) if veg_anomaly_pct is not None else None,
+                contribution_to_score=None,
+                used_in_score=False,
+                truth_status="OBSERVED",
+                note=(
+                    f"Not used in risk_score (context only). MODIS MOD13Q1 NDVI, most recent "
+                    f"quality-passing 16-day composite ({vegetation_row['date']}) vs. a same-season "
+                    f"historical mean ({vegetation_row['baseline']['method']}). Negative anomaly = "
+                    f"below-normal vegetation greenness for this time of year, not itself a "
+                    f"validated food-availability signal. Point estimate at the district centroid "
+                    f"(250m MODIS pixel), not area-averaged over the district polygon."
+                ),
+            )
+        )
 
     coverage_uncertainty = (1 - coverage_ratio) * MAX_COVERAGE_UNCERTAINTY
     margin = round(STRUCTURAL_UNCERTAINTY_FLOOR + coverage_uncertainty, 4)

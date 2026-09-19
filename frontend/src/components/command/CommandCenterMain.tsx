@@ -107,7 +107,26 @@ export function CommandCenterMain({
               </p>
 
               <div className={styles.situationSectionTitle}>Vegetation & Water Stress</div>
-              <p className={styles.situationNote}>Not available — no remote-sensing NDVI or water-stress dataset was ingested this sprint.</p>
+              {(() => {
+                const vegetation = selectedRisk.major_drivers.find((d) => d.feature === "vegetation_condition");
+                if (!vegetation) {
+                  return (
+                    <p className={styles.situationNote}>
+                      Vegetation: no quality-passing satellite composite available for this district. Water stress: no
+                      dataset ingested this sprint.
+                    </p>
+                  );
+                }
+                return (
+                  <p className={styles.situationNote}>
+                    NDVI {vegetation.observed_value?.toFixed(3)} vs. seasonal norm {vegetation.baseline_value?.toFixed(3)}
+                    {vegetation.anomaly_pct !== null
+                      ? ` (${vegetation.anomaly_pct >= 0 ? "+" : ""}${vegetation.anomaly_pct.toFixed(1)}% ${vegetation.anomaly_pct >= 0 ? "above" : "below"} normal)`
+                      : ""}{" "}
+                    — context only, not used in risk score. Water stress: no dataset ingested this sprint.
+                  </p>
+                );
+              })()}
 
               <Link href="/spatial" className={styles.situationLink}>
                 Open full analysis in Spatial Intelligence →

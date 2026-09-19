@@ -1,0 +1,699 @@
+{
+  "features": [
+    {
+      "geo_id": "khammam",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.5473,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.5907,
+        "composite_count": 8,
+        "method": "seasonal window (+/-24 days of day-of-year), 8 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 105,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "adilabad",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.8518,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7626,
+        "composite_count": 8,
+        "method": "seasonal window (+/-24 days of day-of-year), 8 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 116,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "karimnagar",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7472,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7031,
+        "composite_count": 13,
+        "method": "seasonal window (+/-24 days of day-of-year), 13 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 120,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "hanumakonda",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7911,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6795,
+        "composite_count": 11,
+        "method": "seasonal window (+/-24 days of day-of-year), 11 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 121,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "medak",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7787,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7107,
+        "composite_count": 10,
+        "method": "seasonal window (+/-24 days of day-of-year), 10 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 114,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "nizamabad",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.8628,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.8157,
+        "composite_count": 13,
+        "method": "seasonal window (+/-24 days of day-of-year), 13 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 118,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "ranga_reddy",
+      "geo_level": "district",
+      "date": "2026-08-13",
+      "observed": {
+        "ndvi": 0.5844,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.566,
+        "composite_count": 6,
+        "method": "seasonal window (+/-24 days of day-of-year), 6 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 113,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "nalgonda",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.578,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6956,
+        "composite_count": 10,
+        "method": "seasonal window (+/-24 days of day-of-year), 10 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 115,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "mahabubnagar",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.3548,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.3714,
+        "composite_count": 5,
+        "method": "seasonal window (+/-24 days of day-of-year), 5 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 112,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "hyderabad",
+      "geo_level": "district",
+      "date": "2026-06-10",
+      "observed": {
+        "ndvi": 0.2939,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.2587,
+        "composite_count": 4,
+        "method": "seasonal window (+/-24 days of day-of-year), 4 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 74,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "sangareddy",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.6743,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6673,
+        "composite_count": 10,
+        "method": "seasonal window (+/-24 days of day-of-year), 10 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 112,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "medchalmalkajgiri",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.8374,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6953,
+        "composite_count": 14,
+        "method": "seasonal window (+/-24 days of day-of-year), 14 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 123,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "siddipet",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.6662,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6181,
+        "composite_count": 11,
+        "method": "seasonal window (+/-24 days of day-of-year), 11 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 120,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "jogulamba_gadwal",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.5132,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.4844,
+        "composite_count": 11,
+        "method": "seasonal window (+/-24 days of day-of-year), 11 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 119,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "warangal",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7654,
+        "pixel_reliability": 0,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7166,
+        "composite_count": 13,
+        "method": "seasonal window (+/-24 days of day-of-year), 13 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 114,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "jangaon",
+      "geo_level": "district",
+      "date": "2026-08-13",
+      "observed": {
+        "ndvi": 0.6896,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6151,
+        "composite_count": 9,
+        "method": "seasonal window (+/-24 days of day-of-year), 9 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 122,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "vikarabad",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.6841,
+        "pixel_reliability": 0,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6887,
+        "composite_count": 8,
+        "method": "seasonal window (+/-24 days of day-of-year), 8 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 113,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "mancherial",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.6487,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.5643,
+        "composite_count": 5,
+        "method": "seasonal window (+/-24 days of day-of-year), 5 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 109,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "kumuram_bheem_asifabad",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7424,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6905,
+        "composite_count": 6,
+        "method": "seasonal window (+/-24 days of day-of-year), 6 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 109,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "nirmal",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.727,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6263,
+        "composite_count": 5,
+        "method": "seasonal window (+/-24 days of day-of-year), 5 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 110,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "peddapalli",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.659,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7241,
+        "composite_count": 9,
+        "method": "seasonal window (+/-24 days of day-of-year), 9 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 114,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "jagtial",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7883,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7222,
+        "composite_count": 10,
+        "method": "seasonal window (+/-24 days of day-of-year), 10 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 111,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "rajanna_sircilla",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7492,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7384,
+        "composite_count": 12,
+        "method": "seasonal window (+/-24 days of day-of-year), 12 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 115,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "bhadradri_kothagudem",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.7721,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.659,
+        "composite_count": 9,
+        "method": "seasonal window (+/-24 days of day-of-year), 9 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 112,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "jayashankar_bhupalapally",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.8796,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.8024,
+        "composite_count": 11,
+        "method": "seasonal window (+/-24 days of day-of-year), 11 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 118,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "mahabubabad",
+      "geo_level": "district",
+      "date": "2026-08-13",
+      "observed": {
+        "ndvi": 0.6195,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6097,
+        "composite_count": 5,
+        "method": "seasonal window (+/-24 days of day-of-year), 5 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 112,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "suryapet",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.5658,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.5997,
+        "composite_count": 13,
+        "method": "seasonal window (+/-24 days of day-of-year), 13 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 119,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "nagarkurnool",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.5462,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.5271,
+        "composite_count": 8,
+        "method": "seasonal window (+/-24 days of day-of-year), 8 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 107,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "yadadri_bhuvanagiri",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.5192,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6057,
+        "composite_count": 10,
+        "method": "seasonal window (+/-24 days of day-of-year), 10 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 118,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "wanaparthy",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.5873,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.6251,
+        "composite_count": 6,
+        "method": "seasonal window (+/-24 days of day-of-year), 6 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 107,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "kamareddy",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.8248,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.7693,
+        "composite_count": 12,
+        "method": "seasonal window (+/-24 days of day-of-year), 12 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 118,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "mulugu",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.8668,
+        "pixel_reliability": 1,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.8148,
+        "composite_count": 8,
+        "method": "seasonal window (+/-24 days of day-of-year), 8 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 108,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    },
+    {
+      "geo_id": "narayanpet",
+      "geo_level": "district",
+      "date": "2026-08-29",
+      "observed": {
+        "ndvi": 0.6421,
+        "pixel_reliability": 0,
+        "truth_status": "OBSERVED"
+      },
+      "baseline": {
+        "ndvi": 0.5841,
+        "composite_count": 7,
+        "method": "seasonal window (+/-24 days of day-of-year), 7 composites",
+        "truth_status": "DERIVED"
+      },
+      "data_coverage": {
+        "quality_passing_composites": 111,
+        "total_composites_fetched": 138
+      },
+      "fetched_at": "2026-09-19T09:01:47.103478+00:00"
+    }
+  ],
+  "built_at": "2026-09-19T09:01:47.103478+00:00",
+  "skipped": []
+}

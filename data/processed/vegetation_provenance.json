@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-19T09:01:47.103478+00:00",
+  "datasets": [
+    {
+      "dataset_name": "MODIS Terra Vegetation Indices (MOD13Q1.061), NDVI",
+      "publisher": "NASA LP DAAC, via AppEEARS point extraction",
+      "source_url": "https://appeears.earthdatacloud.nasa.gov/api/",
+      "access_date": "2026-09-19T09:01:47.103478+00:00",
+      "license": "NASA data are public domain; free NASA Earthdata Login account required for API access.",
+      "geographic_level": "point (district centroid), MOD13Q1 native 250m sinusoidal grid, nearest-pixel resample",
+      "crs": "EPSG:4326 (query points from the processed district centroid layer)",
+      "processing": "Queried _250m_16_days_NDVI + _250m_16_days_pixel_reliability for each of 33 district centroids over 2020-09-20 to 2026-09-19 (16-day composites). Kept only pixel_reliability in [0, 1] (Good/Marginal; excludes snow/ice and cloudy composites). 'observed' = most recent quality-passing composite. 'baseline' = mean of prior quality-passing composites within +/-24 days of the same day-of-year (falls back to the mean of all available prior composites if fewer than 3 fall in that window).",
+      "truth_status": "OBSERVED",
+      "limitations": "NOT currently used in risk_score -- reported as context only, the same way heat_stress_t2m_max_context is handled, pending a deliberate methodology decision on how to weight vegetation condition. 250m native resolution is finer than the NASA POWER climate grid but still a single point per district, not an area-weighted average over the district polygon. The 'baseline' here is a same-season historical mean over up to 6 years of this project's own query, not an independently published, peer-reviewed climatology like NASA POWER's 2001-2020 normals. Monsoon-season cloud cover can reduce the number of quality-passing composites available in some districts/years. Districts with zero quality-passing composites in the window are listed under 'skipped' in vegetation_features.json rather than backfilled with an invented value."
+    }
+  ],
+  "skipped_districts": []
+}
