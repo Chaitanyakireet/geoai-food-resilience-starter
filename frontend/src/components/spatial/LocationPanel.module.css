@@ -1,16 +1,22 @@
 .panel {
-  width: 360px;
+  width: 300px;
   flex-shrink: 0;
-  padding: 18px 20px 24px;
+  padding: 14px 16px 18px;
   overflow-y: auto;
   height: 100%;
+}
+
+@media (max-width: 1300px) {
+  .panel {
+    width: 260px;
+  }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .eyebrow {
@@ -53,11 +59,11 @@
 .headlineRow {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
-  padding: 12px 0 16px;
+  padding: 8px 0 12px;
   border-bottom: 1px solid var(--gridline);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .headlineMetric {
@@ -137,6 +143,29 @@
   line-height: 1.6;
 }
 
+.resolutionRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.resolutionLabel {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.resolutionNote {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 .loading {
   font-size: 12.5px;
   color: var(--text-muted);
@@ -144,7 +173,7 @@
 }
 
 .section {
-  padding: 12px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--gridline);
 }
 

@@ -13,37 +13,48 @@ function FitToDistrictBounds({ districts, highlightDistrictId }: { districts: Di
   const map = useMap();
   useEffect(() => {
     const target = highlightDistrictId ? districts.features.find((f) => f.properties.district_id === highlightDistrictId) : null;
+    let bounds: [[number, number], [number, number]] | null = null;
+    let padding: [number, number] = [8, 8];
+
     if (target?.bbox) {
       const [minLon, minLat, maxLon, maxLat] = target.bbox;
-      map.fitBounds(
-        [
+      bounds = [
+        [minLat, minLon],
+        [maxLat, maxLon],
+      ];
+      padding = [24, 24];
+    } else {
+      let minLon = Infinity;
+      let minLat = Infinity;
+      let maxLon = -Infinity;
+      let maxLat = -Infinity;
+      for (const f of districts.features) {
+        const [a, b, c, d] = f.bbox;
+        minLon = Math.min(minLon, a);
+        minLat = Math.min(minLat, b);
+        maxLon = Math.max(maxLon, c);
+        maxLat = Math.max(maxLat, d);
+      }
+      if (Number.isFinite(minLon)) {
+        bounds = [
           [minLat, minLon],
           [maxLat, maxLon],
-        ],
-        { padding: [24, 24] },
-      );
-      return;
+        ];
+      }
     }
-    let minLon = Infinity;
-    let minLat = Infinity;
-    let maxLon = -Infinity;
-    let maxLat = -Infinity;
-    for (const f of districts.features) {
-      const [a, b, c, d] = f.bbox;
-      minLon = Math.min(minLon, a);
-      minLat = Math.min(minLat, b);
-      maxLon = Math.max(maxLon, c);
-      maxLat = Math.max(maxLat, d);
-    }
-    if (Number.isFinite(minLon)) {
-      map.fitBounds(
-        [
-          [minLat, minLon],
-          [maxLat, maxLon],
-        ],
-        { padding: [8, 8] },
-      );
-    }
+
+    if (!bounds) return;
+    // Same container-sizing race guard as the main Spatial map: this
+    // widget is often mounted inside a grid/card layout (Command Center,
+    // Digital Twin, Food Network) where the flex/grid parent may not have
+    // settled its final size the instant Leaflet first measures it.
+    map.invalidateSize();
+    map.fitBounds(bounds, { padding });
+    const t = setTimeout(() => {
+      map.invalidateSize();
+      map.fitBounds(bounds!, { padding });
+    }, 250);
+    return () => clearTimeout(t);
   }, [districts, highlightDistrictId, map]);
   return null;
 }
@@ -103,9 +114,13 @@ export function MiniRiskMapCanvas({
       style={{ height: "100%", width: "100%", background: "var(--page-plane)", cursor: onSelectDistrict ? "pointer" : undefined }}
       zoomControl={false}
       scrollWheelZoom={false}
-      attributionControl={false}
+      maxZoom={18}
     >
-      <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+      <TileLayer
+        attribution="Esri, HERE, Garmin, GIS User Community"
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        maxNativeZoom={16}
+      />
       <FitToDistrictBounds districts={districts} highlightDistrictId={highlightDistrictId} />
       <GeoJSON
         key={`${highlightDistrictId}-${riskByDistrict.size}-${highlightDistrictIds?.size ?? 0}`}

@@ -69,13 +69,27 @@ export function LocationPanel({
             <StatusBadge status={risk.truth_status} compact />
             <span className={styles.headlineLabel}>Truth Status</span>
           </div>
+          <div className={styles.headlineMetric}>
+            <span className={styles.headlineValue}>{inherited ? "District-scale" : "Native"}</span>
+            <span className={styles.headlineLabel}>Risk Resolution</span>
+          </div>
         </div>
       ) : null}
 
       {inherited ? (
         <div className={styles.notice}>
-          The risk engine is district-centroid based. This mandal has no independently computed risk — it
-          inherits its parent district&apos;s ({selection.kind === "mandal" ? selection.districtName : ""}) result.
+          <div className={styles.resolutionRow}>
+            <span className={styles.resolutionLabel}>Risk Resolution</span>
+            <span>District-scale estimate</span>
+          </div>
+          <div className={styles.resolutionRow}>
+            <span className={styles.resolutionLabel}>Resolved Via</span>
+            <span>Parent district ({selection.kind === "mandal" ? selection.districtName : ""})</span>
+          </div>
+          <p className={styles.resolutionNote}>
+            The risk engine is district-centroid based — this mandal has no independently computed risk and inherits
+            its parent district&apos;s result rather than implying mandal-level precision that doesn&apos;t exist.
+          </p>
         </div>
       ) : null}
 

@@ -194,6 +194,43 @@ export function SpatialWorkspace({
     [selectDistrict, selectMandal, mandalsByDistrict],
   );
 
+  const resetToStateView = useCallback(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const stateBbox = boundary?.features[0]?.bbox;
+    if (stateBbox) {
+      const [minLon, minLat, maxLon, maxLat] = stateBbox;
+      map.fitBounds(
+        [
+          [minLat, minLon],
+          [maxLat, maxLon],
+        ],
+        { padding: [40, 40] },
+      );
+      return;
+    }
+    let minLon = Infinity;
+    let minLat = Infinity;
+    let maxLon = -Infinity;
+    let maxLat = -Infinity;
+    for (const f of districts.features) {
+      const [a, b, c, d] = f.bbox;
+      minLon = Math.min(minLon, a);
+      minLat = Math.min(minLat, b);
+      maxLon = Math.max(maxLon, c);
+      maxLat = Math.max(maxLat, d);
+    }
+    if (Number.isFinite(minLon)) {
+      map.fitBounds(
+        [
+          [minLat, minLon],
+          [maxLat, maxLon],
+        ],
+        { padding: [40, 40] },
+      );
+    }
+  }, [boundary, districts]);
+
   const currentMandals = selection ? (mandalsByDistrict.get(selection.districtId) ?? null) : null;
 
   const featureCollectionValid = districts.type === "FeatureCollection" && Array.isArray(districts.features) && districts.features.length > 0;
@@ -268,6 +305,9 @@ export function SpatialWorkspace({
             onToggleMarkets={handleToggleMarkets}
             marketsAvailable
           />
+          <button type="button" className={styles.resetViewBtn} onClick={resetToStateView} title="Fit the map to the whole Telangana extent">
+            ⤢ Whole State
+          </button>
         </div>
 
         <div className={styles.bottomLeftControls}>

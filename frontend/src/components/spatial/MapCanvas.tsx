@@ -21,21 +21,63 @@ import { riskClassColorVar } from "@/components/RiskBadge";
 
 const TELANGANA_CENTER: [number, number] = [17.9, 79.3];
 const TELANGANA_DEFAULT_ZOOM = 7;
+const STATE_FIT_PADDING: [number, number] = [40, 40];
 
-function FitToBounds({ boundary }: { boundary: StateBoundaryFeatureCollection | null }) {
+// Prefers the real /gis/telangana state boundary bbox; falls back to the
+// combined bbox of /gis/districts if the state boundary failed to load, so
+// the initial view is still the whole real extent, never a hard-coded one.
+function computeStateBounds(
+  boundary: StateBoundaryFeatureCollection | null,
+  districts: DistrictsFeatureCollection,
+): [[number, number], [number, number]] | null {
+  const stateBbox = boundary?.features[0]?.bbox;
+  if (stateBbox) {
+    const [minLon, minLat, maxLon, maxLat] = stateBbox;
+    return [
+      [minLat, minLon],
+      [maxLat, maxLon],
+    ];
+  }
+  let minLon = Infinity;
+  let minLat = Infinity;
+  let maxLon = -Infinity;
+  let maxLat = -Infinity;
+  for (const f of districts.features) {
+    const [a, b, c, d] = f.bbox;
+    minLon = Math.min(minLon, a);
+    minLat = Math.min(minLat, b);
+    maxLon = Math.max(maxLon, c);
+    maxLat = Math.max(maxLat, d);
+  }
+  if (!Number.isFinite(minLon)) return null;
+  return [
+    [minLat, minLon],
+    [maxLat, maxLon],
+  ];
+}
+
+function FitToBounds({ boundary, districts }: { boundary: StateBoundaryFeatureCollection | null; districts: DistrictsFeatureCollection }) {
   const map = useMap();
   useEffect(() => {
-    const bbox = boundary?.features[0]?.bbox;
-    if (!bbox) return;
-    const [minLon, minLat, maxLon, maxLat] = bbox;
-    map.fitBounds(
-      [
-        [minLat, minLon],
-        [maxLat, maxLon],
-      ],
-      { padding: [16, 16] },
-    );
-  }, [boundary, map]);
+    const bounds = computeStateBounds(boundary, districts);
+    if (!bounds) return;
+
+    // Leaflet measures its container on init; if that happens while the
+    // dynamically-imported map is still mid-mount (or its flex/grid parent
+    // hasn't settled its final size yet), fitBounds computes against a
+    // stale size and the initial view can end up wrong -- looking zoomed
+    // into a fraction of the state rather than the whole thing. Forcing a
+    // re-measure immediately and once more shortly after mount makes the
+    // initial fit correct regardless of that race, without depending on
+    // exact timing.
+    map.invalidateSize();
+    map.fitBounds(bounds, { padding: STATE_FIT_PADDING });
+    const t = setTimeout(() => {
+      map.invalidateSize();
+      map.fitBounds(bounds, { padding: STATE_FIT_PADDING });
+    }, 250);
+    return () => clearTimeout(t);
+  }, [boundary, districts, map]);
   return null;
 }
 
@@ -159,15 +201,20 @@ export function MapCanvas({
     <MapContainer
       center={TELANGANA_CENTER}
       zoom={TELANGANA_DEFAULT_ZOOM}
+      maxZoom={18}
       style={{ height: "100%", width: "100%", background: "var(--page-plane)" }}
       scrollWheelZoom
+      doubleClickZoom
+      touchZoom
+      dragging
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        attribution='Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, and the GIS User Community'
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        maxNativeZoom={16}
       />
       <MapRefBridge onReady={onMapReady} />
-      <FitToBounds boundary={boundary} />
+      <FitToBounds boundary={boundary} districts={districts} />
       <FlyToTarget target={flyTarget} />
       <ScaleControl position="bottomleft" imperial={false} />
 
