@@ -19,14 +19,14 @@
 }
 
 .brandMark {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
   background: var(--accent);
   color: #0d0d0d;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 13px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,10 +35,10 @@
 
 .brandTitle {
   font-family: var(--font-display);
-  font-size: 13.5px;
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.25;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
 }
 
 .brandSubtitle {
