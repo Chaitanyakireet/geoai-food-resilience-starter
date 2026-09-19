@@ -18,6 +18,14 @@ STOPWORDS = {
     "how", "why", "this", "that", "does", "do", "on", "at", "by", "with", "was",
     "were", "be", "it", "its", "as", "from", "which", "when", "will", "can",
     "should", "would", "could", "about", "into", "than", "then", "there",
+    # Generic quantifiers/determiners/adverbs carry no topical content, but
+    # (unlike the grammatical words above) are common enough in ordinary
+    # English questions that they can coincidentally overlap with a corpus
+    # document's own generic phrasing and produce a spurious "found: true"
+    # match for a query that has nothing to do with that document.
+    "all", "any", "each", "every", "some", "no", "nor", "not", "own", "same",
+    "so", "too", "very", "just", "also", "only", "more", "most", "much",
+    "many", "such", "query", "please", "tell", "give", "want", "need",
 }
 
 # The corpus is rebuilt from other modules' provenance/config, all of which

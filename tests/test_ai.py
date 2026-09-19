@@ -60,6 +60,17 @@ def test_evidence_retrieval_is_deterministic():
     assert [m.provenance_id for m in r1.matches] == [m.provenance_id for m in r2.matches]
 
 
+def test_evidence_retrieval_ignores_generic_filler_word_coincidences():
+    # A nonsense query padded with common generic English words (all, query,
+    # ...) must not spuriously "find" a real corpus document just because
+    # that document also happens to contain one of those generic words --
+    # otherwise the LLM could cite a real-sounding source for a claim that
+    # has nothing to do with it.
+    result = retrieve_evidence(EvidenceQuery(query="xyzzy nonsense query that matches nothing at all zzzqqq", top_k=3))
+    assert result.found is False
+    assert result.matches == []
+
+
 # --- Tool layer: structured, non-fabricated results ---------------------------
 
 
