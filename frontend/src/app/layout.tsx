@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
 import { Sidebar } from "@/components/Sidebar";
 import { TopBar } from "@/components/TopBar";
-import { getHealth } from "@/lib/api";
+import { getAiProvenance, getDistricts, getHealth } from "@/lib/api";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const health = await getHealth();
+  const [health, districts, aiProvenance] = await Promise.all([getHealth(), getDistricts(), getAiProvenance()]);
 
   return (
     <html lang="en" className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}>
@@ -43,7 +43,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <div className="app-shell">
           <Sidebar />
           <div className="app-main">
-            <TopBar backendReachable={health !== null} />
+            <TopBar backendReachable={health !== null} districts={districts} aiConfigured={aiProvenance?.provider.configured ?? null} />
             <main className="app-content">{children}</main>
           </div>
         </div>

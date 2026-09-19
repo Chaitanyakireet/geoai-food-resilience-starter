@@ -1,14 +1,76 @@
 .topbar {
-  height: var(--topbar-height);
+  min-height: var(--topbar-height);
   border-bottom: 1px solid var(--border);
   background: var(--surface-1);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
   position: sticky;
   top: 0;
   z-index: 5;
+}
+
+.identityRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brandBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.brandTitle {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text-primary);
+}
+
+.brandSubtitle {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.taglineBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.tagline {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.utilityRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.utilityRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .contextChip {
@@ -16,13 +78,14 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-sans);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.01em;
   color: var(--text-secondary);
   background: var(--accent-soft);
   padding: 6px 12px;
   border-radius: 999px;
+  white-space: nowrap;
 }
 
 .contextDot {
@@ -36,7 +99,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12.5px;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .statusDot {
@@ -60,4 +124,19 @@
 .downText {
   color: var(--status-critical);
   font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .taglineBlock {
+    display: none;
+  }
+  .contextChip {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .utilityRow {
+    justify-content: flex-start;
+  }
 }

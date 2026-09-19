@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LeafletMap } from "leaflet";
 import {
@@ -157,6 +158,49 @@ export function SpatialWorkspace({
     },
     [mandalsByDistrict, districtById, selection, riskByMandalId, ensureBottlenecks],
   );
+
+  const searchParams = useSearchParams();
+
+  // Lets the TopBar's global search (and any other future deep link) drop
+  // a visitor straight into a specific district or mandal on arrival --
+  // ?district=<id> or ?mandal=<districtId>::<mandalId>. Written inline
+  // rather than calling selectMandal directly because that callback reads
+  // mandalsByDistrict from a closure that would still be stale immediately
+  // after the fetch below resolves.
+  useEffect(() => {
+    const districtParam = searchParams.get("district");
+    const mandalParam = searchParams.get("mandal");
+    if (mandalParam) {
+      const [distId, mandId] = mandalParam.split("::");
+      if (!distId || !mandId) return;
+      (async () => {
+        let collection = mandalsByDistrict.get(distId);
+        if (collection === undefined) {
+          setMandalsLoadingFor(distId);
+          collection = await getMandals(distId);
+          setMandalsByDistrict((prev) => (prev.has(distId) ? prev : new Map(prev).set(distId, collection ?? null)));
+          setMandalsLoadingFor(null);
+        }
+        const feature = collection?.features.find((f) => f.properties.mandal_id === mandId);
+        if (!feature) return;
+        setSelection({ kind: "mandal", mandalId: mandId, name: feature.properties.name, districtId: distId, districtName: feature.properties.district_name });
+        setFlyTarget({ lat: feature.properties.centroid_lat, lon: feature.properties.centroid_lon, zoom: 11 });
+        ensureBottlenecks();
+        if (!riskByMandalId.has(mandId)) {
+          setMandalRiskLoading(mandId);
+          const risk = await getRiskForGeo(mandId);
+          setRiskByMandalId((prev) => new Map(prev).set(mandId, risk));
+          setMandalRiskLoading(null);
+        }
+      })();
+    } else if (districtParam) {
+      queueMicrotask(() => selectDistrict(districtParam));
+    }
+    // Deliberately runs once on mount only, from whatever the URL carried
+    // when Spatial Intelligence first loaded -- not a live sync with the
+    // address bar on every keystroke/param change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleToggleMarkets = useCallback(
     (v: boolean) => {
