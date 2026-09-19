@@ -97,7 +97,7 @@ export function CommandCenterMain({
               </div>
 
               <div className={styles.situationSectionTitle}>Key Drivers</div>
-              <DriverBars risk={selectedRisk} compact />
+              <DriverBars risk={selectedRisk} compact allDistrictRisks={riskState?.districts ?? []} />
 
               <div className={styles.situationSectionTitle}>Network Dependency</div>
               <p className={styles.situationNote}>

@@ -25,6 +25,7 @@ export function LocationPanel({
   risk,
   riskLoading,
   bottlenecks,
+  allDistrictRisks,
   onClose,
   onOpenProvenance,
 }: {
@@ -32,6 +33,7 @@ export function LocationPanel({
   risk: RiskResult | null | undefined; // undefined = loading, null = unavailable
   riskLoading: boolean;
   bottlenecks: BottleneckEntry[] | null;
+  allDistrictRisks: RiskResult[];
   onClose: () => void;
   onOpenProvenance: () => void;
 }) {
@@ -147,7 +149,7 @@ export function LocationPanel({
 
           {tab === "drivers" ? (
             <Section title="Spatial Drivers">
-              <DriverBars risk={risk} />
+              <DriverBars risk={risk} allDistrictRisks={allDistrictRisks} />
             </Section>
           ) : null}
 

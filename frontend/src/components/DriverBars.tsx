@@ -1,4 +1,5 @@
 import type { Driver, RiskResult } from "@/lib/api";
+import { findClimateGridSiblings } from "@/lib/climateGridSiblings";
 import styles from "./DriverBars.module.css";
 
 const DRIVER_LABELS: Record<string, string> = {
@@ -36,7 +37,7 @@ function DriverIcon({ feature }: { feature: string }) {
 // so this percentage is a real, deterministic share of the actual score --
 // not an invented weighting. Shared by Spatial Intelligence's Location
 // Panel and the Command Center's Current Situation panel.
-export function DriverBars({ risk, compact = false }: { risk: RiskResult; compact?: boolean }) {
+export function DriverBars({ risk, compact = false, allDistrictRisks }: { risk: RiskResult; compact?: boolean; allDistrictRisks?: RiskResult[] }) {
   const used = [...risk.major_drivers]
     .filter((d): d is Driver & { contribution_to_score: number } => d.used_in_score && d.contribution_to_score !== null)
     .sort((a, b) => b.contribution_to_score - a.contribution_to_score);
@@ -46,8 +47,18 @@ export function DriverBars({ risk, compact = false }: { risk: RiskResult; compac
     return <span className="muted">No driver data available.</span>;
   }
 
+  const gridSiblings = allDistrictRisks ? findClimateGridSiblings(risk, allDistrictRisks) : [];
+
   return (
     <div className={styles.driverBars}>
+      {gridSiblings.length > 0 ? (
+        <div className={styles.gridSiblingNote}>
+          Rainfall/heat figures here are identical to {gridSiblings.length} other district{gridSiblings.length > 1 ? "s" : ""} (
+          {gridSiblings.map((id) => id.replace(/_/g, " ")).join(", ")}) — NASA POWER&apos;s climate grid (~50km) is coarser than
+          these districts, so nearby ones legitimately share a value. This is a real data-resolution limit, not a
+          computation error.
+        </div>
+      ) : null}
       {used.map((d) => {
         const share = risk.risk_score ? Math.max(0, Math.min(100, (d.contribution_to_score / risk.risk_score) * 100)) : 0;
         return (

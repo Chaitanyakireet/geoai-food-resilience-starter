@@ -391,6 +391,7 @@ export function SpatialWorkspace({
       {selection ? (
         <LocationPanel
           selection={selection}
+          allDistrictRisks={riskState?.districts ?? []}
           risk={
             selection.kind === "district"
               ? riskByDistrict.get(selection.districtId) ?? null

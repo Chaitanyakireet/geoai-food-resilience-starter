@@ -4,6 +4,15 @@
   gap: 14px;
 }
 
+.gridSiblingNote {
+  font-size: 11px;
+  color: var(--status-warning);
+  line-height: 1.55;
+  background: color-mix(in srgb, var(--status-warning) 10%, var(--surface-1));
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+
 .driverRow {
   display: flex;
   gap: 10px;
