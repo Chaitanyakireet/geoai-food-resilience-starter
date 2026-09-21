@@ -284,9 +284,13 @@ carbon) can be examined in minutes, with the evidence trail attached.
 ## 2. Prototype / Demo
 
 The prototype is a working, deployed web application (see the table at the
-top for the release tag and demo link). Below: flow diagrams, the demo
-walkthrough, and sample inputs/outputs. *(Screenshots can be added under
-`docs/screenshots/` and linked here.)*
+top for the release tag and demo link). Below: a screenshot, flow diagrams,
+the demo walkthrough, and sample inputs/outputs.
+
+<p align="center">
+  <a href="https://geoai-food-resilience.up.railway.app/"><img src="screenshots/command-center.png" alt="Command Center of the GeoAI Food-Resilience Digital Twin: statewide risk, network size, structural bottleneck candidates, data coverage and a district risk map" width="900"></a>
+</p>
+<p align="center"><em>Command Center of the deployed application (click to open the live demo).</em></p>
 
 ### 2.1 System architecture
 

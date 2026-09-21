@@ -14,6 +14,10 @@
 **Release:** [`v1.0-demo`](https://github.com/Chaitanyakireet/geoai-food-resilience-starter/tree/v1.0-demo) ·
 **Author:** [Chepa Chaitanya Kireet](https://www.linkedin.com/in/chepa-chaitanya-kireet-47672a2a1/)
 
+<a href="https://geoai-food-resilience.up.railway.app/"><img src="docs/screenshots/command-center.png" alt="Command Center of the GeoAI Food-Resilience Digital Twin: statewide risk, network size, structural bottleneck candidates, data coverage and a district risk map" width="900"></a>
+
+<em>The Command Center of the deployed application (click to open the live demo).</em>
+
 </div>
 
 | | |
@@ -692,7 +696,8 @@ Taken from `requirements.txt`, `backend/requirements.txt` and `frontend/package.
 │   ├── PROJECT_SUBMISSION.md    internship deliverable
 │   ├── MASTER_HANDOFF.md        locked scope and rules (source of truth)
 │   ├── MASTER_HANDOFF_FULL.docx full project plan
-│   └── BUILD_LOG.md             original per-milestone engineering log
+│   ├── BUILD_LOG.md             original per-milestone engineering log
+│   └── screenshots/             application screenshots used in the docs
 ├── frontend/
 │   ├── src/app/         seven routes (/, /spatial, /network, /interventions, /twin, /ai-brief, /impact)
 │   ├── src/components/  UI components by area (spatial, network, interventions, twin, ai-brief, impact, command)
