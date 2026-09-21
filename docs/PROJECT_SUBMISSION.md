@@ -18,7 +18,7 @@ repository layout, see the root [README](../README.md).
 | **Region** | Hyderabad–Telangana, India |
 | **Project type** | Decision-support system + monitoring/analytical prototype (web platform) |
 | **Repository** | <https://github.com/Chaitanyakireet/geoai-food-resilience-starter> |
-| **Live demo** | _[add Railway frontend URL]_ |
+| **Live demo** | <https://geoai-food-resilience.up.railway.app/> |
 | **Release** | Git tag `v1.0-demo` (frozen demo baseline) |
 
 ---

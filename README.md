@@ -9,6 +9,7 @@
 ![Scope](https://img.shields.io/badge/scope-multi--food-2ea043)
 ![Primary SDG](https://img.shields.io/badge/primary_SDG-SDG_2_Zero_Hunger-dda63a)
 
+**Live demo:** [geoai-food-resilience.up.railway.app](https://geoai-food-resilience.up.railway.app/) ·
 **Repository:** [github.com/Chaitanyakireet/geoai-food-resilience-starter](https://github.com/Chaitanyakireet/geoai-food-resilience-starter) ·
 **Release:** [`v1.0-demo`](https://github.com/Chaitanyakireet/geoai-food-resilience-starter/tree/v1.0-demo) ·
 **Author:** [Chepa Chaitanya Kireet](https://www.linkedin.com/in/chepa-chaitanya-kireet-47672a2a1/)
@@ -754,7 +755,8 @@ npm run build                                            # production build
 ## Deployment
 
 The project is deployed on **Railway as two services** (backend and frontend), with automatic
-deployments on push. For maintainers:
+deployments on push. The frontend is live at
+**<https://geoai-food-resilience.up.railway.app/>**. For maintainers:
 
 - **`requirements.txt` exists in two places** (repository root, used by the Railway Python
   build, and `backend/requirements.txt`). The root file is a deliberately **self-contained
