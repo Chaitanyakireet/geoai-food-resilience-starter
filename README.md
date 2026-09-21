@@ -863,4 +863,11 @@ recorded in [`docs/MASTER_HANDOFF.md`](docs/MASTER_HANDOFF.md).
 - **UK Government BEIS/DEFRA** [GHG Conversion Factors 2021](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021).
 - Sidebar photo: ["Sunset at Hussain Sagar"](https://commons.wikimedia.org/wiki/File:Sunset_at_Hussain_Sagar.jpg), Lakshayreddy, CC BY-SA 3.0.
 
+## About the Developer
+
+**Chepa Chaitanya Kireet**\
+B.Tech Food Technology, KARE’2029
+
+I am interested in AI, sustainability, GIS, and data-driven solutions for real-world challenges. This project was developed as part of the **1M1B AI for Sustainability** initiative, exploring how technology can contribute to practical and scalable sustainability solutions.
+
 *Licence: none has been selected yet. Third-party data and assets keep their own licences.*
